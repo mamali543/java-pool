@@ -1,0 +1,11 @@
+
+v	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(—²¢Ğ8ºèîâÃ1
+[
+java:S1854">Remove this useless assignment to local variable "totalLines".(’¿ô¨8ÛèîâÃ1
+U	java:S106"9Replace this use of System.out or System.err by a logger.(á‘²8ÛèîâÃ1
+T	java:S106"9Replace this use of System.out or System.err by a logger.(’ß:8ÛèîâÃ1
+L
+java:S1481"/Remove this unused "totalLines" local variable.(’¿ô¨8ÜèîâÃ1
+Z	java:S106&"9Replace this use of System.out or System.err by a logger.(Âï·ßüÿÿÿÿ8ÜèîâÃ1
+{
+java:S3012A"YUse "Arrays.copyOf", "Arrays.asList", "Collections.addAll" or "System.arraycopy" instead.(¿ÉŒ×øÿÿÿÿ8İèîâÃ1
