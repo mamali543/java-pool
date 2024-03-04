@@ -34,7 +34,6 @@ public class Program {
         }
         return ret;
     }
-
     private static char[] getTopTenChars(short[] charactersCount) {
         char[] ret = new char[MAX_TOP_CHARS];
         //loop over the 65535 case,and checks if a case holds a value greater than 0,
@@ -48,7 +47,7 @@ public class Program {
                     if (charactersCount[ret[j]] < charCount)
                     {
                         ret = insertCharAt(ret, j, (char) i);
-                        System.out.println("ret: "+Arrays.toString(ret));
+//                        System.out.println("ret: "+Arrays.toString(ret));
                         break;
                     }
                 }
@@ -56,7 +55,6 @@ public class Program {
         }
         return ret;
     }
-
     private static char[] insertCharAt(char[] ret, int j, char i) {
         char[] ret1 = new char[MAX_TOP_CHARS];
         for (int k = 0; k < j;k++)
@@ -70,7 +68,6 @@ public class Program {
         }
         return ret1;
     }
-    
     private static void printGraph(char[] topTenChars, short[] charactersCount) {
         short max = charactersCount[topTenChars[0]];
         short maxHeight = max < 10 ? max : 10;
@@ -94,7 +91,6 @@ public class Program {
                 if (topTenChars[j] != 0) {
                     //verify if the # number + 2 + i === total lines ,then print the characterCount of the top ten character,
                     //else if we are on the last line i === totalLines -1 print the character
-                    //
                     if (i + graphs[j] + 2 == totalLines) {
                         System.out.printf("%3d", charactersCount[topTenChars[j]]);
                     } else if (i == totalLines - 1) {
