@@ -1,10 +1,7 @@
 package ex05;
 
-import java.util.Calendar;
+import java.sql.SQLSyntaxErrorException;
 import java.util.Scanner;
-import java.time.LocalDate;
-import java.time.DayOfWeek;
-import java.time.format.DateTimeFormatter;
 
 import static java.lang.Integer.parseInt;
 
@@ -17,29 +14,84 @@ public class Program {
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-
+        //s holds the class, and it's corresponding day and the students indexes which represent the status
+        String[][] classTable = new String[10][13];
         //Create a list of students
         String[] students = createStudentList(scanner);
 
         //Populate the timetable
-        String[][] timetable = populateTimetable(scanner);
-//        for (int i =0; i < timetable.length; i++)
-//        {
-//            for (int j =0 ; j < timetable[i].length; j++)
-//            {
-//                System.out.println("timetable:["+i+"]["+j+"]: "+ timetable[i][j]);
-//            }
-//        }
-//        System.exit(-1);
+        populateTimetable(scanner, classTable);
 
+//        createBase(timetable, students);
         //Record attendance
-        recordAttendance(scanner, timetable, students);
-
+        recordAttendance(scanner, students, classTable);
+//        for (int i = 0; i < timetable.length; i++)
+//        {
+//            for (int j = 0; j < timetable[i].length; j++)
+//                System.out.println("timetable[i][j]: "+ timetable[i][j]);
+//        }
+//        System.out.println("-------------------------------------------------------------------");
+//        for (int i =0 ; i< s.length; i++)
+//        {
+//            for (int j =0 ; j < s[i].length ;j++)
+//                System.out.println("s["+i+"]["+j+"]: "+ s[i][j]);
+//        }
         //Display the timetable with attendance
-        displayTimetable(timetable, students);
+        displayTimetable(classTable, students);
         scanner.close();
     }
-                                                /*Create Students List*/
+
+    private static void displayTimetable(String[][] classTable, String[] students) {
+        //First September Week
+        String[] str = {"TU", "WE", "tH", "FR", "SA", "SU", "MO"};
+        System.out.printf("%10s", " ");
+        int[] help = new int[40];
+        int col =0;
+        for (int i =0; i <30; i++)
+        {
+            String a = str[i%7];
+            for (int j = 0; j < classTable.length; j++)
+            {
+                if (classTable[j] != null && a.equals(classTable[j][0]))
+                {
+                    System.out.print(classTable[j][1]+":00 "+classTable[j][0]+" "+(i+1)+"|");
+                    help[col] = (i+1);
+                    col++;
+                }
+            }
+        }
+        System.out.println();
+        for(int i = 0; i < students.length;i++ )
+        {
+            if (students[i] != null)
+            {
+                System.out.printf("%-10s", students[i]);
+                for (int j = 0; j < col; j++)
+                {
+                    boolean f = false;
+                    for (int k = 0; k < classTable.length; k++)
+                    {
+                        if (classTable[k][2] != null && classTable[k][2].equals(String.valueOf(help[j])))
+                        {
+                            if (classTable[k][3+i] !=null && classTable[k][3+i].equals("HERE") )
+                                System.out.printf("%10s", " " + "1|");
+                            else if (classTable[k][3+i] !=null && classTable[k][3+i].equals("NOT_HERE")) {
+                                System.out.printf("%10s", " " + "-1|");
+                            }
+                            else
+                                System.out.printf("%10s", " " + "|");
+                            f = true;
+                        }
+                    }
+                    if (!f)
+                        System.out.printf("%10s", " " + "|");
+                }
+                System.out.println();
+            }
+        }
+    }
+
+    /*Create Students List*/
      static boolean isValidName(String name) {
         char[] charName = name.toCharArray();
         for (char c : charName)
@@ -85,7 +137,7 @@ public class Program {
                 return false;
         }
         int a = 0;
-        for (int i =0; i < t.length; i++)
+        for (int i = 0; i < t.length; i++)
         {
             a = a * 10 + (t[i]-'0');
         }
@@ -105,9 +157,7 @@ public class Program {
 
         char[] t = new char[spaceIndex];
         for (int i = 0; i < spaceIndex; i++)
-        {
             t[i] = classDetails.toCharArray()[i];
-        }
         return new String(t);
     }
 
@@ -121,10 +171,11 @@ public class Program {
         return -1;
     }
 
-     static String[][] populateTimetable(Scanner scanner) {
-        String[][] timetable = new String[10][12]; //10 slots for classes, 2 for hour and day_of_week
+     static void populateTimetable(Scanner scanner, String[][] classTable) {
+        String[][] timetable = new String[10][2]; //10 slots for classes, 2 for hour and day_of_week
         System.out.println("Enter class details (hour, day_of_week) for each class (enter '.' to finish):");
         int index = 0;
+        int days = 0;
         while (index < 10) { // Maximum 10 classes
             String classDetails = scanner.nextLine();
             if (classDetails.equals(".")) {
@@ -149,19 +200,89 @@ public class Program {
                 System.err.println(ANSI_RED+"Invalid day format!"+ANSI_RESET);
                 System.exit(-1);
             }
+//            boolean found =false;
+//            for (int i = 0; i < timetable.length; i++ )
+//            {
+//                if (timetable[i][1]!=null && timetable[i][1].equals(dayOfWeek))
+//                {
+//                    int target = parseInt(timetable[i][0]);
+//                    timetable[i][target] = hour;
+//                    timetable[i][0] = String.valueOf(target+1);
+//                    found = true;
+//                }
+//            }
+//            if (found == false)
+//            {
+//                timetable[days][0] = "3";
+//                timetable[days][1] = dayOfWeek;
+//                timetable[days][2] = hour;
+//                days++;
+//            }
             timetable[index][0] = hour;
             timetable[index][1] = dayOfWeek;
+            classTable[index][0] = dayOfWeek;
+            classTable[index][1] = hour;
             index++;
         }
-        return timetable;
+//         for (int i = 0; i < timetable.length; i++)
+//         {
+//             for (int j =0 ; j < timetable[i].length ;j++)
+//                 System.out.print("   " + timetable[i][j] + "   |");
+//             System.out.println("");
+//         }
+    }
+    static int number_of_columns(String[][] timeTable){
+        int total = 0;
+        for (int i = 0; i < timeTable.length; i++) {
+            if (timeTable[i][0] == null) {
+                break;
+            }
+            total += parseInt(timeTable[i][0]) - 2;
+        }
+        return total + 1;
     }
 
-    static void recordAttendance(Scanner scanner, String[][] timetable, String[] students) {
+    static String[] check_if_found(String day, String[][] timeTable) {
+        for (int i = 0; i < timeTable.length; i++) {
+            if (timeTable[i][1] == null)
+                break;
+            if (timeTable[i][1].equals(day))
+                return timeTable[i];
+        }
+        return null;
+    }
+    static String[][] createBase(String[][] timeTable, String[] users){
+        int columns = number_of_columns(timeTable);
+        String[][] base = new String[users.length+1][30];
+        String[] str = {"TU", "WE", "tH", "FR", "SA", "SU", "MO"};
+        int base_index = 1;
+
+        for (int i = 1; i <= 30; i++){
+            String day = str[(i-1) % 7];
+            String[] classes = check_if_found(day, timeTable);
+            if (classes != null){
+                for (int j = 2; j < parseInt(classes[0]); j++) {
+                    base[0][base_index] = classes[j] + classes[1] + String.valueOf(i);
+                    base_index += 1;
+                }
+            }
+        }
+
+        for (int i = 0; i < base.length; i++)
+        {
+            for (int j =0 ; j < base[i].length ;j++)
+                System.out.print("   " + base[i][j] + "   |");
+            System.out.println("");
+        }
+
+        return base;
+    }
+
+    static void recordAttendance(Scanner scanner, String[] students, String[][] classTable) {
         System.out.println("Record attendance for each class (format: student hour day status):");
         while (true) {
             System.out.print("Enter attendance details (enter '.' to finish): ");
             String attendanceDetails = scanner.nextLine();
-            System.out.println("attendanceDetails: "+ attendanceDetails);
             if (attendanceDetails.equals(".")) {
                 break;
             }
@@ -180,7 +301,10 @@ public class Program {
             day1 = getDayOfWeek(parseInt(day));
             status = getRecord(attendanceDetails);
             attendanceDetails = getRemainingAttendanceDetails(attendanceDetails, status);
-            System.out.println(ANSI_BLUE+"Details: <<"+studentName+ ">>"+hour+ ">>"+day1+ ">>"+status+ ">>"+ANSI_RESET);
+//            System.out.println(ANSI_BLUE+"Details: <<"+studentName+ ">>"+hour+ ">>"+day1+ ">>"+status+ ">>"+ANSI_RESET);
+            for (int i =0; i < classTable.length; i++)
+                if (classTable[i][0]!=null && classTable[i][0].equals(day1))
+                    classTable[i][2] = day;
             // Find the student index
             int studentIndex = -1;
             for (int i = 0; i < students.length; i++) {
@@ -195,10 +319,9 @@ public class Program {
             }
             // Find the class in the timetable
             boolean found = false;
-            System.out.println("timetable[0][1].equals(day): "+timetable[0][1].equals(day1));
-            for (int i = 0; i < timetable.length; i++) {
-                if (timetable[i][0] != null && timetable[i][1] != null && timetable[i][0].equals(hour) && timetable[i][1].equals(day1)) {
-                    timetable[i][2 + studentIndex] = status;
+            for (int i = 0; i < classTable.length; i++) {
+                if (classTable[i][0] != null && classTable[i][1] != null && classTable[i][1].equals(hour) && classTable[i][0].equals(day1)) {
+                    classTable[i][3 + studentIndex] = status;
                     found = true;
                     break;
                 }
@@ -208,21 +331,19 @@ public class Program {
                 System.exit(-1);
             }
         }
-    }
 
+    }
     static String getDayOfWeek(int day) {
         // Zeller's Congruence algorithm
         int h = (day + 2 * (13 + 1) / 5 + 2020 + 2020 / 4 - 2020 / 100 + 2020 / 400) % 7;
         String[] daysOfWeek = {"SU", "MO", "TU", "WE", "TH", "FR", "SA"};
         return daysOfWeek[h-1];
     }
-
     private static boolean isValidStatus(String status) {
         if (!status.equals("HERE") && !status.equals("NOT_HERE"))
             return false;
         return true;
     }
-
     private static boolean isValidDayNumber(String day) {
         if (day.length()==0 || day.length() > 2)
             return false;
@@ -247,7 +368,6 @@ public class Program {
         }
         return s;
     }
-
     private static String getRecord(String attendanceDetails) {
         int index = 0;
         String s = "";
