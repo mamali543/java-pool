@@ -12,7 +12,7 @@ public class Transaction {
     private User Recipient;
     private Long Transfer_amount;
 
-    Transaction() {
+    public Transaction() {
         Identifier = UUID.randomUUID();
     }
     public UUID getIdentifier() {
