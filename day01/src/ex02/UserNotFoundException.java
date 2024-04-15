@@ -1,6 +1,6 @@
 package ex02;
 
-public class UserIndexNotFoundException extends RuntimeException {
+public class UserNotFoundException extends RuntimeException {
     public static final String ANSI_RESET = "\u001B[0m";
     public static final String ANSI_RED = "\u001B[31m";
     @Override
