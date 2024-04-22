@@ -24,7 +24,7 @@ public class Transaction {
     }
 
     public User getRecipient() {
-        return this.Sender;
+        return this.Recipient;
     }
 
 

@@ -38,10 +38,13 @@ public class TransactionsLinkedList implements TransactionsList {
     }
     @Override
     public Transaction[] toArray() {
+        if (head == null) {
+            throw new TransactionListEmptyException();
+        }
         Transaction[] transactionsArray = new Transaction[length];
         TransactionNode node = head;
-        if(node.getData() == null)
-            throw new TransactionListEmptyException();
+//        if(node.getData() == null)
+//            throw new TransactionListEmptyException();
         for (int i = length-1; i>=0; i--) {
             transactionsArray[i] = node.getData();
             node = node.getPrevious();
@@ -51,7 +54,8 @@ public class TransactionsLinkedList implements TransactionsList {
     public void print() {
         Transaction[] arr = toArray();
         for (Transaction el : arr ) {
-            System.out.println("Transaction: "+el.getIdentifier());
+            System.out.println("TransactionId: "+el.getIdentifier()+"\nTransactionSender: "+ el.getSender().getName()+"\nTransactionRecipient: "+ el.getRecipient().getName()+"\nTransactionTransferAmount: " +el.getTransfer_amount());
         }
+        System.out.println("--------------------------");
     }
 }

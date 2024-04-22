@@ -14,6 +14,7 @@ public class Transaction {
 
     public Transaction(User sender, User recipient) {
         Identifier = UUID.randomUUID();
+//        System.out.println("senderName: "+sender.getName()+"\n"+"recipientName: "+recipient.getName()+"\n");
         this.Sender = sender;
         this.Recipient = recipient;
     }
@@ -24,7 +25,7 @@ public class Transaction {
         return this.Sender;
     }
     public User getRecipient() {
-        return this.Sender;
+        return this.Recipient;
     }
     public int getTransfer_amount() {
         return this.Transfer_amount;

@@ -46,6 +46,11 @@ public class User {
 
     public void printConsole() {
         System.out.format("\nID: %d\nName: %s\nBalance: %d\n", Identifier, Name, Balance);
+        if (transactionsLinkedList.getLength() > 0){
+            Transaction[] t = transactionsLinkedList.toArray();
+            for (int i =0; i < t.length; i++)
+                t[i].printConsole();
+        }
     }
 
 }

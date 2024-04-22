@@ -37,7 +37,7 @@ public class UsersArrayList implements UsersList{
 
     @Override
     public long getCountUsers() {
-        System.out.print("Users Count equal= ");
+//        System.out.print("Users Count equal= ");
         return countUsers;
     }
 }
