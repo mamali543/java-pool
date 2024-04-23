@@ -4,9 +4,7 @@ public class TransactionsLinkedList implements TransactionsList {
     private int length = 0;
     private TransactionNode head;
 
-    public int getLength() {
-        return length;
-    }
+    public int getLength() { return length; }
     @Override
     public void addTransaction(Transaction transaction) {
         TransactionNode newNode = new TransactionNode(transaction);
@@ -24,9 +22,8 @@ public class TransactionsLinkedList implements TransactionsList {
             if (node.getData().getIdentifier().equals(uuid)){
                 if (node.getNext() != null){ node.getNext().setPrevious(node.getPrevious()); }
                 if (node.getPrevious() != null){
-                    if (node.getNext() == null){
+                    if (node.getNext() == null)
                         head = node.getPrevious();
-                    }
                     (node.getPrevious()).setNext(node.getNext());
                 }
                 this.length--;

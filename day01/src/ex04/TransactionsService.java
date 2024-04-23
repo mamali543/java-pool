@@ -37,32 +37,40 @@ public class TransactionsService {
         t.setTransfer_amount(transferAmount);
         s.getTransactionsLinkedList().addTransaction(t);
         r.getTransactionsLinkedList().addTransaction(t);
-//        System.out.println("senderName: "+t.getSender().getName()+"\n"+"recipientName: "+t.getRecipient().getName()+"\n");
     }
 
     public Transaction[] checkTransactionsValidity(){
         int unpairedTransactions = 0;
-        System.out.println(usersList.getCountUsers());
+        TransactionsLinkedList unpairedTransactionsList = new TransactionsLinkedList();
         for (int count = 0; count < usersList.getCountUsers(); count++ )
-            unpairedTransactions += countUnpairedTransactions(usersList.getUserByIndex(count));
-        Transaction[] unpairedTransactionArray = new Transaction[unpairedTransactions];
-        System.out.println("unpairedTransactionArray length:  "+unpairedTransactionArray.length);
+        {
+            TransactionsLinkedList unpairedUserTransactions = new TransactionsLinkedList();
+            unpairedUserTransactions = countUnpairedTransactions(usersList.getUserByIndex(count));
+            if (unpairedUserTransactions.getLength() > 0)
+            {
+                Transaction[] transactions = unpairedUserTransactions.toArray();
+                for (int i = 0; i < transactions.length; i++)
+                    unpairedTransactionsList.addTransaction(transactions[i]);
+            }
+        }
+        System.out.println("unpairedTransactionArray length:  "+unpairedTransactionsList.getLength());
+        if (unpairedTransactionsList.getLength() == 0)
+            throw new TransactionListEmptyException();
+        else
+            return unpairedTransactionsList.toArray();
 
-        return unpairedTransactionArray;
     }
 
-    private int countUnpairedTransactions(User user) {
-        int count = 0;
+    private TransactionsLinkedList countUnpairedTransactions(User user) {
         TransactionsLinkedList unpairedTransactionsLinkedList = new TransactionsLinkedList();
         Transaction[] userTransactions = user.getTransactionsLinkedList().toArray();
         for (int i = 0; i < userTransactions.length; i++){
             boolean found = checkUnpairedTransactions(user, userTransactions[i]);
             if (found){
                 unpairedTransactionsLinkedList.addTransaction(userTransactions[i]);
-                count++;
             }
         }
-        return count;
+        return unpairedTransactionsLinkedList;
     }
 
     private boolean checkUnpairedTransactions(User user, Transaction userTransaction) {

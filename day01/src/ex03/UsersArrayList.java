@@ -1,7 +1,6 @@
 package ex03;
 
 public class UsersArrayList implements UsersList{
-
     private User[] dataUsers = new User[10];
     private int countUsers = 0;
 
@@ -37,7 +36,7 @@ public class UsersArrayList implements UsersList{
 
     @Override
     public long getCountUsers() {
-        System.out.print("Users Count equal= ");
+//        System.out.print("Users Count equal= ");
         return countUsers;
     }
 }

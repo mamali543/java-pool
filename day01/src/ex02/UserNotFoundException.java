@@ -7,4 +7,8 @@ public class UserNotFoundException extends RuntimeException {
     public String toString() {
         return (ANSI_RED+"There is no user with this Identifier"+ANSI_RESET);
     }
+
+    public UserNotFoundException(){
+        super(ANSI_RED+"There is no user with this Identifier"+ANSI_RESET);
+    }
 }

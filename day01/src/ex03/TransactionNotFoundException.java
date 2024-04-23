@@ -7,4 +7,7 @@ public class TransactionNotFoundException extends RuntimeException{
     public String toString() {
         return (ANSI_RED+"Transaction with current ID does not exist"+ANSI_RESET);
     }
+    public TransactionNotFoundException(){
+        super(ANSI_RED+"Transaction with current ID does not exist"+ANSI_RESET);
+    }
 }

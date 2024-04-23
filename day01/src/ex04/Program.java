@@ -1,5 +1,7 @@
 package ex04;
 
+import ex03.TransactionListEmptyException;
+
 public class Program {
     public static void main(String[] args) {
         User p1 = new User("Angle", 3600);
@@ -19,9 +21,27 @@ public class Program {
         p2.printConsole();
         p3.printConsole();
         System.out.println("\nTransfer transaction\n");
+        try{
+            service.transferTransaction(p1.getIdentifier(), p2.getIdentifier(), 3700);
+        }
+        catch(IllegalTransactionException e){
+            System.out.println("exception Occurred: "+ e.getMessage());
+        }
 
-        service.transferTransaction(p1.getIdentifier(), p2.getIdentifier(), 1000);
-        service.transferTransaction(p1.getIdentifier(), p3.getIdentifier(), 300);
+        try{
+            service.transferTransaction(p1.getIdentifier(), p2.getIdentifier(), 1000);
+        }
+        catch(IllegalTransactionException e){
+            System.out.println("exception Occurred: "+ e.getMessage());
+        }
+
+        try{
+            service.transferTransaction(p1.getIdentifier(), p3.getIdentifier(), 300);
+        }
+        catch(IllegalTransactionException e){
+            System.out.println("exception Occurred: "+ e.getMessage());
+        }
+
 
         System.out.println("\nUser balance after one transaction");
         System.out.println(service.retrieveUserBalance(p1));
@@ -43,16 +63,14 @@ public class Program {
         service.retrieveUserTransactions(p2).print();
         service.retrieveUserTransactions(p3).print();
 
-        System.out.println("\nUnpaired transitions");
+        System.out.println("\nUnpaired transactions");
         printTransactionArray(service.checkTransactionsValidity());
     }
     public static void printTransactionArray(Transaction[] transactionArray) {
-        System.out.println("wesh wesh");
         if (transactionArray.length == 0)
             System.out.println("No transactions\n");
         System.out.println("length of unpairedTransactionArray: "+transactionArray.length);
-//        for (int count = 0; count < transactionArray.length; count++) {
-//            System.out.println(transactionArray[count]);
-//        }
+        for (int count = 0; count < transactionArray.length; count++)
+            transactionArray[count].printConsole();
     }
 }

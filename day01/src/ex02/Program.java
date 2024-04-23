@@ -18,8 +18,14 @@ public class Program {
         u1.addUser(p1);
         u1.addUser(p3);
         u1.addUser(p2);
-        System.out.println(u1.getUserById(1).getName());
-        System.out.println(u1.getUserByIndex(4).getName());
-        System.out.println(u1.getCountUsers());
+
+        System.out.println("\nUsernameById: "+u1.getUserById(1).getName()+"\n");
+        try{
+            System.out.println("UsernameByIndex: "+u1.getUserByIndex(4).getName()+"\n");
+        }
+        catch (UserNotFoundException e){
+            System.out.println("caught an exception: "+e.getMessage()+"\n");
+        }
+        System.out.println("UsersCount: "+u1.getCountUsers());
     }
 }
