@@ -71,6 +71,10 @@ public class Program {
             System.out.println("No transactions\n");
         System.out.println("length of unpairedTransactionArray: "+transactionArray.length);
         for (int count = 0; count < transactionArray.length; count++)
+        {
+            System.out.println("\n******************************");
             transactionArray[count].printConsole();
+            System.out.println("\n******************************");
+        }
     }
 }
