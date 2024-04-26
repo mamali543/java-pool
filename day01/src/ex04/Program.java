@@ -1,7 +1,5 @@
 package ex04;
 
-import ex03.TransactionListEmptyException;
-
 public class Program {
     public static void main(String[] args) {
         User p1 = new User("Angle", 3600);

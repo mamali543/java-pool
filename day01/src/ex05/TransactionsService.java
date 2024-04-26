@@ -56,7 +56,6 @@ public class TransactionsService {
                     unpairedTransactionsList.addTransaction(transactions[i]);
             }
         }
-        System.out.println("unpairedTransactionArray length:  "+unpairedTransactionsList.getLength());
         if (unpairedTransactionsList.getLength() == 0)
             throw new TransactionListEmptyException();
         else

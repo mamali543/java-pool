@@ -1,14 +1,12 @@
 package ex05;
 
-import ex02.UserNotFoundException;
-
 import java.util.Scanner;
 import java.util.UUID;
 
 /*the Scanner class is used to parse primitive types and strings */
 public class Menu {
     private TransactionsService service;
-    private int userCommand;
+    private int userCommand = 0;
     private int menuCount;
     private boolean devMenu;
     private Scanner scanner;
@@ -32,7 +30,8 @@ public class Menu {
         }
     }
     private void enterOptionNumber(int optionNumber) {
-        System.out.print("menuCount equal: "+menuCount+"\n");
+//        System.out.print("menuCount equal: "+menuCount+"\n");
+        this.userCommand++;
         if (optionNumber < 1 || optionNumber > menuCount)
         {
             System.err.print("enter a number between 1 and "+ (menuCount-1) +" \n");
@@ -65,14 +64,26 @@ public class Menu {
     }
 
     private void checkTransferValidity() {
+        scanner.nextLine();
+        System.out.println("Check results:");
+        try{
+            Transaction[] unpairedTransactions = service.checkTransactionsValidity();
+            for (int i = 0; i < unpairedTransactions.length; i++){
+                Transaction transaction = unpairedTransactions[i];
+                System.out.println(transaction.getRecipient().getName()+"(id = "+transaction.getRecipient().getIdentifier()+")  has an unacknowledged transfer id = "+transaction.getIdentifier()+" from "+transaction.getSender().getName()+ "(id = "+transaction.getSender().getIdentifier()+") for "+transaction.getTransfer_amount());
+            }
+        }
+        catch (TransactionListEmptyException e){
+            System.err.println("exception caught: "+ e.getMessage());
+        }
     }
 
     private void removeTransactionById() {
         scanner.nextLine();
         int userId = 0;
-        UUID transactionId = UUID.fromString("");
+        UUID transactionId = null;
         while(true){
-            System.out.println("Enter a user ID and a transfer ID\n-> ");
+            System.out.print("Enter a user ID and a transfer ID\n-> ");
             String input = scanner.nextLine();
             String[] args = input.split(" ");
             if (args.length != 2){
@@ -117,7 +128,7 @@ public class Menu {
         scanner.nextLine();
         int Id = 0;
         while(true){
-            System.out.println("Enter a user ID\n-> ");
+            System.out.print("Enter a user ID\n-> ");
             String userId = scanner.nextLine();
             String[] args = userId.split(" ");
             if (args.length != 1){
@@ -207,11 +218,11 @@ public class Menu {
                 service.transferTransaction(senderId, recipientId, transferAmount);
             }
             catch (UserNotFoundException e){
-                System.err.print("Exception caught: "+ e.getMessage());
+                System.err.println("Exception caught: "+ e.getMessage());
                 return;
             }
             catch (IllegalTransactionException e){
-                System.err.print("Exception caught: "+ e.getMessage());
+                System.err.println("Exception caught: "+ e.getMessage());
                 return;
             }
             System.out.println("The transfer is completed");
@@ -244,16 +255,17 @@ public class Menu {
         }
         User user = new User(userName, balance);
         service.addUser(user);
-        System.out.format("User with id = %d is added", user.getIdentifier());
+        System.out.format("User with id = %d is added\n", user.getIdentifier());
     }
 
     private void showMenu() {
         int menuCount = 1;
-        System.out.print(menuCount++ + ". Add a user\n"+menuCount++ + "2. View user balances\n"
+        System.out.print(menuCount++ + ". Add a user\n"+menuCount++ + ". View user balances\n"
         +menuCount++ + ". Perform a transfer\n" + menuCount++ + ". View all transactions for a specific user\n");
         if (devMenu){
             System.out.print(menuCount++ + ". DEV - remove a transfer by ID\n" + menuCount++ + ". DEV - check transfer validity\n");
         }
         System.out.print(menuCount++ + ". Finish execution\n" + "-> ");
+        this.menuCount = menuCount-1;
     }
 }
