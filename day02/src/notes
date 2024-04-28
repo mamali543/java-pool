@@ -1,0 +1,52 @@
+analogy  = tachbih
+
+*the use of input output operations in java to manipulate file system
+
+*all files have their binary signatures which we can use to identify the file types
+
+*File Signatures (Magic Numbers):
+ These are unique sequences of bytes at the beginning of files that can identify the file format (e.g., PDF, PNG, etc.),
+ regardless of the file extension.
+
+*InputStream / OutputStream: These are abstract classes in Java used for reading and writing data byte by byte.
+
+*FileReader is a convenience class for reading character files. It extends InputStreamReader,
+ which is a bridge from byte streams to character streams: it reads bytes and decodes them into characters using a specified charset
+
+ Usage Example:
+     try (FileReader reader = new FileReader("example.txt")) {
+         int data;
+         while ((data = reader.read()) != -1) {
+             char character = (char) data;
+             System.out.print(character);
+         }
+     } catch (IOException e) {
+         e.printStackTrace();
+     }
+
+*BufferedReader
+     BufferedReader is a wrapper for Reader instances (like FileReader), adding buffering to the input,
+     which means that each read request can be satisfied by the content of the buffer,
+     reducing the frequency of direct interaction with the underlying data source.
+     This is particularly useful for improving efficiency when reading large files or when making repeated reads.
+
+   -Key Points:
+     Purpose: Buffer characters for efficient reading.
+     Use with FileReader: Often wrapped around FileReader or any other Reader.
+     Enhanced Methods: Provides convenience methods like readLine() to read data line by line.
+     Efficiency: Reduces I/O operations by buffering chunks of characters instead of reading one character at a time.
+
+
+*FileInputStream / FileOutputStream: These are specific subclasses that read from and write to files.
+
+
+*ex00:
+    1- Prepare the Signature Definitions
+     we'll need a signatures.txt file containing known file signatures.
+     Each line in this file will map a file type to its hexadecimal signature.Example format for signatures.txt:
+     PNG, 89 50 4E 47 0D 0A 1A 0A
+     GIF, 47 49 46 38 37 61
+
+    2-Reading Signatures:
+    Read the signatures.txt file and store these signatures in a suitable Java collection (e.g., Map<String, String>),
+    where the key is the byte sequence of the signature and the value is the file type.
