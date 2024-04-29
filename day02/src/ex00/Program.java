@@ -28,12 +28,12 @@ public class Program {
         }
     }
 
-    /*This method is designed to determine the file type of a given file*/
+    /*This method is designed to determine the file type of given file*/
     private static String identifyFileType(String path, Map<String, String> signatures) throws IOException {
         try(FileInputStream is = new FileInputStream(path)){
             byte[] bytes = new byte[30];
             if (is.read(bytes) != -1){
-                //StringBuilder it's a mutable sequence of characters so it has to be converted into a String
+                //StringBuilder it's a mutable sequence of characters, it has to be converted into a String
                 StringBuilder hexString = new StringBuilder();
                 for (byte b: bytes){
                     hexString.append(String.format("%02X", b));
