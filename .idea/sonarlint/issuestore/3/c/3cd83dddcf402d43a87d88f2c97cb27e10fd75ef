@@ -1,0 +1,10 @@
+
+z
+java:S1488"_Immediately return this expression instead of assigning it to the temporary variable "balance".(¹Ò¥Ÿûÿÿÿÿ
+t
+java:S1488"YImmediately return this expression instead of assigning it to the temporary variable "t".(ÅÔÃÓøÿÿÿÿ
+n	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(—”¾
+b
+java:S18542"LRemove this useless assignment to local variable "unpairedUserTransactions".(„½Ôö
+T
+java:S1481."9Remove this unused "unpairedTransactions" local variable.(ÃíÚüıÿÿÿÿ

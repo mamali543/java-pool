@@ -10,8 +10,14 @@ public class Program {
 
     /*Each method that interacts with file I/O includes throws IOException in its declaration. This declaration does not handle the exception within the method itself but instead passes the responsibility to handle the exception up to whatever method calls it.
     In the case of the main method, any uncaught IOException would terminate the program and could be caught by the JVM, which might print a stack trace to the standard error stream.*/
-    public static void main(String[] args) throws IOException {
-        Map<String, String> signatures = loadSignatures();
+    public static void main(String[] args) {
+        Map<String, String> signatures = null;
+        try {
+            signatures = loadSignatures();
+        }
+        catch(IOException e){
+            System.err.println("exception caught: "+ e.getMessage());
+        }
         Scanner scanner = new Scanner(System.in);
         try (PrintWriter writer = new PrintWriter("result.txt")){
             while (true){
@@ -20,11 +26,13 @@ public class Program {
                 if (path.equals("42"))
                     break;
                 String result = identifyFileType(path, signatures);
-                System.out.println("result:>> "+result);
                 if (!result.equals("UNDEFINED"))
                     writer.println(result);
                 System.out.println("PROCESSED");
             }
+        }
+        catch (IOException e){
+            System.err.println(e.getMessage());
         }
     }
 
@@ -39,7 +47,7 @@ public class Program {
                     hexString.append(String.format("%02X", b));
                 }
                 String s = hexString.toString();
-                System.out.println("byte signature sequence:>> "+s);
+//                System.out.println("byte signature sequence:>> "+s);
                 //Map is an interface representing a collection that maps keys to values, and each key-value pair is handled as an Entry.
                 for (Map.Entry<String, String> entry: signatures.entrySet())
                 {

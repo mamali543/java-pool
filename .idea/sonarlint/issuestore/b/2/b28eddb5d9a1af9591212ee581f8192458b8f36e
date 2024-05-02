@@ -1,0 +1,12 @@
+
+v	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(—²¢Ğ8ÊúŸ¶ï1
+v	java:S116
+"URename this field "Identifier" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Ëåÿÿÿÿÿ8ÏúŸ¶ï1
+r	java:S116"QRename this field "Sender" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¯ÜÅ€ûÿÿÿÿ8ÏúŸ¶ï1
+p	java:S116"TRename this field "Recipient" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(×Åş¼8ÏúŸ¶ï1
+{	java:S116"ZRename this field "Transfer_amount" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ªåŞúÿÿÿÿ8ÏúŸ¶ï1
+]	java:S125"<This block of commented-out lines of code should be removed.(Ÿ¹Á€úÿÿÿÿ8ïÖ»¶ï1
+i	java:S100"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(’ôÙ`8ÔúŸ¶ï1
+j	java:S100'"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¢œŠ¸8ÕúŸ¶ï1
+Z	java:S1067"9Replace this use of System.out or System.err by a logger.(‚´ä¦ÿÿÿÿÿ8ØúŸ¶ï1
+U	java:S106="9Replace this use of System.out or System.err by a logger.(Ûèüâ8ØúŸ¶ï1

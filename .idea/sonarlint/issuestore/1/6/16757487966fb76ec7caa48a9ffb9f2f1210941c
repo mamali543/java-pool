@@ -1,0 +1,14 @@
+
+Y
+java:S4973"<Strings and Boxed types should be compared using "equals()".(£–Òñ8§¨öò1
+{	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(ĞÁøæıÿÿÿÿ8©¨öò1
+Z	java:S106"9Replace this use of System.out or System.err by a logger.(±œ’Òúÿÿÿÿ8ñ‚¨öò1
+U	java:S106"9Replace this use of System.out or System.err by a logger.(ĞşèÁ8ñ‚¨öò1
+Z	java:S106"9Replace this use of System.out or System.err by a logger.(Ë£ãşÿÿÿÿ8ñ‚¨öò1
+U	java:S106 "9Replace this use of System.out or System.err by a logger.(çäÿØ8ô‚¨öò1
+X	java:S1257"<This block of commented-out lines of code should be removed.(º¼¼ß8÷‚¨öò1
+^	java:S899="=Do something with the "boolean" value returned by "renameTo".(½’¨áüÿÿÿÿ8÷‚¨öò1
+^	java:S899@"=Do something with the "boolean" value returned by "renameTo".(•ÿ†Ùùÿÿÿÿ8÷‚¨öò1
+Z	java:S106J"9Replace this use of System.out or System.err by a logger.(Ÿğÿºşÿÿÿÿ8ø‚¨öò1
+U	java:S106M"9Replace this use of System.out or System.err by a logger.(¡Ê˜¤8ù‚¨öò1
+Z	java:S106P"9Replace this use of System.out or System.err by a logger.(µıñ…ûÿÿÿÿ8ù‚¨öò1

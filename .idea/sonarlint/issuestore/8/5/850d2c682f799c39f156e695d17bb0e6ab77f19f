@@ -1,0 +1,33 @@
+
+8
+java:S1643"Use a StringBuilder instead.(«Ïñ¬úÿÿÿÿ
+8
+java:S1643˜"Use a StringBuilder instead.(Êı©øÿÿÿÿ
+n	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(—”¾
+S	java:S106"9Replace this use of System.out or System.err by a logger.(ÃªÚüÿÿÿÿ
+S	java:S106%"9Replace this use of System.out or System.err by a logger.(§‰Òşøÿÿÿÿ
+m
+java:S3776-"RRefactor this method to reduce its Cognitive Complexity from 37 to the 15 allowed.(Ø¶²™ÿÿÿÿÿ
+N	java:S1060"9Replace this use of System.out or System.err by a logger.(Õ¯Ôü
+N	java:S106;"9Replace this use of System.out or System.err by a logger.(´…è
+S	java:S106B"9Replace this use of System.out or System.err by a logger.(ªÓ¼áşÿÿÿÿ
+S	java:S106G"9Replace this use of System.out or System.err by a logger.(®ÔÄ—ÿÿÿÿÿ
+N	java:S106P"9Replace this use of System.out or System.err by a logger.(ÂÉ´˜
+N	java:S106R"9Replace this use of System.out or System.err by a logger.(ğØêË
+S	java:S106U"9Replace this use of System.out or System.err by a logger.(ëî“™şÿÿÿÿ
+S	java:S106Z"9Replace this use of System.out or System.err by a logger.(ëî“™şÿÿÿÿ
+S	java:S106\"9Replace this use of System.out or System.err by a logger.(ªÓ¼áşÿÿÿÿ
+L	java:S106a"9Replace this use of System.out or System.err by a logger.(ï‚9
+S	java:S106k"9Replace this use of System.out or System.err by a logger.(”±ñûÿÿÿÿ
+S	java:S106r"9Replace this use of System.out or System.err by a logger.(éü¹°øÿÿÿÿ
+N	java:S106x"9Replace this use of System.out or System.err by a logger.(Í®»¿
+h
+java:S3776€"RRefactor this method to reduce its Cognitive Complexity from 26 to the 15 allowed.(¶“ìN
+O	java:S106"9Replace this use of System.out or System.err by a logger.(ñ–£¥
+T	java:S106ƒ"9Replace this use of System.out or System.err by a logger.(…¾ìÁıÿÿÿÿ
+T	java:S106¤"9Replace this use of System.out or System.err by a logger.(Ü·Ç˜ıÿÿÿÿ
+T	java:S106²"9Replace this use of System.out or System.err by a logger.(¸ğ‚„ùÿÿÿÿ
+p
+java:S3012ã"YUse "Arrays.copyOf", "Arrays.asList", "Collections.addAll" or "System.arraycopy" instead.(ïÀş­
+W
+java:S1126ö"AReplace this if-then-else statement by a single return statement.(Ò

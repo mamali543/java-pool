@@ -12,7 +12,6 @@ public class User {
         this.Name = name;
         this.Balance = balance;
         this.transactionsLinkedList = new TransactionsLinkedList();
-
     }
 
     public int getIdentifier(){

@@ -7,17 +7,20 @@ import java.util.*;
 public class Program {
     public static final String ANSI_RESET = "\u001B[0m";
     public static final String ANSI_RED = "\u001B[31m";
-
-    public static String fileA = "fileA.txt";
-    public static String fileB = "fileB.txt";
     static Map<String, Integer[]> occurrencesMap = new HashMap<>();
+    static int k =0;
     public static void main(String[] args) {
         if (args.length != 2){
             System.err.println("Wrong Arguments Number");
             System.exit(-1);
         }
-        File a = new File(fileA);
-        File b = new File(fileB);
+        File a = new File(args[0]);
+        File b = new File(args[1]);
+        if (a.length() == 0 || b.length() == 0)
+        {
+            System.out.println("Similarity = 0");
+            k = 1;
+        }
         long sizeLimit = 10 * 1024 * 1024;
         if (a.length()+b.length() > sizeLimit){
             System.err.println(ANSI_RED+"10MB size exceeded!"+ANSI_RESET);
@@ -31,12 +34,13 @@ public class Program {
             System.err.println(ANSI_RED+"exception caught: "+e.getMessage()+ANSI_RESET);
         }
         TreeMap<String, Integer[]> sortedMap = new TreeMap<>(occurrencesMap);
-        for (Map.Entry<String, Integer[]> entry: sortedMap.entrySet()){
-            System.out.println("key: "+entry.getKey()+" fileAvalue: "+entry.getValue()[0]+" fileBvalue: "+entry.getValue()[1]);
-        }
+//        for (Map.Entry<String, Integer[]> entry: sortedMap.entrySet()){
+//            System.out.println("key: "+entry.getKey()+" fileAvalue: "+entry.getValue()[0]+" fileBvalue: "+entry.getValue()[1]);
+//        }
         double numerator = getNumerator(sortedMap);
         double denominator = getDenominator(sortedMap);
-        System.out.println("Similarity = "+String.format("%.3f", numerator/denominator));
+        if (k == 0)
+            System.out.println("Similarity = "+String.format("%.3f", numerator/denominator));
         try(FileWriter writer = new FileWriter("dictionary.txt")){
             for (Map.Entry<String, Integer[]> entry: sortedMap.entrySet())
                 writer.write(entry.getKey()+ " ");

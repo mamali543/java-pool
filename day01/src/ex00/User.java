@@ -43,5 +43,4 @@ public class User {
         /*System.out.format allows you to output formatted text using format specifiers, similar to printf() in C.*/
         System.out.format("\nID: %d\nName: %s\nBalance: %d\n", Identifier, Name, Balance);
     }
-
 }
