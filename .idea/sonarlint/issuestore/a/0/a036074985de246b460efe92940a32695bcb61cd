@@ -1,0 +1,56 @@
+
+o
+java:S1192M"SDefine a constant instead of duplicating this literal "exception caught: " 8 times.(õ×¢J8î»¶àñ1
+d
+java:S1192I"GDefine a constant instead of duplicating this literal "(id = " 4 times.(ý›¥Œ8î»¶àñ1
+z	java:S135U"YReduce the total number of break and continue statements in this loop to use at most one.(˜ïˆžÿÿÿÿÿ8î»¶àñ1
+{	java:S135Ä"YReduce the total number of break and continue statements in this loop to use at most one.(˜ïˆžÿÿÿÿÿ8î»¶àñ1
+{	java:S135í"YReduce the total number of break and continue statements in this loop to use at most one.(˜ïˆžÿÿÿÿÿ8î»¶àñ1
+n	java:S117"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(´¦™¯8î»¶àñ1
+n	java:S117¦"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(´¦™¯8î»¶àñ1
+u	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(—”¾8ñ»¶àñ1
+>
+java:S2189""Add an end condition to this loop.(¤èÄ78þ¼¶àñ1
+Z	java:S106"9Replace this use of System.out or System.err by a logger.(É´ðëýÿÿÿÿ8ƒ½¶àñ1
+]	java:S125!"<This block of commented-out lines of code should be removed.(Æ·û‡ýÿÿÿÿ8ƒ½¶àñ1
+Z	java:S106%"9Replace this use of System.out or System.err by a logger.(¥æãÿûÿÿÿÿ8„½¶àñ1
+C	java:S131(""Add a default case to this switch.(¨àü¿ùÿÿÿÿ8„½¶àñ1
+U	java:S106D"9Replace this use of System.out or System.err by a logger.(¬…ó8‡½¶àñ1
+U	java:S106I"9Replace this use of System.out or System.err by a logger.(ý›¥Œ8‰½¶àñ1
+T	java:S106M"9Replace this use of System.out or System.err by a logger.(õ×¢J8‰½¶àñ1
+U	java:S106V"9Replace this use of System.out or System.err by a logger.(ðØÙÉ8Š½¶àñ1
+U	java:S106Z"9Replace this use of System.out or System.err by a logger.(À°ˆµ8‹½¶àñ1
+T	java:S106a"9Replace this use of System.out or System.err by a logger.(ÕÛõf8‹½¶àñ1
+U	java:S106h"9Replace this use of System.out or System.err by a logger.(îÌ¯Œ8Œ½¶àñ1
+Z	java:S106o"9Replace this use of System.out or System.err by a logger.(ñ ø‡ùÿÿÿÿ8Œ½¶àñ1
+T	java:S106s"9Replace this use of System.out or System.err by a logger.(õ×¢J8½¶àñ1
+T	java:S106v"9Replace this use of System.out or System.err by a logger.(õ×¢J8½¶àñ1
+T	java:S106y"9Replace this use of System.out or System.err by a logger.(õ×¢J8½¶àñ1
+V	java:S106ƒ"9Replace this use of System.out or System.err by a logger.(ÚÔµð8Ž½¶àñ1
+V	java:S106‡"9Replace this use of System.out or System.err by a logger.(ÂôøÛ8Ž½¶àñ1
+U	java:S106Ž"9Replace this use of System.out or System.err by a logger.(õ×¢J8Ž½¶àñ1
+[	java:S106—"9Replace this use of System.out or System.err by a logger.(òìŠ„üÿÿÿÿ8½¶àñ1
+U	java:S106›"9Replace this use of System.out or System.err by a logger.(õ×¢J8½¶àñ1
+U	java:S106ž"9Replace this use of System.out or System.err by a logger.(õ×¢J8½¶àñ1
+V	java:S106¨"9Replace this use of System.out or System.err by a logger.(ç’ˆ×8½¶àñ1
+[	java:S106¬"9Replace this use of System.out or System.err by a logger.(ñ˜—¨øÿÿÿÿ8½¶àñ1
+[	java:S106³"9Replace this use of System.out or System.err by a logger.(ÌûÍÈýÿÿÿÿ8½¶àñ1
+[	java:S106¶"9Replace this use of System.out or System.err by a logger.(’´•Òÿÿÿÿÿ8½¶àñ1
+U	java:S106¹"9Replace this use of System.out or System.err by a logger.(õ×¢J8‘½¶àñ1
+V	java:S106Å"9Replace this use of System.out or System.err by a logger.(¡œéŒ8‘½¶àñ1
+[	java:S106É"9Replace this use of System.out or System.err by a logger.(³ïÍÁÿÿÿÿÿ8’½¶àñ1
+V	java:S106Ò"9Replace this use of System.out or System.err by a logger.(áÕ’ô8’½¶àñ1
+V	java:S106Ö"9Replace this use of System.out or System.err by a logger.(ª‡Êª8’½¶àñ1
+[	java:S106Ý"9Replace this use of System.out or System.err by a logger.(Ñ¤¤©ÿÿÿÿÿ8’½¶àñ1
+[	java:S106á"9Replace this use of System.out or System.err by a logger.(Ñ¤¤©ÿÿÿÿÿ8’½¶àñ1
+V	java:S106ä"9Replace this use of System.out or System.err by a logger.(äíëÖ8“½¶àñ1
+V	java:S106î"9Replace this use of System.out or System.err by a logger.(Û½Â®8“½¶àñ1
+U	java:S106ï"9Replace this use of System.out or System.err by a logger.(˜¯‹h8“½¶àñ1
+[	java:S106ó"9Replace this use of System.out or System.err by a logger.(³ïÍÁÿÿÿÿÿ8”½¶àñ1
+V	java:S106ú"9Replace this use of System.out or System.err by a logger.(îÌè•8”½¶àñ1
+[	java:S106‚"9Replace this use of System.out or System.err by a logger.(¡¥ó¹ûÿÿÿÿ8”½¶àñ1
+`
+java:S1117†"=Rename "menuCount" which hides the field declared at line 10.(‚µÕËûÿÿÿÿ8”½¶àñ1
+V	java:S106‡"9Replace this use of System.out or System.err by a logger.(ìô’ƒ8•½¶àñ1
+[	java:S106Š"9Replace this use of System.out or System.err by a logger.(¬¬Ç¸ÿÿÿÿÿ8•½¶àñ1
+[	java:S106Œ"9Replace this use of System.out or System.err by a logger.(¤ÈÉ©üÿÿÿÿ8•½¶àñ1

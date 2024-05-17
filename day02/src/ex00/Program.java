@@ -27,8 +27,12 @@ public class Program {
                     break;
                 String result = identifyFileType(path, signatures);
                 if (!result.equals("UNDEFINED"))
+                {
                     writer.println(result);
-                System.out.println("PROCESSED");
+                    System.out.println("PROCESSED");
+                }
+                else
+                    System.out.println("UNDEFINED");
             }
         }
         catch (IOException e){

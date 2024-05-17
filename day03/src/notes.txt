@@ -1,0 +1,27 @@
+threads and processes: real-time-processing
+    -a process can have different threads so when u try to print the process id of different threads you'll get the same process id!
+    -threads share memory and all the system resources, while processes duplicate them.
+    -Threads that are awakened by notifyAll() will move from the waiting state to the blocked state.
+    -synchronized keyword meaning that only one thread can execute a synchronized block or method at a time.
+
+    -Any section of code that manipulates shared resources or critical data is called a critical section. The synchronized keyword ensures
+     that only one thread at a time can enter a critical section. Without synchronized, even if you use notify() or notifyAll(),
+     there's no guarantee that the operations within those wait/notify blocks are safe from concurrent modifications.
+
+     -In Java, every object has an intrinsic lock associated with it. When a method is declared as synchronized,
+      it requires any thread that calls the method to first acquire this intrinsic lock before it can execute the method.
+
+      -As soon as a thread enters the print(String msg) method, it acquires the intrinsic lock associated with the Store instance
+       on which it was invoked.This happens automatically because the method is declared as synchronized.
+
+Disadvantage of using single-threaded approach:
+      -Performance: On a multicore processor, the single-threaded approach does not take full advantage of hardware capabilities.
+       The entire computation is done on a single core, leaving other cores idle, which can be inefficient especially
+       with large arrays or computationally intensive tasks.
+
+Solving the Problem Using Multiple Threads (Multithreading)
+      -Using multithreading, you can divide the array into several segments, with each thread responsible for summing one segment.
+       This parallelizes the workload across multiple cores, potentially speeding up the computation.
+
+Synchronization of Completion:
+      -By using join(), you ensure that all threads have completed their tasks before the main thread

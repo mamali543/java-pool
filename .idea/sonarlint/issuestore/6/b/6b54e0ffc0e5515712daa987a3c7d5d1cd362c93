@@ -1,0 +1,13 @@
+
+o	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(„¶û
+o	java:S116"URename this field "Identifier" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Ä¤ùêùÿÿÿÿ
+i	java:S116"ORename this field "Name" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(É¬­Áøÿÿÿÿ
+l	java:S116"RRename this field "Balance" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ÜõÏıùÿÿÿÿ
+v	java:S116	"\Rename this field "Transfer_category" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Ç•ûÿÿÿÿ
+h	java:S100""NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¿×ÿÿÿÿÿ
+b	java:S100&"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ûªÿT
+l
+java:S3457,"Q%n should be used in place of \n to produce the platform-specific line separator.(ñõò•øÿÿÿÿ
+S	java:S106,"9Replace this use of System.out or System.err by a logger.(ñõò•øÿÿÿÿ
+F
+java:S1128"+Remove this unused import 'java.util.UUID'.(ÀãÄ£úÿÿÿÿ

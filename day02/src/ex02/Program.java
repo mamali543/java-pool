@@ -23,7 +23,7 @@ public class Program {
         String currentPosition = s[1];
         Scanner scanner = new Scanner(System.in);
         String str;
-        while ((str = scanner.nextLine()) != "exit"){
+        while (!(str = scanner.nextLine()).equals("exit") ){
             s = str.split("\\s+");
             if (s.length == 1 && s[0].equals("ls")){
                 listFiles(currentPosition);
