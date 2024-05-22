@@ -1,12 +1,8 @@
 
 9
 	README.md,8/e/8ec9a00bfd09b3190ac6b22251dbb1aa95a0579d
-T
-$day01/src/ex03/UserIdsGenerator.java,e/3/e366aa461cbb8331e5bc4df7c92333f0af254e09
 M
 day01/src/ex03/UsersList.java,a/a/aa3925b9ab23955cfe64f7340782b060bd06e8b4
-Y
-)day01/src/ex03/UserNotFoundException.java,7/e/7e0b4bc9bc254617a5254398ab4e8c6b89c7d307
 R
 "day01/src/ex03/UsersArrayList.java,f/5/f540cd5b46c8408ce6555f620e5005e7d391d4c9
 a
@@ -81,8 +77,6 @@ T
 $day01/src/ex02/UserIdsGenerator.java,6/b/6b6947c303edae3aa4080e54ef510758f9e964c2
 Y
 )day01/src/ex02/UserNotFoundException.java,3/4/3445a63124050afc19fb1d2210ef6b4cef96b72d
-H
-day01/src/ex03/User.java,0/0/0043212c726978c4cf3d9a6e84cd99db3d53eb6b
 R
 "day01/src/ex04/UsersArrayList.java,2/6/26a46f27cb0e5fc087528e1b370f4295a41836c2
 M
@@ -107,8 +101,6 @@ R
 "day01/src/ex02/UsersArrayList.java,9/0/906348c573ad7fe41598539ab854dd6a5df169c7
 K
 day01/src/ex02/Program.java,2/9/29ab6532806c534d7643181570e791eb886e6159
-K
-day01/src/ex03/Program.java,e/a/ea63001f6228320c3c8213c9824e8c3059e8f250
 H
 day01/src/ex04/User.java,b/f/bf70bb103ab577408ffa81747a2a3d375ced7321
 T

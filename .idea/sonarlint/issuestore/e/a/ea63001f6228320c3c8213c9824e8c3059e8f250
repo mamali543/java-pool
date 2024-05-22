@@ -1,14 +1,0 @@
-
-u
-java:S1192-"SDefine a constant instead of duplicating this literal "exception caught: " 4 times.(ΟΗϋρόÿÿÿÿ8£λªήπ1
-{	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(Θ«Ίÿÿÿÿÿ8πν©ήπ1
-U	java:S106"9Replace this use of System.out or System.err by a logger.(αδ‚8ων©ήπ1
-U	java:S106""9Replace this use of System.out or System.err by a logger.(αδ‚8ων©ήπ1
-Z	java:S106-"9Replace this use of System.out or System.err by a logger.(ΟΗϋρόÿÿÿÿ8ϊν©ήπ1
-U	java:S1060"9Replace this use of System.out or System.err by a logger.(ά‘ύέ8ϊν©ήπ1
-Z	java:S1065"9Replace this use of System.out or System.err by a logger.(ΟΗϋρόÿÿÿÿ8ϊν©ήπ1
-Z	java:S1068"9Replace this use of System.out or System.err by a logger.(βεείώÿÿÿÿ8ϊν©ήπ1
-Z	java:S106>"9Replace this use of System.out or System.err by a logger.(ΟΗϋρόÿÿÿÿ8ϋν©ήπ1
-U	java:S106A"9Replace this use of System.out or System.err by a logger.(Ί—ΰε8°λªήπ1
-Z	java:S106F"9Replace this use of System.out or System.err by a logger.(ΟΗϋρόÿÿÿÿ8­°ήπ1
-U	java:S106J"9Replace this use of System.out or System.err by a logger.(Π‚±Θ8Τ¶ήπ1

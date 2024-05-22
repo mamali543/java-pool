@@ -25,3 +25,21 @@ Solving the Problem Using Multiple Threads (Multithreading)
 
 Synchronization of Completion:
       -By using join(), you ensure that all threads have completed their tasks before the main thread
+
+The ExecutorService created by the Executors.newFixedThreadPool(count) method in Java provides a way to manage a pool of threads
+for executing concurrent tasks. It simplifies the process of thread management and task submission
+
+When you submit a task using executorService.execute(Runnable) or executorService.submit(Callable), the executor places your task in a queue.
+
+Threads in the thread pool pick tasks from this queue and execute them. Once a thread completes a task, it returns to the queue to pick the next available task.
+ If all threads are busy and more tasks are submitted, those tasks will wait in the queue until a thread becomes available.
+
+The executor service continues to manage these threads, keeping them alive until it is explicitly shut down using executorService.shutdown() or executorService.shutdownNow().
+
+I see that thread1 has downloaded file4 before downloading file1 how's that possible?
+  -a bit misleading due to the nature of asynchronous operations and the handling of logging in a multithreaded environment.:
+    Here's what's likely happening:
+    Thread-1 starts the download for file number 1. It logs the start time.
+    Thread-1 completes the download for file number 1, but before it logs the completion, it picks up another task (file number 4) due to how task dispatching in the ExecutorService is managed.
+    Thread-1 starts the download for file number 4 and logs this start.
+    Thread-1 then logs the completion of file number 1. This occurs because right after finishing the download and before logging, it was immediately given another file to download, and the log for completion of file number 1 was delayed until after the start of file number 4 was logged.

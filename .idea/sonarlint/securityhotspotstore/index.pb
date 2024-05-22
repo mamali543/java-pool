@@ -2,8 +2,6 @@
 9
 	README.md,8/e/8ec9a00bfd09b3190ac6b22251dbb1aa95a0579d
 T
-$day01/src/ex03/UserIdsGenerator.java,e/3/e366aa461cbb8331e5bc4df7c92333f0af254e09
-T
 $day01/src/ex04/TransactionsList.java,5/0/507adf51c8a19f0b24d21419d49145f3890b5f20
 O
 day01/src/ex03/Transaction.java,7/4/745731bf75a42327d5c93dff6bc3aa2ea43119e6
@@ -13,8 +11,6 @@ M
 0day01/src/ex03/TransactionNotFoundException.java,d/7/d709adf56a773c1ebb933bb259e512299ec9ab97
 a
 1day01/src/ex03/TransactionListEmptyException.java,6/1/6121cd6c2a3113d1d7294477acb3d772678daa2b
-Y
-)day01/src/ex03/UserNotFoundException.java,7/e/7e0b4bc9bc254617a5254398ab4e8c6b89c7d307
 R
 "day01/src/ex03/UsersArrayList.java,f/5/f540cd5b46c8408ce6555f620e5005e7d391d4c9
 Y
@@ -86,8 +82,6 @@ M
 R
 "day01/src/ex04/UsersArrayList.java,2/6/26a46f27cb0e5fc087528e1b370f4295a41836c2
 H
-day01/src/ex03/User.java,0/0/0043212c726978c4cf3d9a6e84cd99db3d53eb6b
-H
 day01/src/ex05/Menu.java,a/0/a036074985de246b460efe92940a32695bcb61cd
 K
 day01/src/ex00/Program.java,0/8/08891e79b5c6939ba541d30138d851f4b98fdcab
@@ -107,8 +101,6 @@ R
 "day01/src/ex02/UsersArrayList.java,9/0/906348c573ad7fe41598539ab854dd6a5df169c7
 K
 day01/src/ex02/Program.java,2/9/29ab6532806c534d7643181570e791eb886e6159
-K
-day01/src/ex03/Program.java,e/a/ea63001f6228320c3c8213c9824e8c3059e8f250
 H
 day01/src/ex04/User.java,b/f/bf70bb103ab577408ffa81747a2a3d375ced7321
 T

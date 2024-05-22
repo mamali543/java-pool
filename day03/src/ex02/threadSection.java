@@ -5,7 +5,6 @@ public class threadSection extends Thread {
     private int to;
     private int sum;
 
-
     public  threadSection(int threadIndex, int start, int end, int sum){
         this.threadIndex = threadIndex+1;
         this.from = start;
