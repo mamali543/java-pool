@@ -1,0 +1,54 @@
+
+                                                      PACKAGES AND JAR FILES
+-------------------------------------------------------------------------------------------------------------------------------------------
+EX00:                   Packages
+Code can be organized on different levels. Packages are one of the code organization
+          methods where classes are located in individual folders.
+
+Read an image file into memory:
+    -reading an image file into memory is about transferring its contents into a fast-access area (RAM)
+    where your program can work with the image efficiently and perform various operations without the slow
+    read/write speeds associated with disk storage.
+
+BufferedImage:
+    -A subclass of Image used to handle and manipulate images loaded into memory in Java.
+    The image content is stored in a way that allows direct access to the image data, pixels each with its own set of color values.
+
+ImageIO.read(new File(filePath)):
+    This method is used for reading an image from a file
+-------------------------------------------------------------------------------------------------------------------------------------------
+EX01:                   JAR (Java ARchive)
+A JAR (Java ARchive) file is a package file format typically used to aggregate many Java class files and associated metadata
+and resources (text, images, etc.) into one file for distribution, It's used for several purposes, such as packaging programs
+(applications) and libraries, so they can be easily distributed and used, making the application more portable
+
+the JAR file i need to create is referred to as images-to-chars-printer.jar.
+
+This JAR will include not only the compiled .class files but also the resources such as the image.bmp I'm supposed to display.
+
+Manifest File:
+The manifest file in a Java Archive (JAR) is a special file that contains information about the files packaged in the JAR, The primary
+purpose of the manifest is to define the entry point for the application and to package metadata in the form of name-value pairs.
+
+By using Logic.class.getResource(), you're effectively saying, "Start looking for the resource in the classpath from the location of the Logic class."
+
+After creating the JAR, check the structure inside the JAR file to make sure that the class files are properly placed according to their package structure.
+ You can view the contents of the JAR file using: >>>: jar tf ./target/images-to-chars-printer.jar
+
+--------------------------------------------------------------------------------------------------------------------------------------------
+    THINGS TO GET MY HEAD AROUND >>>>>>
+--------------------------------------------------------------------------------------------------------------------------------------------
+
+    Java's package structure:
+        By copying Program.Class from target/printer/app/Program.class to the ImagesToChar directory,
+        you disrupted the package structure that Java expects.
+
+    The -cp option stands for "classpath" to search for class files. This means Java will look in the target directory
+    (and its subdirectories, following the package structure) to find the required classes to run the program.
+        printer.app.Program
+        This is the fully qualified name of the main class to be executed
+
+    The prefix java in Java package names is typically reserved for standard Java packages and classes provided by the
+    Java platform itself.
+
+    src/ is often set as the root of the classpath.

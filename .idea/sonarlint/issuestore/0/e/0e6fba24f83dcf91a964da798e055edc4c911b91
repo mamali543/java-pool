@@ -1,0 +1,23 @@
+
+w
+java:S1192"UDefine a constant instead of duplicating this literal "exception Occurred: " 3 times.(éèñ¬ûÿÿÿÿ8¶‚íâğ1
+v	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(—²¢Ğ8ßŞéâğ1
+U	java:S106"9Replace this use of System.out or System.err by a logger.(ÁÅà°8öŞéâğ1
+]	java:S125"<This block of commented-out lines of code should be removed.(¨´Âüÿÿÿÿ8öŞéâğ1
+Z	java:S106"9Replace this use of System.out or System.err by a logger.(Â˜¿¸ÿÿÿÿÿ8öŞéâğ1
+Z	java:S106"9Replace this use of System.out or System.err by a logger.(éèñ¬ûÿÿÿÿ8öŞéâğ1
+Z	java:S106!"9Replace this use of System.out or System.err by a logger.(éèñ¬ûÿÿÿÿ8÷Şéâğ1
+Z	java:S106("9Replace this use of System.out or System.err by a logger.(éèñ¬ûÿÿÿÿ8÷Şéâğ1
+Z	java:S106,"9Replace this use of System.out or System.err by a logger.(¸óí™şÿÿÿÿ8÷Şéâğ1
+U	java:S106-"9Replace this use of System.out or System.err by a logger.(ıÚü8÷Şéâğ1
+Z	java:S106."9Replace this use of System.out or System.err by a logger.(€âœŒûÿÿÿÿ8÷Şéâğ1
+U	java:S106/"9Replace this use of System.out or System.err by a logger.(ò¥óÌ8÷Şéâğ1
+Z	java:S1060"9Replace this use of System.out or System.err by a logger.(„–Åûÿÿÿÿ8øŞéâğ1
+U	java:S1065"9Replace this use of System.out or System.err by a logger.(½åÂÛ8øŞéâğ1
+Z	java:S106;"9Replace this use of System.out or System.err by a logger.(±—ÿ¾ÿÿÿÿÿ8øŞéâğ1
+X	java:S1258"<This block of commented-out lines of code should be removed.(¥±õ8øŞéâğ1
+Z	java:S106@"9Replace this use of System.out or System.err by a logger.(Ê¸Ìûÿÿÿÿ8ùŞéâğ1
+U	java:S106E"9Replace this use of System.out or System.err by a logger.(ÙéÅ8ùŞéâğ1
+T	java:S106F"9Replace this use of System.out or System.err by a logger.(ÃÌ­8ƒíâğ1
+Z	java:S106I"9Replace this use of System.out or System.err by a logger.(×òú€ıÿÿÿÿ8äü¼ñ1
+Z	java:S106K"9Replace this use of System.out or System.err by a logger.(×òú€ıÿÿÿÿ8ˆ£¼ñ1

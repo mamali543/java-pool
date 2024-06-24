@@ -1,0 +1,2 @@
+Manifest-Version: 1.0
+Main-Class: mr.t1337school.printer.app.Program
