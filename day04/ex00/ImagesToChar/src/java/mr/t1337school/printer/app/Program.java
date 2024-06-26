@@ -1,5 +1,5 @@
 package mr.t1337school.printer.app;
-import printer.logic.Logic;
+import mr.t1337school.printer.logic.Logic;
 
 public class Program {
     public static void main(String[] args){

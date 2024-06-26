@@ -1,0 +1,9 @@
+to compile:
+    mkdir lib
+    place the external libraries (.jar, JCDP and Jcommander) in the lib directory
+    javac -cp "./lib/*" -d target src/java/mr/t1337school/printer/*/*.java
+
+to run:
+     cp -rf ../src/resources ./target/
+     java -cp "target/:lib/*" mr.t1337school.printer.app.Program --white=white --black=black
+     the colon : is used as a delimiter to separate different paths within the classpath

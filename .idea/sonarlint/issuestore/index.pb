@@ -123,8 +123,6 @@ K
 day01/src/ex05/Program.java,a/7/a7d603e0494bbc4d2cd156df8de67a561f47a5e4
 D
 day02/src/result.txt,7/d/7da94fdd7482cd187bb9c0b0b0b288381090be99
-K
-day01/src/ex04/Program.java,0/e/0e6fba24f83dcf91a964da798e055edc4c911b91
 H
 day02/src/dictionary.txt,9/1/91f740a67b396cae1cb494bdd97fcfff166c5ee1
 F

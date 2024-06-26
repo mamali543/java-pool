@@ -1,5 +1,6 @@
 
                                                       PACKAGES AND JAR FILES
+                                            create library archives and use external libraries.
 -------------------------------------------------------------------------------------------------------------------------------------------
 EX00:                   Packages
 Code can be organized on different levels. Packages are one of the code organization
@@ -34,7 +35,27 @@ By using Logic.class.getResource(), you're effectively saying, "Start looking fo
 
 After creating the JAR, check the structure inside the JAR file to make sure that the class files are properly placed according to their package structure.
  You can view the contents of the JAR file using: >>>: jar tf ./target/images-to-chars-printer.jar
+--------------------------------------------------------------------------------------------------------------------------------------------
+ex02:                   JCommander & JCDP
+you're expected to enhance your Java project by integrating external libraries for command-line processing and colored console output.
+.The use JCommander to handle command-line options.
+.either JCDP (Java Colored Debug Printer) or JColor for colored text output.
 
+-To use JCommander to handle command-line arguments in your Java application, you first need to add the JCommander library
+  to your project and make sure the JCommander JAR file is in your lib directory and included in your classpath
+-Add a Command Class: This class will hold the values of the command-line arguments.
+
+By default, JCommander uses both spaces and equals signs as separators between parameter names and their values.
+so it's okay not to specify the @Parameters(separators = "=") in the Args class
+
+">>In our case, the classpath would typically include the directory where your compiled .class files reside(e.g., the target/ directory
+you might be compiling your classes into) along with any directories or JAR files that contain libraries required by your program
+
+Including JAR files in your classpath is essential because Java uses the classpath as a lookup path to find classes
+and resources necessary to run your program.
+
+When you specify these directories in the classpath, Java knows to look in these locations to find the classes and libraries
+necessary to run your application.<<"
 --------------------------------------------------------------------------------------------------------------------------------------------
     THINGS TO GET MY HEAD AROUND >>>>>>
 --------------------------------------------------------------------------------------------------------------------------------------------
