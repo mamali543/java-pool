@@ -48,6 +48,9 @@ you're expected to enhance your Java project by integrating external libraries f
 By default, JCommander uses both spaces and equals signs as separators between parameter names and their values.
 so it's okay not to specify the @Parameters(separators = "=") in the Args class
 
+When you use the -jar option with the java command, the -cp or -classpath option is ignored. The classpath needs to be specified
+in the manifest file of your JAR
+
 ">>In our case, the classpath would typically include the directory where your compiled .class files reside(e.g., the target/ directory
 you might be compiling your classes into) along with any directories or JAR files that contain libraries required by your program
 

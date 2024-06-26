@@ -1,2 +1,3 @@
 Manifest-Version: 1.0
 Main-Class: mr.t1337school.printer.app.Program
+Class-Path: ../lib/jcommander-1.82.jar ../lib/JColor-5.5.1.jar
