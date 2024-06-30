@@ -1,5 +1,6 @@
 to compile:
     mkdir lib
+    cp -r ../../../../JCDP-4.0.2.jar ../../../../JColor-5.5.1.jar ../../../../jcommander-1.82.jar lib
     place the external libraries (.jar, JCDP and Jcommander) in the lib directory
     javac -cp "./lib/*" -d target src/java/mr/t1337school/printer/*/*.java
 

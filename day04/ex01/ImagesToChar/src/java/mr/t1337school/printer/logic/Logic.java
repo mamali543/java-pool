@@ -16,7 +16,7 @@ public class Logic {
     public void printImage(){
         //read an image file into memory
         try{
-            BufferedImage image = ImageIO.read(Logic.class.getResource("/it.bmp"));
+            BufferedImage image = ImageIO.read(Logic.class.getResource("/resources/it.bmp"));
             for(int y = 0; y < image.getHeight(); y++){
                 for (int x = 0; x < image.getWidth(); x++)
                 {
