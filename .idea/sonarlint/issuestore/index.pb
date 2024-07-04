@@ -63,8 +63,6 @@ K
 day00/src/ex00/Program.java,2/e/2e6dfc7d446ceca807a4064d824319317571d481
 K
 day00/src/ex01/Program.java,3/8/38e011251ddde6df05910e5076cdce8de5f8b93f
-F
-day00/src/Program.java,3/f/3f61e87a23ca8d212b15b221f6f848635e08003b
 K
 day00/src/ex05/Program.java,8/5/850d2c682f799c39f156e695d17bb0e6ab77f19f
 C

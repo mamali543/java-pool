@@ -1,0 +1,2 @@
+                                                SQL & JDBC
+SERIAL: This is a shorthand notation used in PostgreSQL (and some other SQL databases) for an auto-incrementing integer
