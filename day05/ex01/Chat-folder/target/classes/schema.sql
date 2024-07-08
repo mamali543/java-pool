@@ -11,11 +11,11 @@ CREATE TABLE IF NOT EXISTS chat.chatrooms (
     id SERIAL PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
     owner_id INTEGER,
-    FOREIGN KEY (owner_id) REFERENCES chat.users(id),
+    FOREIGN KEY (owner_id) REFERENCES chat.users(id)
 );
 
 CREATE TABLE IF NOT EXISTS chat.message (
-    id SERIAL SERIAL PRIMARY KEY,
+    id SERIAL PRIMARY KEY,
     author_id INTEGER,
     room_id INTEGER ,
     content VARCHAR(255) NOT NULL,

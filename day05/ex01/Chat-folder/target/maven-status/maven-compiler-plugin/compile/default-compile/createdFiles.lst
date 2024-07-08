@@ -1,0 +1,6 @@
+mr/school1337/chat/app/Program.class
+mr/school1337/chat/models/Message.class
+mr/school1337/chat/repositories/MessagesRepositoryJdbcImpl.class
+mr/school1337/chat/repositories/MessagesRepository.class
+mr/school1337/chat/models/Chatroom.class
+mr/school1337/chat/models/User.class

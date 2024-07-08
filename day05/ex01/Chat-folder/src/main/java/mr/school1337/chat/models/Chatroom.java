@@ -1,14 +1,16 @@
 package mr.school1337.chat.models;
 import java.util.List;
 import mr.school1337.chat.models.Message;
+import mr.school1337.chat.models.User;
 import java.util.Objects;
 
 public class Chatroom {
     private Long chatroom_id;
     private String chatroom_name;
-    private String chatroom_owner;
+    private User chatroom_owner;
     private List<Message> chatroom_messages;
-    public void Chatroom(Long chatroomid, String chatroomname, String chatroomowner, List<Message> chatroommessages){
+
+    public Chatroom(Long chatroomid, String chatroomname, User chatroomowner, List<Message> chatroommessages){
         this.chatroom_id = chatroomid;
         this.chatroom_name = chatroomname;
         this.chatroom_owner = chatroomowner;
@@ -17,7 +19,7 @@ public class Chatroom {
 
     public Long getId(){return this.chatroom_id;}
     public String getName(){return this.chatroom_name;}
-    public String getOwner(){return this.chatroom_owner;}
+    public User getOwner(){return this.chatroom_owner;}
     public List<Message> getMessages(){return this.chatroom_messages;}
 
     public void setId(Long id){
@@ -26,7 +28,7 @@ public class Chatroom {
     public void setName(String name){
         this.chatroom_name = name;
     }
-    public void setOwner(String owner){
+    public void setOwner(User owner){
         this.chatroom_owner = owner;
     }
     public void setMessages(List<Message> messages){
