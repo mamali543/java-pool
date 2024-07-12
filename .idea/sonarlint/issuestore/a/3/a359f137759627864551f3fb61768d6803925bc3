@@ -1,0 +1,6 @@
+
+p	java:S116"VRename this field "chatroom_id" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(´›þÊÿÿÿÿÿ
+r	java:S116	"XRename this field "chatroom_name" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ôÔÖªÿÿÿÿÿ
+s	java:S116
+"YRename this field "chatroom_owner" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Š––·øÿÿÿÿ
+v	java:S116"\Rename this field "chatroom_messages" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(§æËÍüÿÿÿÿ

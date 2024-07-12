@@ -1,0 +1,9 @@
+
+n
+java:S1223"LRename this method to prevent any misunderstanding or make it a constructor.(éÛ—Ñùÿÿÿÿ8ÜÛâ«ˆ2
+w	java:S116"VRename this field "chatroom_id" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(´›şÊÿÿÿÿÿ8åÛâ«ˆ2
+y	java:S116"XRename this field "chatroom_name" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ôÔÖªÿÿÿÿÿ8åÛâ«ˆ2
+u	java:S116	"YRename this field "chatroom_owner" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Í°é8åÛâ«ˆ2
+}	java:S116
+"\Rename this field "chatroom_messages" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(§æËÍüÿÿÿÿ8åÛâ«ˆ2
+o	java:S100"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(éÛ—Ñùÿÿÿÿ8çÛâ«ˆ2

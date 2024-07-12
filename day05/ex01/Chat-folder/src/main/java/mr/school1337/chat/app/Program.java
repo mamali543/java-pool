@@ -8,6 +8,8 @@ import java.sql.SQLException;
 import java.util.*;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.time.LocalDateTime;
+
 import javax.sql.DataSource;
 
 import com.zaxxer.hikari.HikariConfig;
@@ -16,9 +18,14 @@ import mr.school1337.chat.models.Message;
 import mr.school1337.chat.repositories.MessagesRepositoryJdbcImpl;
 
 public class Program{
-    public static final String url = "jdbc:postgresql://localhost:5432/chat";
-    public static final String db_user = "macbookpro";
+    public static final String ANSI_RESET = "\u001B[0m";
+    public static final String ANSI_RED = "\u001B[31m";
+    public static final String ANSI_BLUE = "\u001B[34m";
+
+    public static final String url = "jdbc:postgresql://localhost:5432/chat"; //standard java api that enables java programs to interact with databases, JDBC URL
+    public static final String db_user = "macbookpro";    // \du
     public static void main(String[] args){
+        //get message id;
         Scanner scanner = new Scanner(System.in);
         System.out.println("Enter Message Id: ");
         if (!scanner.hasNextLong())
@@ -27,10 +34,14 @@ public class Program{
             System.exit(-1);
         }
         Long id = scanner.nextLong();
+        //create dataSourceConnection with Hickari library;
         DataSource dataSource = createDataSourceConnection();
+        if (dataSource != null) {
             MessagesRepositoryJdbcImpl messagesRepositoryJdbc = new MessagesRepositoryJdbcImpl(dataSource);
-            Message message = messagesRepositoryJdbc.findById(id).orElse(new Message());
-            System.out.println(message);
+            Optional<Message> message = messagesRepositoryJdbc.findById(id);
+            message.ifPresentOrElse(msg -> System.out.println(ANSI_BLUE + msg + ANSI_RESET), () -> System.out.println(ANSI_RED+"No message found."+ANSI_RESET));
+             ((HikariDataSource) dataSource).close();
+        }
     }
 
     private static DataSource createDataSourceConnection() {
@@ -72,7 +83,6 @@ public class Program{
                 sqlQuery.append(line);
                 // Check for end of statement
                 if (line.endsWith(";")) {
-                    System.out.println("SqlQuery: "+sqlQuery);
                     boolean a = statement.execute(sqlQuery.toString());
                     sqlQuery.setLength(0); // Clear the SQL statement buffer
                 }

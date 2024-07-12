@@ -7,3 +7,5 @@ retrieve data, and update records without needing to embed database-specific cod
 pom.xml file is a maven file, a project management and comprehensive tool for java projects
 
 SERIAL: This is a shorthand notation used in PostgreSQL (and some other SQL databases) for an auto-incrementing integer
+
+HickariCP library is a connection pool for java applications to manage database resources

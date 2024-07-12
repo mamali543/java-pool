@@ -6,6 +6,7 @@ public class Program {
 
     public static final String ANSI_RESET = "\u001B[0m";
     public static final String ANSI_RED = "\u001B[31m";
+
     public static void main(String[] args) {
         //The Scanner class in Java is a utility class in the java.util package that allows you to read input
         Scanner scanner = new Scanner(System.in);

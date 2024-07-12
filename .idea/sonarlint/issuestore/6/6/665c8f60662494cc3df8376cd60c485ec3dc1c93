@@ -1,0 +1,13 @@
+
+l	java:S116"RRename this field "user_id" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¿€¥·úÿÿÿÿ
+o	java:S116	"URename this field "user_login" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(›—åöıÿÿÿÿ
+m	java:S116
+"XRename this field "user_password" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Åñ­
+n	java:S116"YRename this field "user_chatrooms" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Ğ íó
+x	java:S116"cRename this field "user_socializedChatrooms" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ï²‰
+k
+java:S4144"UUpdate this method so that its implementation is not identical to "setId" on line 25.(ó£¤
+p
+java:S4144"UUpdate this method so that its implementation is not identical to "setId" on line 25.(ÿ¸‹üÿÿÿÿ
+4
+java:S1128"Remove this duplicated import.(¼¸õ›
