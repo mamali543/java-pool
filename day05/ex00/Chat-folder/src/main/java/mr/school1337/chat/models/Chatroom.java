@@ -8,7 +8,7 @@ public class Chatroom {
     private String chatroom_name;
     private String chatroom_owner;
     private List<Message> chatroom_messages;
-    public void Chatroom(Long chatroomid, String chatroomname, String chatroomowner, List<Message> chatroommessages){
+    public  Chatroom(Long chatroomid, String chatroomname, String chatroomowner, List<Message> chatroommessages){
         this.chatroom_id = chatroomid;
         this.chatroom_name = chatroomname;
         this.chatroom_owner = chatroomowner;

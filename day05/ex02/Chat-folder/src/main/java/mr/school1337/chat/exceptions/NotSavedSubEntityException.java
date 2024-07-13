@@ -1,4 +1,4 @@
-package main.java.mr.school1337.chat.exceptions;
+package mr.school1337.chat.exceptions;
 
 public class NotSavedSubEntityException extends RuntimeException{
     public static final String ANSI_RESET = "\u001B[0m";

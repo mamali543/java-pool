@@ -11,7 +11,7 @@ import java.sql.*;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import main.java.mr.school1337.chat.exceptions.NotSavedSubEntityException;
+import mr.school1337.chat.exceptions.NotSavedSubEntityException;
 import java.util.Optional;
 
 public class MessagesRepositoryJdbcImpl implements MessagesRepository{
@@ -41,14 +41,8 @@ public class MessagesRepositoryJdbcImpl implements MessagesRepository{
     }
 
     public void save(Message msg){
-        System.out.println("userId: "+msg.getUser().getId());
-        System.out.println("userId: "+msg.getRoom().getId());
-
         if (!isIdExist(msg.getUser().getId(), "users") || !isIdExist(msg.getRoom().getId(), "chatrooms"))
-        {
             throw new NotSavedSubEntityException();
-            // System.exit(-1);
-        }
 
         String sqlQuery = "INSERT INTO chat.message (author_id, room_id, content, datetime) VALUES (?, ?, ?, ?) RETURNING id;";
 

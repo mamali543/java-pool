@@ -14,6 +14,8 @@ import java.util.ArrayList;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import java.time.LocalDateTime;
+
+import mr.school1337.chat.exceptions.NotSavedSubEntityException;
 import java.lang.*;
 
 import mr.school1337.chat.models.Chatroom;
@@ -32,17 +34,25 @@ public class Program{
     public static void main(String[] args){
         DataSource dataSource = createDataSourceConnection();
         if (dataSource != null) {
-            User creator = new User(8L, "reda", "mamali", new ArrayList(), new ArrayList());
-            User author = creator;
-            Chatroom chatroom = new Chatroom(1L, "room1", creator, new ArrayList());
-            Message message = new Message(null, author, chatroom, "hello there!", LocalDateTime.now());
-            MessagesRepositoryJdbcImpl messagesRepositoryJdbc = new MessagesRepositoryJdbcImpl(dataSource);
-            messagesRepositoryJdbc.save(message);
-             ((HikariDataSource) dataSource).close();
+            try{
+                User creator = new User(8L, "reda", "mamali", new ArrayList(), new ArrayList());
+                User author = creator;
+                Chatroom chatroom = new Chatroom(1L, "room1", creator, new ArrayList());
+                Message message = new Message(null, author, chatroom, "hello there!", LocalDateTime.now());
+                MessagesRepositoryJdbcImpl messagesRepositoryJdbc = new MessagesRepositoryJdbcImpl(dataSource);
+                messagesRepositoryJdbc.save(message);
+            }
+            catch(NotSavedSubEntityException e){
+                System.err.println(e.getMessage());
+            }
+            finally{
+                if (dataSource instanceof HikariDataSource) 
+                    ((HikariDataSource) dataSource).close();
+            }
         }
     }
 
-    private static DataSource createDataSourceConnection() Throw NotSavedSubEntityException() {
+    private static DataSource createDataSourceConnection() {
         try {
             //set an object conf for a hickari datasource
             HikariConfig config = new HikariConfig();
