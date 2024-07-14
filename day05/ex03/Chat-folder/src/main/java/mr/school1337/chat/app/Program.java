@@ -34,21 +34,16 @@ public class Program{
     public static void main(String[] args){
         DataSource dataSource = createDataSourceConnection();
         if (dataSource != null) {
-            try{
-                User creator = new User(3L, "reda", "mamali", new ArrayList(), new ArrayList());
-                User author = creator;
-                Chatroom chatroom = new Chatroom(1L, "room1", creator, new ArrayList());
-                Message message = new Message(null, author, chatroom, "hello there!", LocalDateTime.now());
-                MessagesRepositoryJdbcImpl messagesRepositoryJdbc = new MessagesRepositoryJdbcImpl(dataSource);
-                messagesRepositoryJdbc.save(message);
+            MessagesRepositoryJdbcImpl messagesRepositoryJdbc = new MessagesRepositoryJdbcImpl(dataSource);
+            Optional<Message> message = messagesRepositoryJdbc.findById(5L);
+            if (message.isPresent())
+            {
+                Message msg = message.get();
+                msg.setMessage("BYE");
+                msg.setLocalDateTime(null);
+                messagesRepositoryJdbc.update(msg);
             }
-            catch(NotSavedSubEntityException e){
-                System.err.println(e.getMessage());
-            }
-            finally{
-                if (dataSource instanceof HikariDataSource) 
-                    ((HikariDataSource) dataSource).close();
-            }
+            ((HikariDataSource) dataSource).close();
         }
     }
 
