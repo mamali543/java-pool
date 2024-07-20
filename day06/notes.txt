@@ -6,3 +6,8 @@ Purpose: Provides a simple way to specify a single array of literal values as a 
 
 @CsvFileSource
 Purpose: Loads CSV (Comma Separated Values) files from the classpath and uses them as sources of parameters for a @ParameterizedTest.
+
+
+Maven Surefire Plugin Configuration:
+Purpose: Configures the Maven Surefire Plugin to manage test execution.
+Effect: This plugin is responsible for finding and executing tests in your project.
