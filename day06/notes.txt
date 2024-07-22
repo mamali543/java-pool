@@ -1,3 +1,12 @@
+*in order to write tests in java world you will mostly use Junit5, which is a testing framework for java applications.
+
+*having no tests gives u no assurance about the quality of your software, so if u introduce a new feature you don't know if u have broken something.
+
+*we don't run these tests against our local database because we don't want the data produced by this unit tests kept in it.
+
+*Assertions library is a collection of methods that support asserting conditions in tests
+
+
 @ParameterizedTest
 Purpose: Allows a single test method to be executed multiple times with different sets of parameters.
 

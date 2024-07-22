@@ -35,7 +35,7 @@ public class Program{
         DataSource dataSource = createDataSourceConnection();
         if (dataSource != null) {
             try{
-                User creator = new User(3L, "reda", "mamali", new ArrayList(), new ArrayList());
+                User creator = new User(8L, "reda", "mamali", new ArrayList(), new ArrayList());
                 User author = creator;
                 Chatroom chatroom = new Chatroom(1L, "room1", creator, new ArrayList());
                 Message message = new Message(null, author, chatroom, "hello there!", LocalDateTime.now());

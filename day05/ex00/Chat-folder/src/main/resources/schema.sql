@@ -15,7 +15,7 @@ CREATE TABLE IF NOT EXISTS chat.chatrooms (
 );
 
 CREATE TABLE IF NOT EXISTS chat.message (
-    id SERIAL SERIAL PRIMARY KEY,
+    id SERIAL PRIMARY KEY,
     author_id INTEGER,
     room_id INTEGER ,
     content VARCHAR(255) NOT NULL,

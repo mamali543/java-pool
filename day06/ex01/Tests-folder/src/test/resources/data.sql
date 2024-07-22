@@ -1,0 +1,1 @@
+INSERT INTO test.product (name, price) VALUES ('telfaza', 10.00), ('tilifone', 20.00), ('liziyat', 30.00), ('camera', 40.00), ('radio', 50.00);

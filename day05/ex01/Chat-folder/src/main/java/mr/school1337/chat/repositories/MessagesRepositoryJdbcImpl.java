@@ -31,9 +31,7 @@ public class MessagesRepositoryJdbcImpl implements MessagesRepository{
                 PreparedStatement ps = connection.prepareStatement(sql)){
             ps.setLong(1, id);
             try(ResultSet rs = ps.executeQuery()){
-
                 if (rs.next()){
-
                     User user = new User(rs.getLong("user_id"), rs.getString("login"), rs.getString("password"), null, null);
                     Chatroom chatroom = new Chatroom(rs.getLong("chatroom_id"), rs.getString("name"), user, null);
                     Message message = new Message(rs.getLong("id"), user, chatroom, null, null);
