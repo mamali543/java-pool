@@ -1,1 +1,1 @@
-INSERT INTO test.product (name, price) VALUES ('telfaza', 10.00), ('tilifone', 20.00), ('liziyat', 30.00), ('camera', 40.00), ('radio', 50.00);
+INSERT INTO test.product (name, price) VALUES ('INTEL I9', 10.00), ('M1', 20.00), ('M2', 30.00), ('M3', 40.00), ('INTEL I7', 50.00);

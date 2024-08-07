@@ -25,6 +25,7 @@ public class EmbeddedDataSourceTest {
                 .addScript("schema.sql")
                 .addScript("data.sql")
                 .build();
+        //This Connection object represents a session with a specific database.
         this.dataSource = db;
     }
 
