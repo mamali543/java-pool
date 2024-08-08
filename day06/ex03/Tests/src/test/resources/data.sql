@@ -1,0 +1,1 @@
+INSERT INTO test.product (name, price) VALUES ('aaa', 10.00), ('bbb', 20.00), ('ccc', 30.00), ('ddd', 40.00), ('eee', 50.00);
