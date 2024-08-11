@@ -5,13 +5,15 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.sql.Statement;
+
 import java.util.List;
 import java.util.Optional;
 
 import javax.sql.DataSource;
 
 import main.java.mr.school1337.models.Product;
-import mr.school1337.repositories.ProductsRepository;
+import main.java.mr.school1337.repositories.ProductsRepositorie;
 
 public class ProductsRepositorieJdbcImpl implements ProductsRepositorie {
     public static final String ANSI_RESET = "\u001B[0m";
@@ -48,35 +50,45 @@ public class ProductsRepositorieJdbcImpl implements ProductsRepositorie {
     @Override
     public Optional<Product> findById(Long id)
     {
-        String query = "SELECT FROM " + tableName +" p"+" WHERE p.id = ?";
+        String query = "SELECT * FROM " + tableName + " WHERE id = ?";
+        Product product = null;
+
         try (Connection connection = dataSource.getConnection();
                 PreparedStatement stmt = connection.prepareStatement(query)) {
             stmt.setLong(1, id);
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
-                    Product product = new Product(rs.getLong("id"), rs.getString("name"), rs.getDouble("price"));
-                    return product;
+                     product = new Product(rs.getLong("id"), rs.getString("name"), rs.getDouble("price"));
                 }
+                else
+                    new RuntimeException();
             }
         } catch (SQLException e) {
             System.err.println(e.getMessage());
         }
+        return Optional.of(product);
     }
 
     @Override
     public void update(Product product){
-        String query = "UPDATE "+tableName+" SET name = ? ,price = ? WHERE id = ? RETURNING name;";
+        String query = "UPDATE "+tableName+" SET name = ? ,price = ? WHERE id = ?";
         try (Connection connection = dataSource.getConnection();
             PreparedStatement stmt = connection.prepareStatement(query)) {
             stmt.setString(1, product.getName());
             stmt.setDouble(2, product.getPrice());
             stmt.setLong(3, product.getId());
-            try (ResultSet rs = stmt.executeQuery()) {
-                if (rs.next()) {
-                    String name = rs.getString(1);
-                    System.out.println(ANSI_BLUE + "New product name: " + name + ANSI_RESET);
+            int affectedRows = stmt.executeUpdate();
+
+            if (affectedRows > 0)
+            {
+                try(ResultSet rs = stmt.getGeneratedKeys()){
+                    if (rs.next()){
+                        String name = rs.getString(2);
+                        System.out.println(ANSI_BLUE + "New product name: " + name + ANSI_RESET);
+                    }
                 }
             }
+
         } catch (SQLException e) {
             System.err.println(e.getMessage());
         }
@@ -84,22 +96,27 @@ public class ProductsRepositorieJdbcImpl implements ProductsRepositorie {
 
     @Override
     public void save(Product product){
-        String query = "INSERT INTO "+ tableName+ " ( name, price) VALUES ( ?, ?) RETURNING id;";
-        try (Connection connection = dataSource.getConnection();
-        PreparedStatement ps = connection.prepareStatement(query)){
-            ps.setName(1, product.getName());
-            ps.setLong(2, product.getPrice());
-            try(ResultSet rs = ps.executeQuery()){
-                if (rs.next()){
-                    Long product_id = rs.getLong(1);
-                    product.setId(product_id);
-                    System.out.println(ANSI_BLUE + "Inserted product ID: " + product_id + ANSI_RESET);
+        String query = "INSERT INTO " + tableName + " (name, price) VALUES (?, ?)";
+
+        // Using JDBC to execute the insert and retrieve the generated key
+        try (Connection conn = dataSource.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
+            pstmt.setString(1, product.getName());
+            pstmt.setDouble(2, product.getPrice());
+            int affectedRows = pstmt.executeUpdate();
+        
+            if (affectedRows > 0) {
+                // Retrieve the generated keys
+                try (ResultSet rs = pstmt.getGeneratedKeys()) {
+                    if (rs.next()) {
+                        long id = rs.getLong(1); // Retrieve the first field in the ResultSet
+                        product.setId(id);
+                        System.out.println("Generated ID: " + id);
+                    }
                 }
             }
-        }
-        catch(SQLException e)
-        {
-            System.err.println(e.getMessage());
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 
