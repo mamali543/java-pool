@@ -17,7 +17,7 @@ public class Car {
         this.price = price;
     }
 
-    public int yearsPassed(){
+    public int yearPassed(){
         return 2024 - year;
     }
 
