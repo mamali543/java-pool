@@ -1,0 +1,6 @@
+Java reflection api helps u to interact and manipulate your classes including their metadata (methods, properties, parameters...).
+
+annotations:
+    -@Retention(RetentionPolicy.RUNTIME):
+        this tells that the annotation configuration is not ignored at runtime through reflection, this is the inverse "RetentionPolicy.CLASS"
+        and it's the default one, the annotations it's retained by the compiler only at compile time and not available at runtime.
