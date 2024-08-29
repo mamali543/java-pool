@@ -1,9 +1,9 @@
-package main.java.com.ader.classes;
+package com.ader;
 
-import com.ader.annotations.HtmlForm;
-import main.java.com.ader.annotations.HtmlInput;
+import com.ader.HtmlForm;
+import com.ader.HtmlInput;
 
-@HtmlForm(action = "/submitUser", method = "post")
+@HtmlForm(fileName = "user_form.html",action = "/submitUser", method = "post")
 public class UserForm {
     @HtmlInput(type = "text", name = "username", placeholder = "Enter Username")
     private String username;

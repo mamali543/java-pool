@@ -4,3 +4,17 @@ annotations:
     -@Retention(RetentionPolicy.RUNTIME):
         this tells that the annotation configuration is not ignored at runtime through reflection, this is the inverse "RetentionPolicy.CLASS"
         and it's the default one, the annotations it's retained by the compiler only at compile time and not available at runtime.
+
+extends AbstractProcessor: HtmlFormProcessor extends AbstractProcessor, making it capable of processing annotations during Java compilation.
+
+init(ProcessingEnvironment processingEnv): Initializes the processor with the processing environment, which provides tools for working with types, elements, and other utilities in the processing environment.
+
+process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv): The core method where the actual processing of annotations happens. This method is called by the compiler each time it finds a class element annotated with any of the annotations specified by @SupportedAnnotationTypes.
+
+Processing Logic:
+    -Iterates over all elements (typically classes) annotated with @HtmlForm.: for (Element elem : roundEnv.getElementsAnnotatedWith(HtmlForm.class)) 
+    -Retrieves the @HtmlForm annotation instance from the element.: HtmlForm form = elem.getAnnotation(HtmlForm.class);
+    -Checks if the element is a class, which is the expected type for @HtmlForm.: if (elem.getKind() == ElementKind.CLASS) 
+    -File Generation: createResource: Creates a new file resource in the specified location (CLASS_OUTPUT directory, typically target/classes).
+
+

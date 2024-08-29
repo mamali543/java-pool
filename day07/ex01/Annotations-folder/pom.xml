@@ -30,17 +30,26 @@
     </dependencies>
 
     <build>
-        <!-- <sourceDirectory>src/main/java</sourceDirectory> -->
         <plugins>
             <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>exec-maven-plugin</artifactId>
-                <version>3.4.1</version>  <!-- Use the latest version available -->
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.8.1</version>
                 <configuration>
-                    <mainClass>main.java.com.ader.app.HtmlFormGenerator</mainClass>  <!-- Specify your main class here -->
+                    <source>14</source>
+                    <target>14</target>
+                    <compilerArgs>
+                        <arg>-processor</arg>
+                        <arg>com.ader.app.HtmlFormProcessor</arg> <!-- Assuming the processor is correctly located and package is com.ader.app -->
+                    </compilerArgs>
                 </configuration>
             </plugin>
         </plugins>
     </build>
+
+
+
+
+
 </project>
 
