@@ -49,7 +49,7 @@ public class HtmlFormProcessor extends AbstractProcessor {
             FileObject fileObject = filer.createResource(StandardLocation.CLASS_OUTPUT, "", fileName);
             
             // Print the file path for debugging
-            System.out.println(">>>>>>>>>>Generating file at: " + fileObject.toUri().getPath());
+            System.out.println(">>>>>>>>>>Generating file at  : " + fileObject.toUri().getPath());
 
             BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(fileObject.openOutputStream()));
             writer.write("<form action=\"" + htmlForm.action() + "\" method=\"" + htmlForm.method() + "\">\n");
