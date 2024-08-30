@@ -1,75 +1,72 @@
 package com.ader;
 
-import com.ader.UserForm;
-import com.ader.HtmlForm;
-import com.ader.HtmlInput;
-
 import javax.annotation.processing.AbstractProcessor;
-import javax.annotation.processing.RoundEnvironment;
-import javax.annotation.processing.Processor;
+import javax.annotation.processing.Filer;
 import javax.annotation.processing.ProcessingEnvironment;
+import javax.annotation.processing.RoundEnvironment;
 import javax.annotation.processing.SupportedAnnotationTypes;
 import javax.annotation.processing.SupportedSourceVersion;
 import javax.lang.model.SourceVersion;
-import javax.lang.model.element.TypeElement;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.ElementKind;
-import javax.tools.Diagnostic;
+import javax.lang.model.element.TypeElement;
 import javax.tools.FileObject;
-import java.io.Writer;
+import javax.tools.StandardLocation;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.util.Set;
-import java.lang.reflect.Field;
+import com.google.auto.service.AutoService;
+import javax.annotation.processing.Processor;
 
-@SupportedAnnotationTypes({"com.ader.HtmlForm", "com.ader.HtmlInput"}) //This annotation tells the compiler that this processor is interested in classes annotated with @HtmlForm.
-@SupportedSourceVersion(SourceVersion.RELEASE_14) //This specifies the latest version of the Java programming language that this processor supports
+@AutoService(Processor.class)
+@SupportedAnnotationTypes({"com.ader.HtmlForm", "com.ader.HtmlInput"})
+@SupportedSourceVersion(SourceVersion.RELEASE_21)
 public class HtmlFormProcessor extends AbstractProcessor {
 
-    //Overriding AbstractProcessor Methods
     @Override
     public synchronized void init(ProcessingEnvironment processingEnv) {
         super.init(processingEnv);
-        System.out.println("Processor initialized"); // Confirm initialization
-
+        System.out.println("<<<<<<<<< Processor Initialized >>>>>>>>");
     }
 
     @Override
     public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
-        System.out.println("Processing started"); // Confirm method entry
-        for (Element elem : roundEnv.getElementsAnnotatedWith(HtmlForm.class)) {
-            HtmlForm form = elem.getAnnotation(HtmlForm.class);
-            if (elem.getKind() == ElementKind.CLASS) {
-                try {
-                    String fileName = form.fileName(); //The name of the file to be generated, as specified in the annotation.
-                    //Creates a new file resource in the specified location target/classes.
-                    FileObject file = processingEnv.getFiler().createResource(
-                        javax.tools.StandardLocation.CLASS_OUTPUT, 
-                        "", 
-                        fileName,
-                        elem
-                    );
-                    // JavaFileObject file = processingEnv.getFiler().createResource(javax.tools.StandardLocation.CLASS_OUTPUT, "", fileName);
-                    //Opens a writer to write into the file.
-                    try (Writer writer = file.openWriter()) {
-                        System.out.println("file opened");
-                        writer.write("<form action='" + form.action() + "' method='" + form.method() + "'>\n");
-                        //Iterates through all fields (enclosed elements) of the class.
-                        for (Element enclosed : elem.getEnclosedElements()) {
-                            //Checks if they are annotated with @HtmlInput
-                            if (enclosed.getKind() == ElementKind.FIELD && enclosed.getAnnotation(HtmlInput.class) != null) {
-                                HtmlInput input = enclosed.getAnnotation(HtmlInput.class);
-                                writer.write("<input type='" + input.type() + "' name='" + input.name() + 
-                                             "' placeholder='" + input.placeholder() + "' />\n");
-                            }
-                        }
-                        writer.write("<input type='submit' value='Send' />\n");
-                        writer.write("</form>");
-                        System.out.println("file closed");
-                    }
-                } catch (Exception e) {
-                    processingEnv.getMessager().printMessage(Diagnostic.Kind.ERROR, "Error generating file: " + e.getMessage());
-                }
+        for (Element element : roundEnv.getElementsAnnotatedWith(HtmlForm.class)) {
+            if (element.getKind() == ElementKind.CLASS) {
+                HtmlForm htmlForm = element.getAnnotation(HtmlForm.class);
+                System.out.println("<<<<<<<<< Process Method to call generate HtmlFile >>>>>>>>");
+                generateHtmlFile((TypeElement) element, htmlForm);
             }
         }
         return true;
     }
+
+    private void generateHtmlFile(TypeElement element, HtmlForm htmlForm) {
+        try {
+            String fileName = htmlForm.fileName();
+            Filer filer = processingEnv.getFiler();
+            FileObject fileObject = filer.createResource(StandardLocation.CLASS_OUTPUT, "", fileName);
+            
+            // Print the file path for debugging
+            System.out.println(">>>>>>>>>>Generating file at: " + fileObject.toUri().getPath());
+
+            BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(fileObject.openOutputStream()));
+            writer.write("<form action=\"" + htmlForm.action() + "\" method=\"" + htmlForm.method() + "\">\n");
+
+            for (Element field : element.getEnclosedElements()) {
+                if (field.getKind() == ElementKind.FIELD && field.getAnnotation(HtmlInput.class) != null) {
+                    HtmlInput htmlInput = field.getAnnotation(HtmlInput.class);
+                    writer.write("<input type=\"" + htmlInput.type() + "\" name=\"" + htmlInput.name() +
+                            "\" placeholder=\"" + htmlInput.placeholder() + "\">\n");
+                }
+            }
+            writer.write("<input type=\"submit\" value=\"Send\">\n");
+            writer.write("</form>\n");
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 }
