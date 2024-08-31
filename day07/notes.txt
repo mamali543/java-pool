@@ -1,5 +1,9 @@
 Java reflection api helps u to interact and manipulate your classes including their metadata (methods, properties, parameters...).
 
+Reflection in Java is a powerful feature that allows runtime retrieval of information about classes, interfaces, fields, and methods. 
+You can use it to dynamically create instances, invoke methods, or access field values of classes, even if their names are not known until runtime. 
+This capability is particularly useful in implementing ORM (Object-Relational Mapping) frameworks.
+
 annotations:
     -@Retention(RetentionPolicy.RUNTIME):
         this tells that the annotation configuration is not ignored at runtime through reflection, this is the inverse "RetentionPolicy.CLASS"
@@ -17,4 +21,26 @@ Processing Logic:
     -Checks if the element is a class, which is the expected type for @HtmlForm.: if (elem.getKind() == ElementKind.CLASS) 
     -File Generation: createResource: Creates a new file resource in the specified location (CLASS_OUTPUT directory, typically target/classes).
 
+-An ORM framework mediates data transfers between an object model and a relational database. This means that you can interact with a database using Java objects rather than dealing with SQL queries and parsing the results.
 
+-Hibernate is a robust ORM framework that simplifies database interactions in Java applications, allowing developers to focus more on the business logic of the applications while Hibernate handles the complex database operations.
+
+-Annotations for ORM
+    Annotations are used to define how a Java object's fields are mapped to the columns of a database table
+
+Metadata Retrieval:
+ORM frameworks often start by scanning classes that are annotated with specific annotations (like @Entity, @Table, @Column, etc.). 
+Reflection is used to inspect these annotations to understand the database schema mapping specified by these annotations.
+
+Dynamic Configuration: 
+This metadata is then used to dynamically configure how instances of these classes will be mapped to the database tables, rows, and columns.
+
+DAO stands for Data Access Object. It's a design pattern that provides an abstract interface to some type of database or other persistence mechanism.
+By mapping application calls to the persistence layer, DAOs provide some specific data operations without exposing details of the database. 
+This approach helps separate low-level data accessing API or operations from high-level business services.
+
+
+Data persistence refers to the characteristic of data that continues to exist even after the process that created it has ended. 
+This typically involves storing data in stable storage systems like databases, files, or other forms of media so that it can be retrieved and used by applications at a later time,
+regardless of any interruptions in power, system crashes, or restarts. The goal of data persistence is to ensure that data is both durable and consistent,
+providing reliable access and data integrity over time.

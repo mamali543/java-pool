@@ -4,6 +4,18 @@ The JDBC (Java Database Connectivity) Driver is a set of Java interfaces and cla
 to interact with a database. It serves as a bridge between a database and Java programs, enabling you to execute SQL queries,
 retrieve data, and update records without needing to embed database-specific code in your Java programs
 
+Data Access Object (DAO, Repository) is a popular design pattern that allows to
+separate key business logic from data handling logic in an application.
+Let’s assume that we have an interface called CoursesRepository which provides
+access to course lessons. This interface may look as follows:
+        public interface CoursesRepository {
+        Optional<Course> findById(Long id);
+        void delete(Course course);
+        void save(Course course);
+        void update(Course course);
+        List<Course> findAll();
+        }
+
 pom.xml file is a maven file, a project management and comprehensive tool for java projects
 
 SERIAL: This is a shorthand notation used in PostgreSQL (and some other SQL databases) for an auto-incrementing integer
