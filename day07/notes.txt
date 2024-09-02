@@ -44,3 +44,10 @@ Data persistence refers to the characteristic of data that continues to exist ev
 This typically involves storing data in stable storage systems like databases, files, or other forms of media so that it can be retrieved and used by applications at a later time,
 regardless of any interruptions in power, system crashes, or restarts. The goal of data persistence is to ensure that data is both durable and consistent,
 providing reliable access and data integrity over time.
+
+artifact must be recognized in the local repository, they are responsible of errors
+
+<!-- manage common configurations across submodules with a parent pom.xml file.-->
+
+This parent POM file is responsible for managing the entire multi-module maven structure.
+

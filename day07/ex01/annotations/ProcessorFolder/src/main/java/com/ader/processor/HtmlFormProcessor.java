@@ -1,4 +1,4 @@
-package com.ader;
+package com.ader.processor;
 
 import javax.annotation.processing.AbstractProcessor;
 import javax.annotation.processing.Filer;
@@ -18,16 +18,22 @@ import java.io.OutputStreamWriter;
 import java.util.Set;
 import com.google.auto.service.AutoService;
 import javax.annotation.processing.Processor;
+import java.util.logging.Logger;
+import com.ader.processor.HtmlForm;
+import com.ader.processor.HtmlInput;
+
 
 @AutoService(Processor.class)
-@SupportedAnnotationTypes({"com.ader.HtmlForm", "com.ader.HtmlInput"})
+@SupportedAnnotationTypes({"com.ader.processor.HtmlForm", "com.ader.processor.HtmlInput"})
 @SupportedSourceVersion(SourceVersion.RELEASE_21)
 public class HtmlFormProcessor extends AbstractProcessor {
+
+    private static final Logger logger = Logger.getLogger(HtmlFormProcessor.class.getName());
 
     @Override
     public synchronized void init(ProcessingEnvironment processingEnv) {
         super.init(processingEnv);
-        System.out.println("<<<<<<<<< Processor Initialized >>>>>>>>");
+        logger.info("<<<<<<<<< Processor Initialized >>>>>>>>");
     }
 
     @Override
@@ -35,7 +41,7 @@ public class HtmlFormProcessor extends AbstractProcessor {
         for (Element element : roundEnv.getElementsAnnotatedWith(HtmlForm.class)) {
             if (element.getKind() == ElementKind.CLASS) {
                 HtmlForm htmlForm = element.getAnnotation(HtmlForm.class);
-                System.out.println("<<<<<<<<< Process Method to call generate HtmlFile >>>>>>>>");
+                logger.info("<<<<<<<<< Process Method to call generate HtmlFile >>>>>>>>");
                 generateHtmlFile((TypeElement) element, htmlForm);
             }
         }
@@ -49,7 +55,7 @@ public class HtmlFormProcessor extends AbstractProcessor {
             FileObject fileObject = filer.createResource(StandardLocation.CLASS_OUTPUT, "", fileName);
             
             // Print the file path for debugging
-            System.out.println(">>>>>>>>>>Generating file at  : " + fileObject.toUri().getPath());
+            logger.info(">>>>>>>>>>Generating file at  : " + fileObject.toUri().getPath());
 
             BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(fileObject.openOutputStream()));
             writer.write("<form action=\"" + htmlForm.action() + "\" method=\"" + htmlForm.method() + "\">\n");

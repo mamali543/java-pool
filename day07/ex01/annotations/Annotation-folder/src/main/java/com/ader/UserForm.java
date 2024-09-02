@@ -1,7 +1,7 @@
 package com.ader;
 
-import com.ader.HtmlForm;
-import com.ader.HtmlInput;
+import com.ader.processor.HtmlForm;
+import com.ader.processor.HtmlInput;
 
 @HtmlForm(fileName = "user_form.html",action = "/submitUser", method = "post")
 public class UserForm {
