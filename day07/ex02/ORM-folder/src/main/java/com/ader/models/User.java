@@ -1,9 +1,9 @@
-package main.java.com.ader.models;
+package com.ader.models;
 
-import main.java.com.ader.annotation.OrmEntity;
+import com.ader.annotations.OrmEntity;
 
-import main.java.com.ader.annotations.OrmColumn;
-import main.java.com.ader.annotations.OrmColumnId;
+import com.ader.annotations.OrmColumn;
+import com.ader.annotations.OrmColumnId;
 
 @OrmEntity(table="users")
 public class User {

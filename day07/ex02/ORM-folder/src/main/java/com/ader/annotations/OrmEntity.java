@@ -1,4 +1,4 @@
-package main.java.com.ader.annotation;
+package com.ader.annotations;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

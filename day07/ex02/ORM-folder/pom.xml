@@ -7,12 +7,72 @@
   <version>1.0-SNAPSHOT</version>
   <name>ORM-folder</name>
   <url>http://maven.apache.org</url>
+  <properties>
+      <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+      <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+  </properties>
   <dependencies>
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>3.8.1</version>
-      <scope>test</scope>
-    </dependency>
+        <dependency>
+          <groupId>junit</groupId>
+          <artifactId>junit</artifactId>
+          <version>3.8.1</version>
+          <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>42.2.28</version>
+        </dependency>
+        <dependency>
+            <groupId>com.zaxxer</groupId>
+            <artifactId>HikariCP</artifactId>
+            <version>5.0.1</version>
+        </dependency>
+        <dependency>
+          <groupId>org.slf4j</groupId>
+          <artifactId>slf4j-api</artifactId>
+          <version>1.7.36</version>
+        </dependency>
+        <dependency>
+          <groupId>org.slf4j</groupId>
+          <artifactId>slf4j-simple</artifactId>
+          <version>1.7.36</version>
+        </dependency>
   </dependencies>
+  <profiles>
+    <profile>
+        <id>dev</id>
+        <activation>
+            <activeByDefault>true</activeByDefault>
+        </activation>
+        <dependencies>
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-simple</artifactId>
+                <version>1.7.30</version>
+            </dependency>
+        </dependencies>
+    </profile>
+</profiles>
+
+  <build>
+    <plugins>
+        <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>exec-maven-plugin</artifactId>
+            <version>3.4.1</version>
+            <executions>
+                <execution>
+                    <goals>
+                        <goal>java</goal>
+                    </goals>
+                </execution>
+            </executions>
+            <configuration>
+                <mainClass>com.ader.App</mainClass>
+            </configuration>
+        </plugin>
+    </plugins>
+  </build>
+
 </project>
