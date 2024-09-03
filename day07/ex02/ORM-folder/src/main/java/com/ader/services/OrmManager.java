@@ -1,7 +1,9 @@
 package com.ader.services;
 
 import java.lang.reflect.Field;
+import java.sql.Connection;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -31,7 +33,6 @@ public class OrmManager {
         for (Class<?> entity : entities)
             setDatabase(entity);
         ((HikariDataSource) dataSource).close();
-        
     }
 
 
@@ -40,6 +41,9 @@ public class OrmManager {
         logger.info(entity.getSimpleName());
         String sqlQuery = generateSetTableSqlString(entity);
         logger.info(sqlQuery);
+        Connection connection = this.dataSource.getConnection();
+        Statement statement = connection.createStatement();
+        statement.executeQuery(sqlQuery);
     }
 
     private String generateSetTableSqlString(Class<?> entity) throws SQLException{
@@ -58,9 +62,7 @@ public class OrmManager {
         sql.append(" CASCADE;");
         sql.append("CREATE TABLE IF NOT EXISTS ");
         sql.append(tableName);
-        if (fields.length > 0) {
-            sql.append(" (");
-        }
+        sql.append(" (");
         boolean columnIdExist = false;
         for (Field f: fields)
         {
@@ -91,12 +93,10 @@ public class OrmManager {
             }
             if (!columnIdExist)
                 throw new SQLException("No @OrmColumnId annotation");
-            if (fields.length > 0)
-            {
-                sql.delete(sql.length() - 2, sql.length());
-                sql.append(")");
-            }
+
         }
+        sql.delete(sql.length() - 2, sql.length());
+        sql.append(")");
         sql.append(";");
         this.registeredTables.add(tableName);
         return (sql.toString());
@@ -104,10 +104,11 @@ public class OrmManager {
 
 
     private String getFieldType(Field f, String columnName) throws SQLException {
+
         
         if (f.getType().equals(String.class))
         {
-            int length = columnName.length();
+            int length = columnName.length() > 0 ? columnName.length() : 255;
             return "VARCHAR("+ length + ")";
         }
         else if (f.getType().equals(Long.class) || f.getType().equals(long.class)){
