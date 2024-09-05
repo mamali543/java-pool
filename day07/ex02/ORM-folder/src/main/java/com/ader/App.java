@@ -39,6 +39,12 @@ public class App
             {
                 User u = user.get();
                 logger.info("<<the user retrieved>>: "+u.toString());
+                u.setAge(26);
+                u.setEmail("amalyreda@gmail.com");
+                u.setFirstName("mohammed ader");
+                ormManager.update(u);
+                logger.info("<<the user retrieved>>: "+u.toString());
+
             }
         }
         catch (SQLException e)

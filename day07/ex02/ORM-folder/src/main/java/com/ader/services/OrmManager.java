@@ -311,7 +311,91 @@ public class OrmManager {
         }
         return sql.toString();
     }
+    public void update(Object entity) throws SQLException
+    {
+        String sqlString = generateUpdateSqlString(entity);
+        logger.info("<<Update Sql String>>: "+sqlString);
+        Connection connection = dataSource.getConnection();
+        Statement statement = connection.createStatement();
+        statement.execute(sqlString);
+    }
+    private String generateUpdateSqlString(Object entity)
+    {
+        if (entity == null)
+            throw new IllegalArgumentException("Entity is null");
+        Class<?> entityClass = entity.getClass();
+        OrmEntity ormEntity = entityClass.getAnnotation(OrmEntity.class);
+        if (ormEntity == null)
+            throw new IllegalArgumentException("Entity is not an OrmEntity");
+        String tableName = ormEntity.table();
+        //check if there's already this table
+        if (!registeredTables.contains(tableName))
+            throw new IllegalArgumentException("Model not registerd");
+        Field[] fields = entityClass.getDeclaredFields();
+        StringBuilder sql = new StringBuilder("UPDATE ");
+        sql.append(tableName);
+        sql.append(" SET ");
+        //loop over the fields
+        for (Field field: fields)
+        {
+            if (field.isAnnotationPresent(OrmColumn.class))
+            {
+                OrmColumn ormColumn = field.getAnnotation(OrmColumn.class);
+                String columnName = ormColumn.name();
+                sql.append(columnName);
+                sql.append(" = ");
+                field.setAccessible(true);
+                try
+                {
+                    Object value = field.get(entity);
+                    if (value == null)
+                        sql.append("NULL");
+                    else if (isNumerique(field))
+                        sql.append(value);
+                    else
+                        sql.append("'" + value + "'");
+                    sql.append(", ");
+                }
+                catch (IllegalArgumentException | IllegalAccessException e)
+                {
+                    throw new RuntimeException(e);
+                }
+            }
+        }
+        sql.delete(sql.length() - 2, sql.length());
+        sql.append(" WHERE ");
+        boolean columnIdExists = false;
+        //userId = value
+        for (Field field: fields)
+        {
+            if (field.isAnnotationPresent(OrmColumnId.class))
+            {
+                String columnName = field.getName();
+                sql.append(columnName);
+                sql.append(" = ");
+                field.setAccessible(true);
+                try
+                {
+                    Object value = field.get(entity);
+                    logger.info("<<value>>: "+value);
+                    if (value == null)
+                        throw new IllegalArgumentException("OrmColumnId must be a numeric field");
+                    sql.append(value);
+                    sql.append(";");
+                    columnIdExists = true;
 
+                }
+                catch (IllegalArgumentException | IllegalAccessException e)
+                {
+                    throw new RuntimeException(e);
+                }
+            }
+        }
+
+        if (!columnIdExists)
+            throw new IllegalArgumentException("No @OrmColumnId annotation");
+        return sql.toString();
+    }
     private DataSource createDataSourceConnection() {
         //set an object conf for a hickari datasource
         HikariConfig config = new HikariConfig();
