@@ -20,7 +20,7 @@ public class User {
     @OrmColumn(name = "age")
     private int age;
 
-    @OrmColumn(name = "email", length = 100)
+    @OrmColumn(name = "email", length = 50)
     private String email;
 
     @OrmColumn(name = "is_admin")

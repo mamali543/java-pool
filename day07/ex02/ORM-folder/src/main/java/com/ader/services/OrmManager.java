@@ -1,11 +1,16 @@
 package com.ader.services;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.SQLTimeoutException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 import javax.sql.DataSource;
@@ -32,7 +37,7 @@ public class OrmManager {
         this.registeredTables = new ArrayList<String>();
         for (Class<?> entity : entities)
             setDatabase(entity);
-        ((HikariDataSource) dataSource).close();
+        // ((HikariDataSource) dataSource).close();
     }
 
 
@@ -40,10 +45,10 @@ public class OrmManager {
         logger.info("we are ready to set our tables");
         logger.info(entity.getSimpleName());
         String sqlQuery = generateSetTableSqlString(entity);
-        logger.info(sqlQuery);
+        logger.info("<<CREATE table query>>>: "+sqlQuery);
         Connection connection = this.dataSource.getConnection();
         Statement statement = connection.createStatement();
-        statement.executeQuery(sqlQuery);
+        statement.execute(sqlQuery);
     }
 
     private String generateSetTableSqlString(Class<?> entity) throws SQLException{
@@ -88,7 +93,7 @@ public class OrmManager {
                 }
                 sql.append(columnName);
                 sql.append(" ");
-                sql.append(getFieldType(f, columnName));
+                sql.append(getFieldType(f, ormColumn));
                 sql.append(", ");
             }
             if (!columnIdExist)
@@ -103,13 +108,15 @@ public class OrmManager {
     }
 
 
-    private String getFieldType(Field f, String columnName) throws SQLException {
+    private String getFieldType(Field f, OrmColumn ormColumn) throws SQLException {
 
         
         if (f.getType().equals(String.class))
         {
-            int length = columnName.length() > 0 ? columnName.length() : 255;
-            return "VARCHAR("+ length + ")";
+            int length = ormColumn.length();
+            if (length <= 0)
+                throw new SQLException("OrmColumn length must be greater than 0");
+            return "VARCHAR(" + length + ")";
         }
         else if (f.getType().equals(Long.class) || f.getType().equals(long.class)){
             return "BIGINT";
@@ -127,6 +134,183 @@ public class OrmManager {
             throw new SQLException("OrmColumn type not supported");
     }
 
+    public void save(Object entity) throws SQLException
+    {
+        logger.info("calling save methode: ");
+        String sqlQuery = generateSaveSqlString(entity);
+        logger.info("<<save query>>>: "+sqlQuery);
+        Connection connection = dataSource.getConnection();
+        PreparedStatement statement = connection.prepareStatement(sqlQuery,PreparedStatement.RETURN_GENERATED_KEYS);
+        statement.executeUpdate();
+        ResultSet rs = statement.getGeneratedKeys();
+        if (rs.next())
+        {
+            setNewId(entity, rs.getLong(1));
+            try
+            {
+                Field id = entity.getClass().getDeclaredField("userId");
+                id.setAccessible(true);
+                Object v = id.get(entity);
+                logger.info("<<New Inserted Id>>: "+ v);
+            }
+            catch(IllegalArgumentException | IllegalAccessException | NoSuchFieldException e)
+            {
+                throw new RuntimeException(e);
+            }
+            return ;
+        }
+        throw new SQLException("not saved");
+    }
+
+    private void setNewId(Object entity, long id) {
+
+        Field[] fields = entity.getClass().getDeclaredFields();
+        for(Field f: fields)
+        {
+            if (f.isAnnotationPresent(OrmColumnId.class))
+            {
+                f.setAccessible(true);
+                try{
+                    f.set(entity, id);
+                }
+                catch(IllegalArgumentException | IllegalAccessException e)
+                {
+                    throw new RuntimeException(e);
+                }
+            }
+        }
+    }
+
+    private String generateSaveSqlString(Object entity) {
+        if (entity == null)
+            throw new IllegalArgumentException("Entity is null");
+        Class<?> entityClass = entity.getClass();
+        OrmEntity ormEntity = entityClass.getAnnotation(OrmEntity.class);
+        if (ormEntity == null)
+            throw new IllegalArgumentException("Entity is not an OrmEntity");
+        String tableName = ormEntity.table();
+        Field[] fields = entityClass.getDeclaredFields();
+        StringBuilder sql = new StringBuilder("INSERT INTO ");
+        sql.append(tableName);
+        sql.append(" (");
+        for (Field f : fields)
+        {
+            if (f.isAnnotationPresent(OrmColumn.class))
+            {
+                OrmColumn ormColumn = f.getAnnotation(OrmColumn.class);
+                String columnName = ormColumn.name();
+                sql.append(columnName);
+                sql.append(", ");
+            }
+        }
+        sql.delete(sql.length() -2, sql.length());
+        sql.append(") VALUES (");
+        for (Field f: fields)
+        {
+            if (f.isAnnotationPresent(OrmColumn.class))
+            {
+                f.setAccessible(true);
+                try
+                {
+                    Object value = f.get(entity);
+                    if (value == null)
+                        sql.append("NULL");
+                    else if (isNumerique(f))
+                        sql.append(value);
+                    else
+                        sql.append("'" + value + "'");
+                    sql.append(", ");
+                    
+                }
+                catch (IllegalArgumentException | IllegalAccessException e)
+                {
+                    throw new RuntimeException(e);
+                }
+            }
+        }
+        sql.delete(sql.length() - 2, sql.length());
+        sql.append(")");
+
+        return sql.toString();
+    }
+
+
+    private boolean isNumerique(Field f) {
+        return f.getType().equals(Long.class) ||f.getType().equals(long.class) 
+        ||f.getType().equals(Integer.class) ||f.getType().equals(int.class) 
+        ||f.getType().equals(Double.class) ||f.getType().equals(double.class);
+    }
+
+    public <T> Optional<T> findById(Long id, Class<T> aClass) throws SQLTimeoutException , SQLException{
+        String sqlQuery = generateFindByIdSqlString(id, aClass);
+        logger.info("<<SQLquery>>: "+ sqlQuery);
+        Connection connection = dataSource.getConnection();
+        Statement statement = connection.createStatement();
+        ResultSet resultSet = statement.executeQuery(sqlQuery);
+        if (resultSet.next())
+        {
+            // create an instance of entity user
+            try{
+                T entity = aClass.getDeclaredConstructor().newInstance();
+                Field[] fields = entity.getClass().getDeclaredFields();
+
+                for(Field f: fields)
+                {
+                    if (f.isAnnotationPresent(OrmColumn.class) || f.isAnnotationPresent(OrmColumnId.class))
+                    {
+                        f.setAccessible(true);
+                        String columnName = f.getName();
+                        if (f.isAnnotationPresent(OrmColumn.class))
+                            columnName = f.getAnnotation(OrmColumn.class).name();
+                        if (f.getType().equals(String.class))
+                            f.set(entity, resultSet.getString(columnName));
+                        else if (f.getType().equals(Long.class) || f.getType().equals(long.class))
+                            f.set(entity, resultSet.getLong(columnName));
+                        else if (f.getType().equals(double.class) || f.getType().equals(Double.class))
+                            f.set(entity, resultSet.getDouble(columnName));
+                        else if (f.getType().equals(Integer.class) || f.getType().equals(int.class))
+                            f.set(entity, resultSet.getInt(columnName));
+                        else if (f.getType().equals(Boolean.class) || f.getType().equals(boolean.class))
+                            f.set(entity, resultSet.getBoolean(columnName));
+                        else
+                            throw new SQLException("OrmColumn type not supported");
+                    }
+                }
+                return Optional.of(entity);
+            }
+            catch(InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e)
+            {
+                e.printStackTrace();
+            }
+        }
+        return Optional.empty();
+    }
+
+    private String generateFindByIdSqlString(Long id, Class<?> aClass) {
+        if (id == null || id < 0)
+            throw new IllegalArgumentException("Id is null or negative");
+        if (aClass == null)
+            throw new IllegalArgumentException("Class is null");
+        OrmEntity ormEntity = aClass.getAnnotation(OrmEntity.class);
+        if (ormEntity == null)
+            throw new IllegalArgumentException("Class is not an OrmEntity");
+        StringBuilder sql = new StringBuilder("SELECT * FROM ");
+        String tableName = ormEntity.table();
+        sql.append(tableName);
+        sql.append(" WHERE ");
+        for(Field f: aClass.getDeclaredFields())
+        {
+            if (f.isAnnotationPresent(OrmColumnId.class))
+            {
+                String columnName = f.getName();
+                sql.append(columnName);
+                sql.append(" = ");
+                sql.append(id);
+                sql.append(";");
+            }
+        }
+        return sql.toString();
+    }
 
     private DataSource createDataSourceConnection() {
         //set an object conf for a hickari datasource
@@ -134,6 +318,10 @@ public class OrmManager {
 
         config.setJdbcUrl(DB_URL); // URL to your database
         config.setUsername(DB_USERNAME); // Database username
+
+        config.addDataSourceProperty("cachePrepStmts", "true");
+        config.addDataSourceProperty("prepStmtCacheSize", "250");
+        config.addDataSourceProperty("prepStmtCacheSqlLimit", "2048");
 
         //construct the hickari dataSource with the conf object
         HikariDataSource hikariDataSource = new HikariDataSource(config);
