@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:util="http://www.springframework.org/schema/util" xsi:schemaLocation="
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+
+<!--  PreProcessor  -->
+    <bean id="preProcessorToLowerImpl" class="com.ader.classes.PreProcessorToLowerImpl" />
+    <bean id="preProcessorToUpperImpl" class="com.ader.classes.PreProcessorToUpperImpl"/>
+
+<!--  Renderer  -->
+    <bean id="rendererErrToLower" class="com.ader.classes.RendererErrImpl">
+        <constructor-arg ref="preProcessorToLowerImpl"/>
+    </bean>
+    <bean id="rendererErrToUpper" class="com.ader.classes.RendererErrImpl">
+        <constructor-arg ref="preProcessorToUpperImpl"/>
+    </bean>
+    <bean id="rendererOutToLower" class="com.ader.classes.RendererStandardImpl">
+        <constructor-arg ref="preProcessorToLowerImpl"/>
+    </bean>
+    <bean id="rendererOutToUpper" class="com.ader.classes.RendererStandardImpl">
+        <constructor-arg ref="preProcessorToUpperImpl"/>
+    </bean>
+
+<!--  Printer  -->
+    <bean id="printerWithPrefix" class="com.ader.classes.PrinterWithPrefixImpl">
+        <constructor-arg ref="rendererErrToUpper"/>
+        <property name="prefix" value="PREFIX"/>
+    </bean>
+
+</beans>

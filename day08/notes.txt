@@ -1,0 +1,10 @@
+Loosely-Coupled Systems
+A loosely-coupled system is one where components are independent of each other and don't depend on specific implementations.
+Instead, they depend on abstractions or interfaces.
+
+<<<<
+These three components form the core of our banking system. They are loosely coupled because:
+Each component depends on interfaces rather than concrete implementations.
+They don't know about the internal workings of other components.
+We can swap out implementations of these components without affecting the others.
+>>>>

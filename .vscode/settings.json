@@ -2,5 +2,6 @@
     "java.configuration.updateBuildConfiguration": "interactive",
     "cSpell.words": [
         "ader"
-    ]
+    ],
+    "java.compile.nullAnalysis.mode": "automatic"
 }
