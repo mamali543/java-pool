@@ -24,9 +24,11 @@
     </bean>
 
 <!--  Printer  -->
-    <bean id="printerWithPrefix" class="com.ader.classes.PrinterWithPrefixImpl">
+    <bean id="printerWithPrefixErrToUpper" class="com.ader.classes.PrinterWithPrefixImpl">
         <constructor-arg ref="rendererErrToUpper"/>
         <property name="prefix" value="PREFIX"/>
     </bean>
-
+    <bean id="printerWithDateTimeOutToLower" class="com.ader.classes.PrinterWithDateTimeImpl">
+        <constructor-arg ref="rendererOutToLower"/>
+    </bean>
 </beans>
