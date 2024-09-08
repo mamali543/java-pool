@@ -8,3 +8,17 @@ Each component depends on interfaces rather than concrete implementations.
 They don't know about the internal workings of other components.
 We can swap out implementations of these components without affecting the others.
 >>>>
+
+the classes can become beans if they are registered with the Spring container (via XML, annotations, or Java configuration).
+If they are not registered with Spring, they will be regular objects and not beans.
+A bean is an object that is created, managed, and injected by the Spring container, and it benefits from Spring's dependency injection and lifecycle management.
+
+DriverManagerDataSource is a simple implementation of Spring's DataSource interface that allows for direct configuration of a JDBC driver via standard JDBC properties
+(such as url, username, password). It is often used in small-scale projects or during development because it does not provide connection pooling, which is usually required for larger or production-grade applications.
+
+JdbcTemplate is a Spring class that simplifies working with JDBC (Java Database Connectivity) by handling common tasks like opening and closing connections,
+executing SQL statements, and managing exceptions. It reduces the amount of boilerplate code and makes it easier to work with relational databases.
+
+RowMapper is an interface in Spring that maps a row from a ResultSet to a Java object. It is used with JdbcTemplate to simplify the process of converting a database row into a custom object
+
+-SqlInjection
