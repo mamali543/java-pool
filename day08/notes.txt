@@ -21,4 +21,8 @@ executing SQL statements, and managing exceptions. It reduces the amount of boil
 
 RowMapper is an interface in Spring that maps a row from a ResultSet to a Java object. It is used with JdbcTemplate to simplify the process of converting a database row into a custom object
 
--SqlInjection
+<<<-SqlInjection->>>
+
+@ComponentScan({"edu.school21.spring.service.repositories", "edu.school21.spring.service.services"})
+is part of Spring's configuration that tells the Spring framework to scan the specified packages for components (classes) annotated with special Spring annotations like @Component, @Service, @Repository, or @Controller.
+This is known as component scanning, and it allows Spring to automatically detect and register beans without needing to define them explicitly in XML or Java configuration files.

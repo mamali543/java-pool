@@ -1,4 +1,4 @@
-package com.ader.repositories;
+package main.java.com.ader.interfaces;
 
 import java.util.List;
 import java.util.Optional;

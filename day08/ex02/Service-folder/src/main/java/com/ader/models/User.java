@@ -1,4 +1,4 @@
-package com.ader.models;
+package main.java.com.ader.models;
 
 public class User {
 

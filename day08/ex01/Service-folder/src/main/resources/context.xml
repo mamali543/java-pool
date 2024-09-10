@@ -25,11 +25,11 @@
     </bean>
 
     <!-- Repository Beans -->
-    <bean id="UsersRepositoryImpl" class="main.java.com.ader.repositories.UsersRepositoryJdbcImpl">
+    <bean id="UsersRepositoryImpl" class="com.ader.repositories.UsersRepositoryJdbcImpl">
         <constructor-arg ref="hikariDataSource"/>
     </bean>
 
-    <bean id="UsersRepositoryTemplateImpl" class="main.java.com.ader.repositories.UsersRepositoryJdbcTemplateImpl">
+    <bean id="UsersRepositoryTemplateImpl" class="com.ader.repositories.UsersRepositoryJdbcTemplateImpl">
         <constructor-arg ref="dataSource"/>
     </bean>
 

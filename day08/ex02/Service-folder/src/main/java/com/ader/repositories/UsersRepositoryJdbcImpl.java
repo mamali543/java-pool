@@ -1,4 +1,4 @@
-package com.ader.repositories;
+package main.java.com.ader.repositories;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -11,7 +11,7 @@ import java.util.Optional;
 
 import javax.sql.DataSource;
 
-import com.ader.models.User;
+import main.java.com.ader.models.User;
 
 public class UsersRepositoryJdbcImpl implements UsersRepository{
 

@@ -1,4 +1,4 @@
-package com.ader.repositories;
+package main.java.com.ader.repositories;
 import java.util.List;
 import java.util.Optional;
 
@@ -7,7 +7,9 @@ import javax.sql.DataSource;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.dao.EmptyResultDataAccessException;
 
-import com.ader.models.User;
+import main.java.com.ader.models.User;
+import main.java.com.ader.repositories.UserMapper;
+import main.java.com.ader.repositories.UsersRepository;
 
 public class UsersRepositoryJdbcTemplateImpl implements UsersRepository{
 
@@ -21,7 +23,7 @@ public class UsersRepositoryJdbcTemplateImpl implements UsersRepository{
     @Override
     public Optional findById(Long id)
     {
-        String sqlQuery = "SELECT * FROM ex08.users WHERE userId = ?";
+        String sqlQuery = "SELECT FROM ex08.users WHERE userId = ?";
         try{
             return Optional.ofNullable(jdbcTemplate.queryForObject(sqlQuery, new Object[]{id}, new UserMapper()));
         }
@@ -63,7 +65,7 @@ public class UsersRepositoryJdbcTemplateImpl implements UsersRepository{
     @Override
     public Optional<User> findByEmail(String email)
     {
-        String sqlQuery = "SELECT * FROM ex08.users WHERE userEmail = ?";
+        String sqlQuery = "SELECT FROM ex08.users WHERE userEmail = ?";
         try{
             return Optional.ofNullable(jdbcTemplate.queryForObject(sqlQuery,new Object[]{email}, new UserMapper()));
         }
