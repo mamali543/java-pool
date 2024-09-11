@@ -1,4 +1,4 @@
-package com.ader.config;
+package com.ader;
 
 import com.zaxxer.hikari.HikariDataSource;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,17 +12,20 @@ import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import javax.sql.DataSource;
 
 @Configuration
-@ComponentScan({"main.java.com.ader.repositories"}, {"main.java.com.ader.services"}) //automatically registers them as beans.
+@ComponentScan(basePackages = {"com.ader.repositories", "com.ader.services"})
 @PropertySource("classpath:db.properties")
 public class ApplicationConfig {
 
-    //The Environment object is automatically injected by Spring. It provides access to the environment properties loaded from db.properties. These properties are then used in the DataSource configurations.
+    // The Environment object is automatically injected by Spring.
+    // It provides access to the environment properties loaded from db.properties.
+    // These properties are then used in the DataSource configurations.
+    // Note: Ensure that the package declaration at the top of this file is correct: package com.ader.config;
     @Autowired
     //Autowired is a spring annotation that allows for dependency injection, it tells spring to inject the Environment bean from the spring context
     Environment env;
     
     @Bean
-    public HickariDataSource hickariDataSource()
+    public HikariDataSource hickariDataSource()
     {
         HikariDataSource dataSource = new HikariDataSource();
         dataSource.setDriverClassName(env.getProperty("db.driver.name"));

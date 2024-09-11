@@ -2,6 +2,12 @@ package main.java.com.ader.services;
 
 import main.java.com.ader.repositories.UsersRepository;
 import main.java.com.ader.services.UsersService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
+import java.util.UUID;
+
+@Component
 public class UsersServicesImpl implements UsersService{
 
     private UsersRepository repositorie;
@@ -23,7 +29,7 @@ public class UsersServicesImpl implements UsersService{
     public String signUp(String email)
     {
         String password = UUID.randomUUID().toString();
-        boolean isCreated = repositorie.save(email, password);
+        boolean isCreated = repositorieTemplate.save(email, password);
         if (isCreated) {
             return password;
         } else {

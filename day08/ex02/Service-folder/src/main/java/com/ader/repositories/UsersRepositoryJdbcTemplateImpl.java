@@ -47,15 +47,15 @@ public class UsersRepositoryJdbcTemplateImpl implements UsersRepository{
     @Override
     public void save(User entity)
     {
-        String sqlQuery = "INSERT INTO ex08.users(userEmail) VALUES (?)";
-        jdbcTemplate.update(sqlQuery, entity.getUserEmail());
+        String sqlQuery = "INSERT INTO ex08.users(userEmail, userPassword) VALUES (?, ?)";
+        jdbcTemplate.update(sqlQuery, entity.getUserEmail(), entity.getUserPassword());
     }
 
     @Override
     public void update(User entity)
     {
-        String sqlQuery = "UPDATE ex08.users SET userEmail = ? WHERE userId = ?";
-        jdbcTemplate.update(sqlQuery, entity.getUserEmail(), entity.getUserId());
+        String sqlQuery = "UPDATE ex08.users SET userEmail = ?, userPassword = ? WHERE userId = ?";
+        jdbcTemplate.update(sqlQuery, entity.getUserEmail(), entity.getUserPassword(),entity.getUserId());
     }
 
     @Override

@@ -1,7 +1,7 @@
 package main.java.com.ader.repositories;
 
 import java.util.Optional;
-import main.java.com.ader.interfaces.CrudRepository;
+import com.ader.repositories.CrudRepository;
 
 import main.java.com.ader.models.User;
 

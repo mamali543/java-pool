@@ -8,19 +8,22 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import com.zaxxer.hikari.HikariDataSource;
 
 import javax.sql.DataSource;
 
 import main.java.com.ader.models.User;
 import org.springframework.stereotype.Component;
+import main.java.com.ader.repositories.UsersRepository;
+
 
 @Component("UsersRepository")
 public class UsersRepositoryJdbcImpl implements UsersRepository{
 
-    private HickariDataSource dataSource;
+    private HikariDataSource dataSource;
     private final String tableName = "ex08.users";
 
-    public UsersRepositoryJdbcImpl(HickariDataSource dataSource)
+    public UsersRepositoryJdbcImpl(HikariDataSource dataSource)
     {
         this.dataSource = dataSource;
     }
@@ -37,7 +40,7 @@ public class UsersRepositoryJdbcImpl implements UsersRepository{
                 if (rs.next())
                 {
                     // User user = new User(rs.getLong("userId"),rs.getString("userName") , rs.getString("userPassword"));
-                    user = new User(rs.getLong("userId"), rs.getString("userPassword"));
+                    user = new User(rs.getLong("userId"), rs.getString("userEmail"), rs.getString("userPassword"));
                 }
             }
         }
@@ -52,7 +55,7 @@ public class UsersRepositoryJdbcImpl implements UsersRepository{
     @Override
     public Optional<User> findByEmail(String email)
     {
-        String sqlQuery = "SELECT * FROM " + tableName + " WHERE userPassword = ?";
+        String sqlQuery = "SELECT * FROM " + tableName + " WHERE userEmail = ?";
         User user =null;
         try (Connection connection = dataSource.getConnection();
         PreparedStatement ps = connection.prepareStatement(sqlQuery)){
@@ -62,7 +65,7 @@ public class UsersRepositoryJdbcImpl implements UsersRepository{
                 if (rs.next())
                 {
                     // User user = new User(rs.getLong("userId"),rs.getString("userName") , rs.getString("userPassword"));
-                    user = new User(rs.getLong("userId"), rs.getString("userPassword"));
+                    user = new User(rs.getLong("userId"), rs.getString("userEmail"), rs.getString("userPassword"));
                 }
             }
         }
@@ -85,7 +88,7 @@ public class UsersRepositoryJdbcImpl implements UsersRepository{
                 while (rs.next())
                 {
                     // User user = new User(rs.getLong("userId"),rs.getString("userName") , rs.getString("userPassword"));
-                    User user = new User(rs.getLong("userId"), rs.getString("userPassword"));
+                    User user = new User(rs.getLong("userId"), rs.getString("userEmail"), rs.getString("userPassword"));
                     usersList.add(user);
                 }
             }
@@ -120,12 +123,13 @@ public class UsersRepositoryJdbcImpl implements UsersRepository{
 
     @Override
     public void update(User entity){
-        String sqlQString = "UPDATE ex08.users SET userPassword = ? WHERE userId = ?";
+        String sqlQString = "UPDATE ex08.users SET userEmail = ? userPassword = ? WHERE userId = ?";
         try (Connection connection = dataSource.getConnection()) {
             PreparedStatement stm = connection.prepareStatement(
                     sqlQString);
-            stm.setString(1, entity.getuserPassword());
-            stm.setLong(2, entity.getUserId());
+            stm.setString(1, entity.getUserEmail());
+            stm.setString(2, entity.getUserPassword());
+            stm.setLong(3, entity.getUserId());
             stm.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -136,16 +140,17 @@ public class UsersRepositoryJdbcImpl implements UsersRepository{
     @Override
     public void save(User entity)
     {
-        String sqlQuery = "INSERT INTO "+tableName+"(userPassword) VALUES (?)";
+        String sqlQuery = "INSERT INTO "+tableName+"(userEmail, userPassword) VALUES (?, ?)";
         try(Connection connection = this.dataSource.getConnection())
         {
             PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery, Statement.RETURN_GENERATED_KEYS);
-            preparedStatement.setString(1, entity.getuserPassword());
+            preparedStatement.setString(1, entity.getUserEmail());
+            preparedStatement.setString(2, entity.getUserPassword());
             preparedStatement.executeUpdate();
             ResultSet rs = preparedStatement.getGeneratedKeys();
-            rs.next();
-            entity.setUserId(rs.getLong("userId"));
-            entity.setUserPassword(rs.getString("userPassword"));
+            // rs.next();
+            // entity.setUserId(rs.getLong("userId"));
+            // entity.setUserPassword(rs.getString("userPassword"));
         }
         catch(SQLException e)
         {
