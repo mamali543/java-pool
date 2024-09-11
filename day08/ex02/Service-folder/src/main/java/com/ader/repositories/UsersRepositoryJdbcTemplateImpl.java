@@ -11,6 +11,9 @@ import main.java.com.ader.models.User;
 import main.java.com.ader.repositories.UserMapper;
 import main.java.com.ader.repositories.UsersRepository;
 
+import org.springframework.stereotype.Component;
+
+@Component("UsersRepositoryTemplate")
 public class UsersRepositoryJdbcTemplateImpl implements UsersRepository{
 
     private final JdbcTemplate jdbcTemplate;

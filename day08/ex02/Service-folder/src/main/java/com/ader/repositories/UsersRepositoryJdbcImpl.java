@@ -12,13 +12,15 @@ import java.util.Optional;
 import javax.sql.DataSource;
 
 import main.java.com.ader.models.User;
+import org.springframework.stereotype.Component;
 
+@Component("UsersRepository")
 public class UsersRepositoryJdbcImpl implements UsersRepository{
 
-    private DataSource dataSource;
+    private HickariDataSource dataSource;
     private final String tableName = "ex08.users";
 
-    public UsersRepositoryJdbcImpl(DataSource dataSource)
+    public UsersRepositoryJdbcImpl(HickariDataSource dataSource)
     {
         this.dataSource = dataSource;
     }
@@ -34,8 +36,8 @@ public class UsersRepositoryJdbcImpl implements UsersRepository{
             {
                 if (rs.next())
                 {
-                    // User user = new User(rs.getLong("userId"),rs.getString("userName") , rs.getString("userEmail"));
-                    user = new User(rs.getLong("userId"), rs.getString("userEmail"));
+                    // User user = new User(rs.getLong("userId"),rs.getString("userName") , rs.getString("userPassword"));
+                    user = new User(rs.getLong("userId"), rs.getString("userPassword"));
                 }
             }
         }
@@ -50,7 +52,7 @@ public class UsersRepositoryJdbcImpl implements UsersRepository{
     @Override
     public Optional<User> findByEmail(String email)
     {
-        String sqlQuery = "SELECT * FROM " + tableName + " WHERE userEmail = ?";
+        String sqlQuery = "SELECT * FROM " + tableName + " WHERE userPassword = ?";
         User user =null;
         try (Connection connection = dataSource.getConnection();
         PreparedStatement ps = connection.prepareStatement(sqlQuery)){
@@ -59,8 +61,8 @@ public class UsersRepositoryJdbcImpl implements UsersRepository{
             {
                 if (rs.next())
                 {
-                    // User user = new User(rs.getLong("userId"),rs.getString("userName") , rs.getString("userEmail"));
-                    user = new User(rs.getLong("userId"), rs.getString("userEmail"));
+                    // User user = new User(rs.getLong("userId"),rs.getString("userName") , rs.getString("userPassword"));
+                    user = new User(rs.getLong("userId"), rs.getString("userPassword"));
                 }
             }
         }
@@ -82,8 +84,8 @@ public class UsersRepositoryJdbcImpl implements UsersRepository{
             {
                 while (rs.next())
                 {
-                    // User user = new User(rs.getLong("userId"),rs.getString("userName") , rs.getString("userEmail"));
-                    User user = new User(rs.getLong("userId"), rs.getString("userEmail"));
+                    // User user = new User(rs.getLong("userId"),rs.getString("userName") , rs.getString("userPassword"));
+                    User user = new User(rs.getLong("userId"), rs.getString("userPassword"));
                     usersList.add(user);
                 }
             }
@@ -96,6 +98,12 @@ public class UsersRepositoryJdbcImpl implements UsersRepository{
     }
 
     @Override
+    /**
+     * Deletes a user from the database based on the provided user ID.
+     *
+     * @param id The ID of the user to be deleted.
+     * @throws SQLException If a database access error occurs or this method is called on a closed connection.
+     */
     public void delete(Long id)
     {
         String sqlQuery = "DELETE FROM " + tableName + " WHERE userId = ?";
@@ -112,11 +120,11 @@ public class UsersRepositoryJdbcImpl implements UsersRepository{
 
     @Override
     public void update(User entity){
-        String sqlQString = "UPDATE ex08.users SET userEmail = ? WHERE userId = ?";
+        String sqlQString = "UPDATE ex08.users SET userPassword = ? WHERE userId = ?";
         try (Connection connection = dataSource.getConnection()) {
             PreparedStatement stm = connection.prepareStatement(
                     sqlQString);
-            stm.setString(1, entity.getUserEmail());
+            stm.setString(1, entity.getuserPassword());
             stm.setLong(2, entity.getUserId());
             stm.executeUpdate();
         } catch (SQLException e) {
@@ -128,15 +136,16 @@ public class UsersRepositoryJdbcImpl implements UsersRepository{
     @Override
     public void save(User entity)
     {
-        String sqlQuery = "INSERT INTO "+tableName+"(userEmail) VALUES (?)";
+        String sqlQuery = "INSERT INTO "+tableName+"(userPassword) VALUES (?)";
         try(Connection connection = this.dataSource.getConnection())
         {
             PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery, Statement.RETURN_GENERATED_KEYS);
-            preparedStatement.setString(1, entity.getUserEmail());
+            preparedStatement.setString(1, entity.getuserPassword());
             preparedStatement.executeUpdate();
             ResultSet rs = preparedStatement.getGeneratedKeys();
             rs.next();
             entity.setUserId(rs.getLong("userId"));
+            entity.setUserPassword(rs.getString("userPassword"));
         }
         catch(SQLException e)
         {

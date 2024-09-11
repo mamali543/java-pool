@@ -1,18 +1,19 @@
 package com.ader;
 
-import main.java.com.ader.repositories.UsersRepository;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+import main.java.com.ader.services.UsersServicesImpl;
+import main.java.com.ader.config.ApplicationConfig;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 
+//Transition to Java-Based Configuration:
 public class App 
 {
     public static void main( String[] args )
     {
-        ApplicationContext context = new ClassPathXmlApplicationContext("context.xml");
-        UsersRepository usersRepository = context.getBean("UsersRepositoryImpl", UsersRepository.class);
-        System.out.println(usersRepository.findAll());
-        usersRepository = context.getBean("UsersRepositoryTemplateImpl", UsersRepository.class);
-        System.out.println(usersRepository.findAll());
+        //a Spring container that supports Java-based configuration using @Configuration classes (instead of XML configuration).
+        AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext();
+        ctx.register(ApplicationConfig.context);
+        ctx.refresh();
+
     }
 }

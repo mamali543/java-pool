@@ -3,51 +3,52 @@ package main.java.com.ader.models;
 public class User {
 
     private Long userId;
-    // private String userName;
     private String userEmail;
+    private String userPassword;
 
-    // public User(Integer userId, String userName,  String userEmail)
-    // {
-    //     this.userId = userId;
-    //     this.userEmail = userEmail;
-    //     this.userName = userName;
-    // }
-
-    public User(Long userId, String userEmail)
+    public User(Integer userId, String userEmail,  String userPassword)
     {
         this.userId = userId;
+        this.userPassword = userPassword;
         this.userEmail = userEmail;
     }
 
-    public String getUserEmail() {
-        return userEmail;
+    public User(Long userId, String userPassword)
+    {
+        this.userId = userId;
+        this.userPassword = userPassword;
+    }
+
+    public String getUserPassword() {
+        return userPassword;
     }
 
     public Long getUserId() {
         return userId;
     }
 
-    public void setUserEmail(String userEmail) {
-        this.userEmail = userEmail;
+    public String getUserEmail() {
+        return userEmail;
     }
 
     public void setUserId(Long userId) {
         this.userId = userId;
     }
 
-    // public void setUserName(String userName) {
-    //     this.userName = userName;
-    // }
+    public void setUserEmail(String userEmail) {
+        this.userEmail = userEmail;
+    }
 
-    // public String getUserName() {
-    //     return userName;
-    // }
+    public void setUserPassword(String userPassword) {
+        this.userPassword = userPassword;
+    }
 
     @Override
     public String toString() {
         return "User{" +
                 "userId=" + userId +
                 ", userEmail='" + userEmail + '\'' +
+                ", userPassword='" + userPassword + '\'' +
                 '}';
     };
 }
