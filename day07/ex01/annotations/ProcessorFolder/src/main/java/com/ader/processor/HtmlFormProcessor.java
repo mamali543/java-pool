@@ -26,18 +26,19 @@ import com.ader.processor.HtmlInput;
 @AutoService(Processor.class)
 @SupportedAnnotationTypes({"com.ader.processor.HtmlForm", "com.ader.processor.HtmlInput"})
 @SupportedSourceVersion(SourceVersion.RELEASE_21)
-public class HtmlFormProcessor extends AbstractProcessor {
+public class HtmlFormProcessor extends AbstractProcessor { //extends AbstractProcessor, making it capable of processing annotations during Java compilation.
 
     private static final Logger logger = Logger.getLogger(HtmlFormProcessor.class.getName());
 
     @Override
-    public synchronized void init(ProcessingEnvironment processingEnv) {
+    public synchronized void init(ProcessingEnvironment processingEnv) { //Initializes the processor with the processing environment, which provides tools for working with types, elements, and other utilities in the processing environment.
         super.init(processingEnv);
         logger.info("<<<<<<<<< Processor Initialized >>>>>>>>");
     }
 
+    //The core method where the actual processing of annotations happens. This method is called by the compiler each time it finds a class element annotated with any of the annotations specified by @SupportedAnnotationTypes.
     @Override
-    public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
+    public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) { 
         for (Element element : roundEnv.getElementsAnnotatedWith(HtmlForm.class)) {
             if (element.getKind() == ElementKind.CLASS) {
                 HtmlForm htmlForm = element.getAnnotation(HtmlForm.class);
@@ -51,6 +52,7 @@ public class HtmlFormProcessor extends AbstractProcessor {
     private void generateHtmlFile(TypeElement element, HtmlForm htmlForm) {
         try {
             String fileName = htmlForm.fileName();
+            //object to create file in the class_output
             Filer filer = processingEnv.getFiler();
             FileObject fileObject = filer.createResource(StandardLocation.CLASS_OUTPUT, "", fileName);
             
