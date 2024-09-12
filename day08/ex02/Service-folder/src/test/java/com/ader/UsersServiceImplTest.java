@@ -8,26 +8,29 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
+
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@SpringJUnitConfig(TestApplicationConfig.class)
 @Transactional
-@Rollback
 public class UsersServiceImplTest {
 
     @Autowired
     private UsersServicesImpl usersService;
-
+    @Autowired
     private JdbcTemplate jdbcTemplate;
 
     @BeforeEach
     public void setUp() {
         // Initialize Spring context with test configuration
-        AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext(TestApplicationConfig.class);
-        usersService = ctx.getBean(UsersServicesImpl.class);
-        jdbcTemplate = ctx.getBean(JdbcTemplate.class);
+        // AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext(TestApplicationConfig.class);
+        // usersService = ctx.getBean(UsersServicesImpl.class);
+        // jdbcTemplate = ctx.getBean(JdbcTemplate.class);
 
         // Create table for users in H2
+        jdbcTemplate.execute("CREATE SCHEMA IF NOT EXISTS ex08");
         jdbcTemplate.execute("CREATE TABLE ex08.users (userId BIGINT AUTO_INCREMENT PRIMARY KEY, userEmail VARCHAR(255), userPassword VARCHAR(255))");
         System.out.println("chno tari hna");
     }
