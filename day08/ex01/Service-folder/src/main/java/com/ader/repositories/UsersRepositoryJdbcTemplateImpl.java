@@ -19,7 +19,7 @@ public class UsersRepositoryJdbcTemplateImpl implements UsersRepository{
     }
 
     @Override
-    public Optional findById(Long id)
+    public Optional<User> findById(Long id)
     {
         String sqlQuery = "SELECT * FROM ex08.users WHERE userId = ?";
         try{
@@ -33,7 +33,7 @@ public class UsersRepositoryJdbcTemplateImpl implements UsersRepository{
 
 
     @Override
-    public List findAll()
+    public List<User> findAll()
     {
         String sqlQuery = "SELECT * FROM ex08.users";
         return jdbcTemplate.query(sqlQuery,  new UserMapper());

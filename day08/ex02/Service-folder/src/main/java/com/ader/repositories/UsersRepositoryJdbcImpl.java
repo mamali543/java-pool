@@ -10,21 +10,27 @@ import java.util.List;
 import java.util.Optional;
 import com.zaxxer.hikari.HikariDataSource;
 
+import javax.sql.DataSource;
+
 import com.ader.models.User;
 import org.springframework.stereotype.Component;
+import com.ader.repositories.UsersRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 @Component("UsersRepository")
 public class UsersRepositoryJdbcImpl implements UsersRepository {
 
-    private HikariDataSource dataSource;
+    private final HikariDataSource dataSource;
     private final String tableName = "ex08.users";
 
-    public UsersRepositoryJdbcImpl(HikariDataSource dataSource) {
+    @Autowired
+    public UsersRepositoryJdbcImpl(@Qualifier("hikariDataSource") HikariDataSource dataSource) {
         this.dataSource = dataSource;
     }
 
     @Override
-    public Optional<User> findById(Long id) {
+    public Optional findById(Long id) {
         String sqlQuery = "SELECT * FROM " + tableName + " WHERE userId = ?";
         User user = null;
         try (Connection connection = dataSource.getConnection();
@@ -65,14 +71,15 @@ public class UsersRepositoryJdbcImpl implements UsersRepository {
     }
 
     @Override
-    public List<User> findAll() {
+    public List findAll() {
         String sqlQuery = "SELECT * FROM " + tableName;
         List<User> usersList = new ArrayList<>();
         try (Connection connection = dataSource.getConnection();
                 PreparedStatement ps = connection.prepareStatement(sqlQuery)) {
             try (ResultSet rs = ps.executeQuery()) {
-                System.out.println("ana hna!!");
                 while (rs.next()) {
+                    // User user = new User(rs.getLong("userId"),rs.getString("userName") ,
+                    // rs.getString("userPassword"));
                     User user = new User(rs.getLong("userId"), rs.getString("userEmail"), rs.getString("userPassword"));
                     usersList.add(user);
                 }
@@ -119,7 +126,7 @@ public class UsersRepositoryJdbcImpl implements UsersRepository {
 
     @Override
     public void save(User entity) {
-        String sqlQuery = "INSERT INTO " + tableName + " (userEmail, userPassword) VALUES (?, ?)";
+        String sqlQuery = "INSERT INTO " + tableName + "(userEmail, userPassword) VALUES (?, ?)";
         try (Connection connection = this.dataSource.getConnection()) {
             PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery,
                     Statement.RETURN_GENERATED_KEYS);

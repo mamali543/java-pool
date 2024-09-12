@@ -1,3 +1,5 @@
+-basics of the Spring framework.
+
 Loosely-Coupled Systems
 A loosely-coupled system is one where components are independent of each other and don't depend on specific implementations.
 Instead, they depend on abstractions or interfaces.
@@ -26,3 +28,29 @@ RowMapper is an interface in Spring that maps a row from a ResultSet to a Java o
 @ComponentScan({"edu.school21.spring.service.repositories", "edu.school21.spring.service.services"})
 is part of Spring's configuration that tells the Spring framework to scan the specified packages for components (classes) annotated with special Spring annotations like @Component, @Service, @Repository, or @Controller.
 This is known as component scanning, and it allows Spring to automatically detect and register beans without needing to define them explicitly in XML or Java configuration files.
+
+@Transactional
+// The @Transactional annotation is used to define the scope of a single database transaction.
+// In the context of testing, it ensures that database operations within each test method
+// are rolled back after the test completes, preventing test data from persisting in the database.
+
+// Example usage:
+// @Test
+// @Transactional
+// public void testDataInsertionAndRollback() {
+//     // This insert operation will be rolled back after the test
+//     jdbcTemplate.update("INSERT INTO ex08.users (userEmail, userPassword) VALUES (?, ?)", "test@example.com", "password123");
+//     // ... rest of the test
+// }
+
+@Autowired
+// The @Autowired annotation is used for automatic dependency injection.
+// It allows Spring to resolve and inject collaborating beans into our bean.
+// In this class, it's used to inject UsersServicesImpl and JdbcTemplate.
+
+// Example usage:
+// @Autowired
+// private UsersServicesImpl usersService;
+// 
+// This tells Spring to inject an instance of UsersServicesImpl into this field.
+// You can then use 'usersService' in your tests without manually instantiating it.

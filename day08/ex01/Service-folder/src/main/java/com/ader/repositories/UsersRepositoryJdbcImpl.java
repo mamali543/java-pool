@@ -22,8 +22,9 @@ public class UsersRepositoryJdbcImpl implements UsersRepository{
     {
         this.dataSource = dataSource;
     }
+
     @Override
-    public Optional findById(Long id)
+    public Optional<User> findById(Long id)
     {
         String sqlQuery = "SELECT * FROM " + tableName + " WHERE userId = ?";
         User user = null;
@@ -72,7 +73,7 @@ public class UsersRepositoryJdbcImpl implements UsersRepository{
     }
 
     @Override
-    public List findAll()
+    public List<User> findAll()
     {
         String sqlQuery = "SELECT * FROM " + tableName;
         List<User> usersList = new ArrayList<>();

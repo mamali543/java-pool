@@ -8,6 +8,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 import javax.sql.DataSource;
 
@@ -25,6 +26,7 @@ public class ApplicationConfig {
     Environment env;
     
     @Bean(destroyMethod = "close") // Ensure HikariCP is closed properly when the application shuts down
+    @Qualifier("hikariDataSource")
     public HikariDataSource hickariDataSource()
     {
         HikariDataSource dataSource = new HikariDataSource();
@@ -35,7 +37,8 @@ public class ApplicationConfig {
     }
 
     @Bean
-    public DataSource dataSource()
+    @Qualifier("driverManagerDataSource")
+    public DriverManagerDataSource dataSource()
     {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName(env.getProperty("db.driver.name"));
