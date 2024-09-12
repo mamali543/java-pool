@@ -1,4 +1,4 @@
-package main.java.com.ader.models;
+package com.ader.models;
 
 public class User {
 
@@ -6,15 +6,13 @@ public class User {
     private String userEmail;
     private String userPassword;
 
-    public User(Long userId, String userEmail,  String userPassword)
-    {
+    public User(Long userId, String userEmail, String userPassword) {
         this.userId = userId;
         this.userPassword = userPassword;
         this.userEmail = userEmail;
     }
 
-    public User(Long userId, String userPassword)
-    {
+    public User(Long userId, String userPassword) {
         this.userId = userId;
         this.userPassword = userPassword;
     }

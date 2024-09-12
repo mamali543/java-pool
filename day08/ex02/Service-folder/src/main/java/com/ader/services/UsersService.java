@@ -1,4 +1,4 @@
-package main.java.com.ader.services;
+package com.ader.services;
 
 public interface UsersService {
     String signUp(String email);

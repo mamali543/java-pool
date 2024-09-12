@@ -21,10 +21,10 @@ public class ApplicationConfig {
     // These properties are then used in the DataSource configurations.
     // Note: Ensure that the package declaration at the top of this file is correct: package com.ader.config;
     @Autowired
-    //Autowired is a spring annotation that allows for dependency injection, it tells spring to inject the Environment bean from the spring context
+    //Autowired is a spring annotation that allows for dependency injection, it tells spring to inject the Environment bean from the spring context, serverless
     Environment env;
     
-    @Bean
+    @Bean(destroyMethod = "close") // Ensure HikariCP is closed properly when the application shuts down
     public HikariDataSource hickariDataSource()
     {
         HikariDataSource dataSource = new HikariDataSource();

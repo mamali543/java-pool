@@ -1,7 +1,8 @@
-package main.java.com.ader.services;
+package com.ader.services;
 
-import main.java.com.ader.repositories.UsersRepository;
-import main.java.com.ader.services.UsersService;
+import com.ader.models.User;
+import com.ader.repositories.UsersRepository;
+import com.ader.services.UsersService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
@@ -29,11 +30,9 @@ public class UsersServicesImpl implements UsersService{
     public String signUp(String email)
     {
         String password = UUID.randomUUID().toString();
-        boolean isCreated = repositorieTemplate.save(email, password);
-        if (isCreated) {
-            return password;
-        } else {
-            throw new RuntimeException("Failed to create user");
-        }
+        User user = new User(null, email, password);
+        repositorieTemplate.save(user);
+        return password;
+
     }
 }
