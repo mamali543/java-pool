@@ -1,14 +1,12 @@
-package test.java.com.ader;
+package com.ader;
 
 import com.ader.services.UsersServicesImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.test.annotation.Rollback;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
+import org.springframework.transaction.annotation.Transactional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -27,7 +25,7 @@ public class UsersServiceImplTest {
         // Create table for users in H2
         jdbcTemplate.execute("CREATE SCHEMA IF NOT EXISTS ex08");
         jdbcTemplate.execute(
-                "CREATE TABLE IF NOT EXISTS ex08.users (userId BIGINT AUTO_INCREMENT PRIMARY KEY, userEmail VARCHAR(255), userPassword VARCHAR(255))");
+                "CREATE TABLE IF NOT EXISTS ex08.users (userId SERIAL PRIMARY KEY, userEmail VARCHAR(255), userPassword VARCHAR(255))");
     }
 
     @Test

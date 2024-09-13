@@ -6,9 +6,11 @@ import com.ader.services.UsersService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
+
 import java.util.UUID;
 
-@Component
+@Service
 public class UsersServicesImpl implements UsersService{
 
     private UsersRepository repositorie;

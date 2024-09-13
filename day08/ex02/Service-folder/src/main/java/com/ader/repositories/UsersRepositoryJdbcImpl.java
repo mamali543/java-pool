@@ -10,11 +10,8 @@ import java.util.List;
 import java.util.Optional;
 import com.zaxxer.hikari.HikariDataSource;
 
-import javax.sql.DataSource;
-
 import com.ader.models.User;
 import org.springframework.stereotype.Component;
-import com.ader.repositories.UsersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 
