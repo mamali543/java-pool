@@ -46,16 +46,17 @@ public class Client {
                 System.out.print("> ");
                 userInput = reader.readLine();
                 serverWriter.println(userInput);
-                System.out.println("Client: Send to server, " + userInput);
+                // System.out.println("Client: Send to server, " + userInput);
     
                 // System.out.println("From Server: " + serverMessage);
     
                 serverMessage = serverReader.readLine();
                 if (!(serverMessage.equals("Enter what you want to do!")) && userInput.equalsIgnoreCase("SignUp") ) {
-                    System.out.print("Enter username: ");
+                    // System.out.print("Enter username: ");
+                    System.out.print(serverMessage + "\n>");
                     String username = reader.readLine();
                     serverWriter.println(username);
-                    System.out.println("Client: Sent username, " + username);
+                    // System.out.println("Client: Sent username, " + username);
     
                     serverMessage = serverReader.readLine();
                     System.out.print(serverMessage + "\n>");

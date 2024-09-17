@@ -34,23 +34,22 @@ public class Server {
             clientWriter = new PrintWriter(socket.getOutputStream(), true);
             
             clientWriter.println("Hello from server!");
-            System.out.println("Sent greeting to client");
+            // System.out.println("Sent greeting to client");
     
             String s;
             while ((s = clientReader.readLine()) != null) {
-                System.out.println("Received operation from client: " + s);
+                // System.out.println("Received operation from client: " + s);
                 
                 if (s.equalsIgnoreCase("SignUp")) {
-                    System.out.println("Client wants to SignUp!");
-                    clientWriter.println("Please enter your username:");
+                    clientWriter.println("enter  username:");
                     
                     String userName = clientReader.readLine();
-                    System.out.println("From Client: Received username: " + s);
+                    System.out.println("From Client: Received username: " + userName);
                     
                     clientWriter.println("Enter Password: ");
 
                     String userPassword = clientReader.readLine();
-                    System.out.println("From Client: Received userPassword: " + s);
+                    System.out.println("From Client: Received userPassword: " + userPassword);
 
                     User u = new User(userName, userPassword);
                     clientWriter.println("Successful!");
