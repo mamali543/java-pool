@@ -3,6 +3,9 @@ package com.ader.sockets.server;
 
 import java.net.ServerSocket;
 import java.net.Socket;
+
+import com.ader.sockets.models.User;
+
 import java.io.*;
 
 /**
@@ -41,10 +44,17 @@ public class Server {
                     System.out.println("Client wants to SignUp!");
                     clientWriter.println("Please enter your username:");
                     
-                    s = clientReader.readLine();
+                    String userName = clientReader.readLine();
                     System.out.println("From Client: Received username: " + s);
                     
-                    clientWriter.println("Username received: " + s);
+                    clientWriter.println("Enter Password: ");
+
+                    String userPassword = clientReader.readLine();
+                    System.out.println("From Client: Received userPassword: " + s);
+
+                    User u = new User(userName, userPassword);
+                    clientWriter.println("Successful!");
+
                     break;
                 } else {
                     clientWriter.println("Enter what you want to do!");

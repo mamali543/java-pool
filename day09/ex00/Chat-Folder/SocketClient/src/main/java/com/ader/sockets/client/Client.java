@@ -3,16 +3,30 @@ package com.ader.sockets.client;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.Socket;
+
+import org.springframework.stereotype.Component;
+
 import java.io.PrintWriter;
 
-
+@Component
 public class Client {
 
     private Socket socket;
     private BufferedReader reader;
     private BufferedReader serverReader;
     private PrintWriter serverWriter;
-    public Client(int port) {
+    private int port;
+    
+    public Client()
+    {
+
+    }
+
+    public void setPort(int port) {
+        this.port = port;
+    }
+
+    public void init() {
         try {
             socket = new Socket("localhost", port);
             reader = new BufferedReader(new InputStreamReader(System.in));
@@ -36,17 +50,24 @@ public class Client {
     
                 // System.out.println("From Server: " + serverMessage);
     
-                if (userInput.equalsIgnoreCase("SignUp")) {
-                    // serverMessage = serverReader.readLine();
+                serverMessage = serverReader.readLine();
+                if (!(serverMessage.equals("Enter what you want to do!")) && userInput.equalsIgnoreCase("SignUp") ) {
                     System.out.print("Enter username: ");
                     String username = reader.readLine();
                     serverWriter.println(username);
                     System.out.println("Client: Sent username, " + username);
     
                     serverMessage = serverReader.readLine();
-                    System.out.println("From Server: " + serverMessage);
+                    System.out.print(serverMessage + "\n>");
+                    String password = reader.readLine();
+                    serverWriter.println(password);
+                    serverMessage = serverReader.readLine();
+                    System.out.print(serverMessage);
                     break;
                 }
+                else
+                    System.out.println(serverMessage);
+
             }
         } catch (Exception e) {
             System.err.println("Error in client: " + e.getMessage());
