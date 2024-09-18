@@ -4,20 +4,41 @@ package com.ader.sockets.server;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.stereotype.Component;
+
+import com.ader.sockets.config.ApplicationConfig;
 import com.ader.sockets.models.User;
+import com.ader.sockets.service.UserService;
+import com.ader.sockets.service.UserServiceImpl;
 
 import java.io.*;
 
 /**
  * Server
  */
+@Component
 public class Server {
-    PrintWriter clientWriter;
-    ServerSocket serverSocket;
-    BufferedReader clientReader;
-    public Server(int port) {
+    private PrintWriter clientWriter;
+    private ServerSocket serverSocket;
+    private BufferedReader clientReader;
+    private int port;
+    private AnnotationConfigApplicationContext ctx;
+    private UserService userService;
+
+    public Server() {
+    }
+
+    public void setPort(int port) {
+        this.port = port;
+        ctx = new AnnotationConfigApplicationContext(ApplicationConfig.class);
+        userService = ctx.getBean(UserServiceImpl.class);
+    }
+
+    public void init() {
         try {
-            serverSocket = new ServerSocket(port);
+            serverSocket = new ServerSocket(this.port);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -52,8 +73,12 @@ public class Server {
                     System.out.println("From Client: Received userPassword: " + userPassword);
 
                     User u = new User(userName, userPassword);
-                    clientWriter.println("Successful!");
-
+                    // clientWriter.println("Successful!");
+                    if (userService.SignUp(u)){
+                        clientWriter.println("successfully!");
+                    } else {
+                        clientWriter.println("User already exists!");
+                    }
                     break;
                 } else {
                     clientWriter.println("Enter what you want to do!");

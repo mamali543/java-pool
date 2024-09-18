@@ -31,7 +31,7 @@ public class User {
         this.userId = userId;
     }
 
-    public String getPassword() {
+    public String getUserPassword() {
         return this.password;
     }
 
