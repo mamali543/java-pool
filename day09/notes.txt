@@ -1,0 +1,13 @@
+why we need a separet thread for the client?
+
+Example Workflow:
+
+Client 1 connects to the server.
+Server's ClientHandler thread handles communication with Client 1.
+Client 1's main thread is waiting for input from the user (e.g., "Enter a message:").
+Client 1's separate thread listens for incoming messages from the server. If Client 2 sends a message to the server, the server broadcasts it, and Client 1’s listening thread will print the message as soon as it receives it from the server.
+Client 1 can keep typing while receiving messages from other clients, thanks to the separate thread.
+Summary:
+Server's ClientHandler thread: Handles receiving and broadcasting messages to the clients connected to the server.
+Client's thread: The additional thread on the client listens for and processes messages from the server (e.g., messages sent by other users in a chatroom). Without it, the client wouldn't be able to listen for and display incoming messages while simultaneously allowing the user to type and send their own messages.
+Both the server and the client need threads to handle concurrent communication, which makes real-time messaging possible.

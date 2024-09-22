@@ -31,14 +31,5 @@ public class UserServiceImpl implements UserService {
         usersRepository.save(user);
         return true;
     }
-
-    @Override
-    public boolean SignIn(User user){
-        Optional<User> user1 = usersRepository.findByName(user.getUsername());
-        if (!(user1.isPresent())) {
-            return false;
-        }
-        return encoder.matches(user.getUserPassword(), user1.get().getUserPassword());
-    }
     
 }
