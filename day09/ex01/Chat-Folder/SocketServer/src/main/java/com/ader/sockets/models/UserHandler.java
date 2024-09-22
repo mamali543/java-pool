@@ -13,7 +13,7 @@ import java.util.ArrayList;
 
 public class UserHandler implements Runnable {
 
-    public static ArrayList<UserHandler> userHandlers = new ArrayList<>();
+    private ArrayList<UserHandler> userHandlers;
 
     private Socket socket;
     private BufferedReader clientReader;
@@ -21,9 +21,10 @@ public class UserHandler implements Runnable {
     private UserService userService;
     String username;
 
-    public UserHandler(Socket socket) {
+    public UserHandler(Socket socket, ArrayList<UserHandler> userHandlers) {
         try{
             this.socket = socket;
+            this.userHandlers = userHandlers;
             clientReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             clientWriter = new PrintWriter(socket.getOutputStream(), true);
             
@@ -47,7 +48,6 @@ public class UserHandler implements Runnable {
             
             this.username = clientReader.readLine();
             System.out.println("username to add: "+ username);
-            userHandlers.add(this);
             broadcastMessage("\nSERVER: " + username + " has entered the chat");
             String messageFromClient;
             while (socket.isConnected()) {
@@ -68,6 +68,7 @@ public class UserHandler implements Runnable {
     public void broadcastMessage(String messageToSend) {
         for (UserHandler userHandler : userHandlers) {
             try {
+                System.out.println("userHandler name: " + userHandler.username);
                 if (!userHandler.username.equals(username)) {
                     userHandler.clientWriter.println(messageToSend);
                     userHandler.clientWriter.flush();

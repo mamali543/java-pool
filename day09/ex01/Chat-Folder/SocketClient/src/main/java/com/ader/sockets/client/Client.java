@@ -65,6 +65,7 @@ public class Client {
         }
     }
 
+
     public void signUpOrSignIn(String serverMessage){
         try{
             System.out.print("> ");

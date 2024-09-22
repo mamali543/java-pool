@@ -11,7 +11,7 @@ import com.ader.sockets.models.User;
 import com.ader.sockets.service.UserService;
 import com.ader.sockets.service.UserServiceImpl;
 import com.ader.sockets.models.UserHandler;
-
+import java.util.ArrayList;
 import java.io.*;
 
 /**
@@ -21,7 +21,7 @@ import java.io.*;
 public class Server {
     private ServerSocket serverSocket;
     private int port;
-    private boolean running;
+    public ArrayList<UserHandler> userHandlers = new ArrayList<>();
 
     public Server() {
     }
@@ -33,7 +33,6 @@ public class Server {
     public void init() {
         try {
             serverSocket = new ServerSocket(this.port);
-            running = true;
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -46,10 +45,11 @@ public class Server {
             while (!serverSocket.isClosed())
             {
                 System.out.println("Waiting for client connection...");
+                //when we accet a connection we get a client socket
                 Socket socket = serverSocket.accept();
                 System.out.println("New Client connected");
-                
-                UserHandler userHandler = new UserHandler(socket);
+                UserHandler userHandler = new UserHandler(socket, this.userHandlers);
+                userHandlers.add(userHandler);
                 new Thread(userHandler).start();
             }
         } catch (Exception e) {
