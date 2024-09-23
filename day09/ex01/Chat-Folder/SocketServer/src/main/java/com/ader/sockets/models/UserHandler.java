@@ -52,7 +52,7 @@ public class UserHandler implements Runnable {
             String messageFromClient;
             while (socket.isConnected()) {
                     messageFromClient = clientReader.readLine();
-                    if (messageFromClient == null) {
+                    if (messageFromClient == null || messageFromClient.equalsIgnoreCase("exit")) {
                         break;  // Client has disconnected
                     }
                     broadcastMessage(messageFromClient);
@@ -87,6 +87,7 @@ public class UserHandler implements Runnable {
                 clientRedaer.close();
             }
             if (clientWriter != null) {
+                // clientWriter.println("SERVER: You have been disconnected.");
                 clientWriter.close();
             }
             if (socket != null) {

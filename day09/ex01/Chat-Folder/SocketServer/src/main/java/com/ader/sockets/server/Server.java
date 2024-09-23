@@ -50,7 +50,7 @@ public class Server {
             while (!serverSocket.isClosed())
             {
                 System.out.println("Waiting for client connection...");
-                //when we accet a connection we get a client socket
+                //when we accept a connection we get a client socketf or communication
                 Socket socket = serverSocket.accept();
                 System.out.println("New Client connected");
                 UserHandler userHandler = new UserHandler(socket);

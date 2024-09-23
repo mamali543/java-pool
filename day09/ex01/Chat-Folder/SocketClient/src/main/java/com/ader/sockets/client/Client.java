@@ -19,6 +19,7 @@ public class Client {
     private PrintWriter serverWriter;
     private int port;
     private String userName;
+    boolean running;
     
     public Client()
     {
@@ -27,6 +28,7 @@ public class Client {
 
     public void setPort(int port) {
         this.port = port;
+        running = true;
     }
 
     public void init() {
@@ -49,13 +51,19 @@ public class Client {
             serverWriter.println(userName);
             // System.out.print(">");
             listener();
-            while (true) {
+            while (running) {
                 String userMessage = reader.readLine();
-                if (userMessage.equals("exit"))
-                    System.exit(0);
-                // System.out.println(userName + ": " + userMessage);
-                serverWriter.println(userName + ": " + userMessage);
-                System.out.print(">");
+                if (userMessage.equalsIgnoreCase("exit"))
+                {
+                    serverWriter.println("exit");
+                    closeEverything(socket, serverReader, serverWriter);
+                    running = false;
+                }
+                else
+                {
+                    serverWriter.println(userName + ": " + userMessage);
+                    System.out.print(">");
+                }
             }
 
         } catch (Exception e) {
@@ -107,7 +115,7 @@ public class Client {
         new Thread(() -> {
             String serverMessage;
             try {
-                while ((serverMessage = serverReader.readLine()) != null) {
+                while (running && (serverMessage = serverReader.readLine()) != null) {
                     System.out.println(serverMessage);
                     System.out.print(">");
                 }
