@@ -63,7 +63,7 @@ public class UserHandler implements Runnable {
         } finally {
             closeEverything(socket, clientReader, clientWriter);
         }
-    }
+    } 
         
     public void broadcastMessage(String messageToSend) {
         for (UserHandler userHandler : userHandlers) {
