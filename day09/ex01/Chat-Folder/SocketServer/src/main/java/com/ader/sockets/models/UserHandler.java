@@ -13,7 +13,7 @@ import java.util.ArrayList;
 
 public class UserHandler implements Runnable {
 
-    private ArrayList<UserHandler> userHandlers;
+    private static ArrayList<UserHandler> userHandlers = new ArrayList<>();
 
     private Socket socket;
     private BufferedReader clientReader;
@@ -21,10 +21,9 @@ public class UserHandler implements Runnable {
     private UserService userService;
     String username;
 
-    public UserHandler(Socket socket, ArrayList<UserHandler> userHandlers) {
+    public UserHandler(Socket socket) {
         try{
             this.socket = socket;
-            this.userHandlers = userHandlers;
             clientReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             clientWriter = new PrintWriter(socket.getOutputStream(), true);
             
@@ -48,6 +47,7 @@ public class UserHandler implements Runnable {
             
             this.username = clientReader.readLine();
             System.out.println("username to add: "+ username);
+            userHandlers.add(this);
             broadcastMessage("\nSERVER: " + username + " has entered the chat");
             String messageFromClient;
             while (socket.isConnected()) {
@@ -68,7 +68,6 @@ public class UserHandler implements Runnable {
     public void broadcastMessage(String messageToSend) {
         for (UserHandler userHandler : userHandlers) {
             try {
-                System.out.println("userHandler name: " + userHandler.username);
                 if (!userHandler.username.equals(username)) {
                     userHandler.clientWriter.println(messageToSend);
                     userHandler.clientWriter.flush();
@@ -138,6 +137,7 @@ public class UserHandler implements Runnable {
         }
         catch(Exception e){
             System.err.println("Error in UserHandler: " + e.getMessage());
+            closeEverything(socket, clientReader, clientWriter);
         }
         
     }

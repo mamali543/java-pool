@@ -21,7 +21,7 @@ import java.io.*;
 public class Server {
     private ServerSocket serverSocket;
     private int port;
-    public ArrayList<UserHandler> userHandlers = new ArrayList<>();
+    // public ArrayList<UserHandler> userHandlers = new ArrayList<>();
 
     public Server() {
     }
@@ -48,9 +48,9 @@ public class Server {
                 //when we accet a connection we get a client socket
                 Socket socket = serverSocket.accept();
                 System.out.println("New Client connected");
-                UserHandler userHandler = new UserHandler(socket, this.userHandlers);
-                userHandlers.add(userHandler);
+                UserHandler userHandler = new UserHandler(socket);
                 new Thread(userHandler).start();
+                // userHandlers.add(userHandler);
             }
         } catch (Exception e) {
             System.err.println("Error in server: " + e.getMessage());
