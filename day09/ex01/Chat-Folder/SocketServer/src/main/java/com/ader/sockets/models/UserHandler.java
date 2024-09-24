@@ -1,8 +1,10 @@
 package com.ader.sockets.models;
 
 import com.ader.sockets.models.User;
+import com.ader.sockets.service.MessageService;
 import com.ader.sockets.service.UserService;
 import com.ader.sockets.service.UserServiceImpl;
+import com.ader.sockets.service.MessageServiceImpl;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import com.ader.sockets.config.ApplicationConfig;
 
@@ -19,6 +21,7 @@ public class UserHandler implements Runnable {
     private BufferedReader clientReader;
     private PrintWriter clientWriter;
     private UserService userService;
+    private MessageService messageService;
     String username;
 
     public UserHandler(Socket socket) {
@@ -32,6 +35,7 @@ public class UserHandler implements Runnable {
 
             AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(ApplicationConfig.class);
             userService = context.getBean(UserServiceImpl.class);
+            messageService = context.getBean(MessageServiceImpl.class);
             // context.close();
         }
         catch(Exception e){

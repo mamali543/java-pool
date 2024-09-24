@@ -25,21 +25,21 @@ public class UsersRepositoryJdbcImpl implements UsersRepository {
         this.jdbcTemplate = new JdbcTemplate(dataSource);
     }
 
-    @Override
-    public Optional<User> findById(Long id) {
-        String sqlQuery = "SELECT FROM ex08.users WHERE userId = ?";
-        try {
-            return Optional.ofNullable(jdbcTemplate.queryForObject(sqlQuery, new Object[] { id }, new UserMapper()));
-        } catch (EmptyResultDataAccessException e) {
-            return Optional.empty();
-        }
-    }
+    // @Override
+    // public Optional<User> findById(Long id) {
+    //     String sqlQuery = "SELECT FROM ex08.users WHERE userId = ?";
+    //     try {
+    //         return Optional.ofNullable(jdbcTemplate.queryForObject(sqlQuery, new Object[] { id }, new UserMapper()));
+    //     } catch (EmptyResultDataAccessException e) {
+    //         return Optional.empty();
+    //     }
+    // }
 
-    @Override
-    public List<User> findAll() {
-        String sqlQuery = "SELECT * FROM ex08.users";
-        return jdbcTemplate.query(sqlQuery, new UserMapper());
-    }
+    // @Override
+    // public List<User> findAll() {
+    //     String sqlQuery = "SELECT * FROM ex08.users";
+    //     return jdbcTemplate.query(sqlQuery, new UserMapper());
+    // }
 
     @Override
     public void save(User entity) {
@@ -48,11 +48,11 @@ public class UsersRepositoryJdbcImpl implements UsersRepository {
         jdbcTemplate.update(sqlQuery, entity.getUsername(), entity.getUserPassword());
     }
 
-    @Override
-    public void update(User entity) {
-        String sqlQuery = "UPDATE ex08.users SET userName = ?, userPassword = ? WHERE userId = ?";
-        jdbcTemplate.update(sqlQuery, entity.getUsername(), entity.getUserPassword(), entity.getUserId());
-    }
+    // @Override
+    // public void update(User entity) {
+    //     String sqlQuery = "UPDATE ex08.users SET userName = ?, userPassword = ? WHERE userId = ?";
+    //     jdbcTemplate.update(sqlQuery, entity.getUsername(), entity.getUserPassword(), entity.getUserId());
+    // }
 
     @Override
     public void delete(Long id) {
