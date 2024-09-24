@@ -43,7 +43,7 @@ public class UsersRepositoryJdbcImpl implements UsersRepository {
 
     @Override
     public void save(User entity) {
-        System.out.println("wewe");
+        // System.out.println("wewe");
         String sqlQuery = "INSERT INTO ex08.users (userName, userPassword) VALUES (?, ?)";
         jdbcTemplate.update(sqlQuery, entity.getUsername(), entity.getUserPassword());
     }

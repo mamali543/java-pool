@@ -62,7 +62,7 @@ public class Client {
                 else
                 {
                     serverWriter.println(userName + ": " + userMessage);
-                    System.out.print(">");
+                    // System.out.print(">");
                 }
             }
 
@@ -117,7 +117,7 @@ public class Client {
             try {
                 while (running && (serverMessage = serverReader.readLine()) != null) {
                     System.out.println(serverMessage);
-                    System.out.print(">");
+                    // System.out.print(">");
                 }
             } catch (IOException e) {
                 e.printStackTrace();

@@ -40,5 +40,14 @@ public class UserServiceImpl implements UserService {
         }
         return encoder.matches(user.getUserPassword(), user1.get().getUserPassword());
     }
+
+    @Override
+    public User getUser(String username) {
+        Optional<User> user = usersRepository.findByName(username);
+        if (user.isPresent()) {
+            return user.get();
+        }
+        return null;
+    }
     
 }

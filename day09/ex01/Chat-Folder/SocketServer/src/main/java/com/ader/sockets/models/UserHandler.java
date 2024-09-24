@@ -1,5 +1,6 @@
 package com.ader.sockets.models;
 
+import com.ader.sockets.models.Message;
 import com.ader.sockets.models.User;
 import com.ader.sockets.service.MessageService;
 import com.ader.sockets.service.UserService;
@@ -11,6 +12,7 @@ import com.ader.sockets.config.ApplicationConfig;
 
 import java.io.*;
 import java.net.Socket;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 public class UserHandler implements Runnable {
@@ -22,6 +24,7 @@ public class UserHandler implements Runnable {
     private PrintWriter clientWriter;
     private UserService userService;
     private MessageService messageService;
+    private User user;
     String username;
 
     public UserHandler(Socket socket) {
@@ -46,9 +49,7 @@ public class UserHandler implements Runnable {
     @Override
     public void run() {
         try {
-
             startSignUpOrSignIn();
-            
             this.username = clientReader.readLine();
             System.out.println("username to add: "+ username);
             userHandlers.add(this);
@@ -56,10 +57,15 @@ public class UserHandler implements Runnable {
             String messageFromClient;
             while (socket.isConnected()) {
                     messageFromClient = clientReader.readLine();
-                    if (messageFromClient == null || messageFromClient.equalsIgnoreCase("exit")) {
+                    if (messageFromClient == null || messageFromClient.equalsIgnoreCase("exit"))
                         break;  // Client has disconnected
+                    if ((this.user = userService.getUser(username)) != null)
+                    {
+                        LocalDateTime currentDateTime = LocalDateTime.now();
+                        Message msg = new Message(null, this.user.getUserId(), messageFromClient.split(":", 2)[1].trim(), currentDateTime);
+                        messageService.save(msg);
+                        broadcastMessage(messageFromClient);
                     }
-                    broadcastMessage(messageFromClient);
             }
         }
         catch (IOException e) {

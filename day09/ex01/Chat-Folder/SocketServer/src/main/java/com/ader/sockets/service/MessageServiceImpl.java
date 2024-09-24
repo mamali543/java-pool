@@ -22,5 +22,4 @@ public class MessageServiceImpl implements MessageService {
     public void save(Message msg) {
         messageRepository.save(msg);
     }
-    
 }
