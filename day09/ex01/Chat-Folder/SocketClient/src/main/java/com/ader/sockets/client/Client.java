@@ -112,6 +112,7 @@ public class Client {
 
     public void listener(){
         // Read messages from server in a separate thread
+        //the lambda expression in the listener() method is providing an implementation of Runnable on the fly.
         new Thread(() -> {
             String serverMessage;
             try {
@@ -127,6 +128,7 @@ public class Client {
 
     public void closeEverything(Socket socket, BufferedReader serverReader, PrintWriter serverWriter) {
         try {
+            running = false;
             if (serverReader != null) {
                 serverReader.close();
             }

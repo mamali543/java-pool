@@ -11,3 +11,6 @@ Summary:
 Server's ClientHandler thread: Handles receiving and broadcasting messages to the clients connected to the server.
 Client's thread: The additional thread on the client listens for and processes messages from the server (e.g., messages sent by other users in a chatroom). Without it, the client wouldn't be able to listen for and display incoming messages while simultaneously allowing the user to type and send their own messages.
 Both the server and the client need threads to handle concurrent communication, which makes real-time messaging possible.
+
+//why beans are needed if i can cretae objects from these clases and work with them ?
+//i'm using sockets to perform operations like signin and signup, what's good using rest api or working with sockets and why?

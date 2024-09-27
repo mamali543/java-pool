@@ -18,8 +18,8 @@ CREATE TABLE IF NOT EXISTS chat.message (
     id SERIAL PRIMARY KEY,
     author_id INTEGER,
     room_id INTEGER ,
-    content VARCHAR(255) ,
-    datetime TIMESTAMP ,
+    content VARCHAR(255),
+    datetime TIMESTAMP,
     FOREIGN KEY (author_id) REFERENCES chat.users(id),
     FOREIGN KEY (room_id) REFERENCES chat.chatrooms(id)
 );
