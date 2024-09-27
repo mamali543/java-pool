@@ -6,17 +6,17 @@ import java.util.Objects;
 public class Message {
     private Long id;
     private Long authorId;
-    // private Chatroom room;
+    private Long roomId;
     private String message;
     private LocalDateTime time;
 
     public Message(){
 
     }
-    public Message(Long id, Long authorId,  String message, LocalDateTime dateTime){
+    public Message(Long id, Long authorId, Long roomId, String message, LocalDateTime dateTime){
         this.id = id;
         this.authorId = authorId;
-        // this.room = room;
+        this.roomId = roomId;
         this.message = message;
         this.time = dateTime;
     }
@@ -24,12 +24,12 @@ public class Message {
     public Long getId(){return this.id;}
     public Long getAuthorId(){return this.authorId;}
     public String getMessage(){return this.message;}
-    // public Chatroom getRoom(){return this.room;}
+    public Long getRoomId(){return this.roomId;}
     public LocalDateTime getDateTime() {return time;}
 
     public void setId(Long id){this.id = id;}
     public void setAuthorId(Long authorId){this.authorId = authorId;}
-    // public void setRoom(Chatroom room){this.room = room;}
+    public void setRoomId(Long roomId){this.roomId = roomId;}
     public void setMessage(String message){this.message = message;}
     public void setLocalDateTime(LocalDateTime time){
         this.time = time;
@@ -51,7 +51,7 @@ public class Message {
     //hashCode method Returns a hash code value for the object, which is used in hash-based collections like HashSet, HashMap, and HashTable.
     @Override
     public int hashCode() {
-        return Objects.hash(id, authorId, message, time);
+        return Objects.hash(id, authorId,roomId,  message, time);
     }
     //toString method Returns a string representation of the object, which is intended for human reading
     @Override
@@ -59,7 +59,7 @@ public class Message {
         return "Message{" +
                 "messageId=" + id +
                 ", authorId='" + authorId + '\'' +
-                // ", room='" + room + '\'' +
+                ", roomId='" + roomId+ '\'' +
                 ", text=" + message +
                 ", dateTime=" + time +
                 '}';

@@ -16,9 +16,9 @@ public class ChatroomServiceImpl implements ChatroomService {
     }
 
     @Override
-    public void createChatroom(Chatroom chatroom) {
+    public Long createChatroom(Chatroom chatroom) {
         System.out.println("Creating chatroom ...");
-        chatroomRepository.save(chatroom);
+        return chatroomRepository.saveToGetId(chatroom);
     }
     
     @Override

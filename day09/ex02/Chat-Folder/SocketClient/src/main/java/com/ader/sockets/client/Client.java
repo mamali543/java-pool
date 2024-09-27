@@ -53,21 +53,23 @@ public class Client {
             // chooseOrCreateRoom(serverMessage);
             // serverWriter.println(userName);
             // // System.out.print(">");
-            // listener();
-            // while (running) {
-            //     String userMessage = reader.readLine();
-            //     if (userMessage.equalsIgnoreCase("exit"))
-            //     {
-            //         serverWriter.println("exit");
-            //         closeEverything(socket, serverReader, serverWriter);
-            //         running = false;
-            //     }
-            //     else
-            //     {
-            //         serverWriter.println(userName + ": " + userMessage);
-            //         // System.out.print(">");
-            //     }
-            // }
+            listener();
+            while (running) {
+                String userMessage = reader.readLine();
+                if (userMessage.equalsIgnoreCase("exit"))
+                {
+                    System.out.print("you have left the chat!");
+                    serverWriter.println("exit");
+
+                    closeEverything(socket, serverReader, serverWriter);
+                    running = false;
+                }
+                else
+                {
+                    System.out.println("clientMessage: "+userMessage);
+                    serverWriter.println(userName + ": " + userMessage);
+                }
+            }
 
         } catch (Exception e) {
             System.err.println("Unexpected error in client: " + e.getMessage());
@@ -107,22 +109,23 @@ public class Client {
             {
                 serverWriter.println(options);
                 line = serverReader.readLine();
-                if (line.equals("No chatrooms found!"))
+                if (line.equals("No chatrooms found, create one!"))
                 {
                     System.out.println(line);
                     chooseOrCreateRoom(serverMessage);
                 }
                 else
-                {                    
+                {          
+                    //get chatrooms          
                     while (!(line .equals("END_OF_OPTIONS"))) {
                         System.out.println(line);
                         line = serverReader.readLine();
                     }
+                    // choose chatroom
                     line = reader.readLine();
                     serverWriter.println(line);
                     serverMessage = serverReader.readLine();
                     System.out.println(serverMessage);
-                    // chooseOrCreateRoom(serverMessage);
                 }
             }
             else if (options.equals("3"))

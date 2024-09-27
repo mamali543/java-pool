@@ -52,8 +52,8 @@ public class MessageRepositoryJdbcImpl implements MessageRepository {
     public void save(Message message) {
         // System.out.println("wewe");
         // Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-        String sqlQuery = "INSERT INTO ex08.message (senderId, messageText, datetime) VALUES (?, ?, ?)";
-        jdbcTemplate.update(sqlQuery,message.getAuthorId(), message.getMessage(), Timestamp.valueOf(message.getDateTime()));
+        String sqlQuery = "INSERT INTO ex08.message (senderId, roomId, messageText, datetime) VALUES (?, ?, ?, ?)";
+        jdbcTemplate.update(sqlQuery,message.getAuthorId(), message.getRoomId(), message.getMessage(), Timestamp.valueOf(message.getDateTime()));
     }
 
     @Override

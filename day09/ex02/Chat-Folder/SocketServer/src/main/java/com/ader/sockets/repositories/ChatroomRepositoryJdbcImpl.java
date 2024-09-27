@@ -1,5 +1,6 @@
 package com.ader.sockets.repositories;
 
+import java.sql.PreparedStatement;
 import java.sql.Time;
 import java.util.List;
 import java.util.Optional;
@@ -13,6 +14,14 @@ import com.ader.sockets.models.Chatroom;
 import com.ader.sockets.models.Message;
 import com.ader.sockets.models.User;
 import com.zaxxer.hikari.HikariDataSource;
+
+import org.springframework.jdbc.support.GeneratedKeyHolder; // For GeneratedKeyHolder
+import org.springframework.jdbc.support.KeyHolder; // For KeyHolder
+import java.sql.Connection; // For Connection
+import java.sql.PreparedStatement; // For PreparedStatement
+import java.sql.Statement; // For Statement
+
+import com.ader.sockets.repositories.ChatroomMapper;
 
 import com.ader.sockets.repositories.ChatroomRepository;
 
@@ -54,6 +63,23 @@ public class ChatroomRepositoryJdbcImpl implements ChatroomRepository {
 
         String sqlQuery = "INSERT INTO ex08.chatrooms (chatroomName, chatroomOwnerId) VALUES ( ?, ?)";
         jdbcTemplate.update(sqlQuery, chatroom.getName(), chatroom.getOwner());
+    }
+
+    @Override
+    public Long saveToGetId(Chatroom chatroom) { // Change return type to Long
+        String sqlQuery = "INSERT INTO ex08.chatrooms (chatroomName, chatroomOwnerId) VALUES (?, ?)";
+        KeyHolder keyHolder = new GeneratedKeyHolder(); // Create a KeyHolder
+        jdbcTemplate.update(connection -> {
+            PreparedStatement ps = connection.prepareStatement(sqlQuery, Statement.RETURN_GENERATED_KEYS);
+            ps.setString(1, chatroom.getName());
+            ps.setLong(2, chatroom.getOwner());
+            return ps;
+        }, keyHolder);
+        // Ensure you are only returning the chatroomid
+        if (keyHolder.getKeys() != null && keyHolder.getKeys().containsKey("chatroomid")) {
+            return ((Number) keyHolder.getKeys().get("chatroomid")).longValue(); // Return the generated ID
+        }
+        return null; // Handle case where key is not found
     }
 
     @Override

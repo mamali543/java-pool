@@ -23,6 +23,7 @@ public class UserHandler implements Runnable {
 
     private static ArrayList<UserHandler> userHandlers = new ArrayList<>();
     private static ArrayList<Chatroom> chatrooms = new ArrayList<>();
+    private Chatroom currentChatroom; // Add this field to track the current chatroom
 
     private Socket socket;
     private BufferedReader clientReader;
@@ -54,19 +55,6 @@ public class UserHandler implements Runnable {
         }
     }
 
-    public void listRooms() {
-        // try {
-        //     List<String> rooms = userService.getRooms();
-        //     for (String room : rooms) {
-        //         clientWriter.println(room);
-        //     }
-        //     clientWriter.println("END_OF_ROOMS");
-        // }
-        // catch (Exception e) {
-        //     System.err.println("Error in UserHandler run: " + e.getMessage());
-        // }
-    }
-
     public void createOrChooseRoom() {
         try{
             options.clear();
@@ -89,7 +77,8 @@ public class UserHandler implements Runnable {
                 User u = userService.getUser(username);
                 Chatroom chatroom = new Chatroom(null, roomName, u.getUserId(), null, null);
                 
-                chatroomService.createChatroom(chatroom);
+                Long rommId = chatroomService.createChatroom(chatroom);
+                chatroom.setId(rommId);
                 clientWriter.println("Roooom: "+chatroom.getName()+" created successfully!");
                 chatrooms.add(chatroom);
                 createOrChooseRoom();
@@ -101,6 +90,7 @@ public class UserHandler implements Runnable {
                 options.clear();
                 if (chatrooms.size() > 0)
                 {
+                    //constructions rooms to send
                     for (Chatroom chatroom : chatrooms) {
                         options.add(++i + ". " + chatroom.getName());
                         // System.out.println(chatroom.getName());
@@ -110,15 +100,14 @@ public class UserHandler implements Runnable {
                     }
                     clientWriter.println(++i +". "+"exit");
                     clientWriter.println("END_OF_OPTIONS");
+                    //get the room choosed
                     String roomChoosed = clientReader.readLine();
-                    System.out.println("room choosed: "+ Integer.parseInt(roomChoosed));
-                    Chatroom chatroom = chatrooms.get(Integer.parseInt(roomChoosed)-1);
-                    clientWriter.println("Welcome to "+chatroom.getName()+" chatroom!");
-
+                    currentChatroom = chatrooms.get(Integer.parseInt(roomChoosed)-1);
+                    joinChatroom(currentChatroom);
                 }
                 else
                 {
-                    clientWriter.println("No chatrooms found!");
+                    clientWriter.println("No chatrooms found, create one!");
                     createOrChooseRoom();
                 }
             }
@@ -126,7 +115,7 @@ public class UserHandler implements Runnable {
             {
                 System.out.println("again!  ");
             }
-            // System.out.println("again!  ");
+            // System.out.println("again!
         }
         catch(Exception e){
             System.err.println("Error in UserHandler: " + e.getMessage());
@@ -134,39 +123,59 @@ public class UserHandler implements Runnable {
         }
     }
 
+    public void joinChatroom(Chatroom chatroom) {
+        this.currentChatroom = chatroom; // Set the current chatroom
+        userHandlers.add(this);
+        for (UserHandler userHandler : userHandlers) {
+            System.out.println("userHandler userName: "+userHandler.username);
+        }
+        clientWriter.println("Welcome to " + chatroom.getName() + " chatroom!");
+        System.out.println("Username to join: "+username);
+        broadcastMessage("SERVER: " + username + " has joined the chatroom " + chatroom.getName());
+    }
+
+    public void broadcastMessage(String messageToSend) {
+        for (UserHandler userHandler : userHandlers) {
+            // Check if the user is in the same chatroom
+            System.out.println("usrHandler.lentghe: "+userHandlers.size());
+            if (userHandler.currentChatroom != null && userHandler.currentChatroom.equals(this.currentChatroom) && !userHandler.username.equals(username) ) {
+                try {
+                    userHandler.clientWriter.println(messageToSend);
+                    userHandler.clientWriter.flush();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    closeEverything(socket, clientReader, clientWriter);
+                }
+            }
+        }
+    }
+
     @Override
     public void run() {
 
-        // try {
+            try {
                 sendOptions();
                 startSignUpOrSignIn();
-                // createOrChooseRoom();
-
-                // this.username = clientReader.readLine();
-                // System.out.println("username to add: "+ username);
-                // userHandlers.add(this);
-                // sendOptions2();
-                // getOperation();
-        //     broadcastMessage("\nSERVER: " + username + " has entered the chat");
-        //     String messageFromClient;
-        //     while (socket.isConnected()) {
-        //             messageFromClient = clientReader.readLine();
-        //             if (messageFromClient == null || messageFromClient.equalsIgnoreCase("exit"))
-        //                 break;  // Client has disconnected
-        //             if ((this.user = userService.getUser(username)) != null)
-        //             {
-        //                 LocalDateTime currentDateTime = LocalDateTime.now();
-        //                 Message msg = new Message(null, this.user.getUserId(), messageFromClient.split(":", 2)[1].trim(), currentDateTime);
-        //                 messageService.save(msg);
-        //                 broadcastMessage(messageFromClient);
-        //             }
-        //     }
-        // }
-        // catch (IOException e) {
-        //     System.err.println("Error in UserHandler run: " + e.getMessage());
-        // } finally {
-        //     closeEverything(socket, clientReader, clientWriter);
-        // }
+                String messageFromClient;
+                while (socket.isConnected()) {
+                    messageFromClient = clientReader.readLine();
+                    System.out.println("messageFromClient: "+messageFromClient);
+                    if (messageFromClient == null || messageFromClient.equalsIgnoreCase("exit"))
+                        break;  // Client has disconnected
+                    if ((this.user = userService.getUser(username)) != null)
+                    {
+                        LocalDateTime currentDateTime = LocalDateTime.now();
+                            Message msg = new Message(null, this.user.getUserId(), this.currentChatroom.getId(), messageFromClient.split(":")[1].trim(), currentDateTime);
+                            broadcastMessage(messageFromClient);
+                            // messageService.save(msg);
+                    }
+                }   
+            }
+            catch (IOException e) {
+                System.err.println("Error in UserHandler run: " + e.getMessage());
+            } finally {
+                closeEverything(socket, clientReader, clientWriter);
+            }
     } 
 
     public void sendOptions(){
@@ -223,20 +232,6 @@ public class UserHandler implements Runnable {
             closeEverything(socket, clientReader, clientWriter);
         }
         
-    }
-
-    public void broadcastMessage(String messageToSend) {
-        for (UserHandler userHandler : userHandlers) {
-            try {
-                if (!userHandler.username.equals(username)) {
-                    userHandler.clientWriter.println(messageToSend);
-                    userHandler.clientWriter.flush();
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-                closeEverything(socket, clientReader, clientWriter);
-            }
-        }
     }
 
     public void closeEverything(Socket socket, BufferedReader clientRedaer, PrintWriter clientWriter) {
