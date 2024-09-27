@@ -164,14 +164,26 @@ public class UserHandler implements Runnable {
                         break;  // Client has disconnected
                     if ((this.user = userService.getUser(username)) != null)
                     {
+                        System.out.println("user: "+this.user.getUserId());
                         LocalDateTime currentDateTime = LocalDateTime.now();
+                        try{
                             Message msg = new Message(null, this.user.getUserId(), this.currentChatroom.getId(), messageFromClient.split(":")[1].trim(), currentDateTime);
+                                               
+                            System.out.println("message: "+msg.getMessage());
                             broadcastMessage(messageFromClient);
-                            // messageService.save(msg);
+                            System.out.println("message sent");
+                            messageService.save(msg);
+                            System.out.println("message saved: ");
+                        }
+                        catch(Exception e){
+                            System.err.println("Error in UserHandler run: " + e.getMessage());
+                        }
+
                     }
                 }   
             }
             catch (IOException e) {
+                System.out.println("wesh dkhlt l hna");
                 System.err.println("Error in UserHandler run: " + e.getMessage());
             } finally {
                 closeEverything(socket, clientReader, clientWriter);

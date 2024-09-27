@@ -7,5 +7,5 @@ import java.util.Optional;
 import com.ader.sockets.repositories.CrudRepositorie;
 
 public interface MessageRepository extends CrudRepositorie<Message> {
-
+    void saveLong(Message message);
 }

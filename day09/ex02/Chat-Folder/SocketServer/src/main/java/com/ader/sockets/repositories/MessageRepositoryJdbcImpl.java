@@ -17,6 +17,13 @@ import com.ader.sockets.repositories.MessageRepository;
 import com.zaxxer.hikari.HikariDataSource;
 import java.sql.Timestamp; // Make sure you have this import
 
+import org.springframework.jdbc.support.GeneratedKeyHolder; // Import for KeyHolder
+import org.springframework.jdbc.support.KeyHolder; // Import for KeyHolder
+import java.sql.Connection; // Import for Connection
+import java.sql.PreparedStatement; // Import for PreparedStatement
+import java.sql.Statement; // Import for Statement
+import java.sql.ResultSet; // Import for ResultSet
+import java.sql.SQLException; // Import for SQLException
 
 import org.springframework.jdbc.core.JdbcTemplate;
 
@@ -48,12 +55,29 @@ public class MessageRepositoryJdbcImpl implements MessageRepository {
         return jdbcTemplate.query(sqlQuery, new MessageMapper());
     }
 
+
     @Override
     public void save(Message message) {
-        // System.out.println("wewe");
-        // Timestamp timestamp = new Timestamp(System.currentTimeMillis());
         String sqlQuery = "INSERT INTO ex08.message (senderId, roomId, messageText, datetime) VALUES (?, ?, ?, ?)";
-        jdbcTemplate.update(sqlQuery,message.getAuthorId(), message.getRoomId(), message.getMessage(), Timestamp.valueOf(message.getDateTime()));
+
+        jdbcTemplate.update(sqlQuery, message.getAuthorId(), message.getRoomId(), message.getMessage(), Timestamp.valueOf(message.getDateTime()));
+    }
+
+    @Override
+    public void saveLong(Message message) {
+        String sqlQuery = "INSERT INTO ex08.message (senderId, roomId, messageText, datetime) VALUES (?, ?, ?, ?)";
+    KeyHolder keyHolder = new GeneratedKeyHolder(); // Create a KeyHolder
+
+        jdbcTemplate.update(connection -> {
+            PreparedStatement ps = connection.prepareStatement(sqlQuery, Statement.RETURN_GENERATED_KEYS);
+            ps.setLong(1, message.getAuthorId());
+            ps.setLong(2, message.getRoomId());
+            ps.setString(3, message.getMessage());
+            ps.setTimestamp(4, Timestamp.valueOf(message.getDateTime()));
+            return ps;
+        }, keyHolder);
+
+        // return keyHolder.getKey().longValue();
     }
 
     @Override
