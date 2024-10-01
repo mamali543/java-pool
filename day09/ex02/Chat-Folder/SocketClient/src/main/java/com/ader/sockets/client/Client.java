@@ -6,7 +6,10 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 
-import org.springframework.stereotype.Component; // Add this import
+import org.springframework.stereotype.Component;
+
+import com.ader.sockets.models.ChatMessage;
+import com.ader.sockets.utils.JsonUtil;
 
 @Component
 public class Client {
@@ -18,6 +21,10 @@ public class Client {
     private int port;
     private String userName;
     boolean running;
+    //The volatile keyword in Java is used to indicate that a variable's value may be modified by different threads.
+    //It ensures that any read of the variable will always return the most recently written value.
+    private volatile boolean listening = true;
+
     
     public Client()
     {
@@ -43,29 +50,23 @@ public class Client {
 
     public void start() {
         try {
-            String serverMessage = serverReader.readLine();
-            System.out.println("From Server: " + serverMessage);
+            ChatMessage serverMessage = receiveJsonMessage();
+            System.out.println("From Server: " + serverMessage.getMessage());
             // System.out.println("Choose an option: ");
-            signUpOrSignIn(serverMessage);
+            signUpOrSignIn(serverMessage.getMessage());
             listener();
             while (running) {
                 String userMessage = reader.readLine();
-                if (userMessage.equalsIgnoreCase("exit"))
+                if (userMessage.equalsIgnoreCase("exit") || userMessage.equalsIgnoreCase("leave"))
                 {
                     System.out.print("you have left the chat!");
-                    serverWriter.println("exit");
-
+                    sendJsonMessage("exit", null, null);
+                    stopListening();
                     closeEverything(socket, serverReader, serverWriter);
                     running = false;
                 }
-                else if (userMessage.equalsIgnoreCase("leave"))
-                {
-                    serverWriter.println("leave");
-                    serverWriter.flush(); // Ensure the message is sent
-                    chooseOrCreateRoom(serverMessage);
-                }
                 else
-                    serverWriter.println(userName + ": " + userMessage);
+                    sendJsonMessage(userName + ": " + userMessage, null , null);
             }
 
         } catch (Exception e) {
@@ -75,38 +76,41 @@ public class Client {
         }
     }
 
+    private void stopListening() {
+        listening = false;
+    }
+
     public void chooseOrCreateRoom(String serverMessage)
     {
-        // serverWriter.println("room options");
-        // serverWriter.println("room options");
-        String line;
         try{
-            while (!(line = serverReader.readLine()).equals("END_OF_OPTIONS")) {
+            String line;
+            while (!((line = receiveJsonMessage().getMessage()).equals("END_OF_OPTIONS"))) {
                 System.out.println(line);
             }
-            System.out.print(">>> ");
+            System.out.print("> ");
             String option = reader.readLine();
             while (!(option.equals("1") || option.equals("2") || option.equals("3"))) {
                 System.out.println("Invalid option, please choose 1, 2 or 3");
                 System.out.print("> ");
                 option = reader.readLine();
             }
-            serverWriter.println(option);
+            sendJsonMessage(option, null, null);
             if (option.equals("1"))
             {
-                serverMessage = serverReader.readLine();
+                serverMessage = receiveJsonMessage().getMessage();
                 System.out.println(serverMessage);
                 line = reader.readLine();
                 if (line.length() > 0) {
-                    serverWriter.println(line);
-                    serverMessage = serverReader.readLine();
+                    sendJsonMessage(line, null, null);
+                    serverMessage = receiveJsonMessage().getMessage();
                     System.out.println(serverMessage);
                     chooseOrCreateRoom(serverMessage);
                 }
             }
             else if (option.equals("2"))
             {
-                line = serverReader.readLine();
+                ChatMessage chatMessage = receiveJsonMessage();
+                line = chatMessage.getMessage();
                 if (line.equals("No chatrooms found, create one!"))
                 {
                     System.out.println(line);
@@ -117,13 +121,24 @@ public class Client {
                     //get chatrooms          
                     while (!(line .equals("END_OF_OPTIONS"))) {
                         System.out.println(line);
-                        line = serverReader.readLine();
+                        chatMessage = receiveJsonMessage();
+                        line = chatMessage.getMessage();
                     }
+                    String i = receiveJsonMessage().getMessage();
                     System.out.print(">>> ");
                     // choose chatroom
                     line = reader.readLine();
-                    serverWriter.println(line);
-                    serverMessage = serverReader.readLine();
+                    if (line.equals(i))
+                    {
+                        System.out.print("you have left the chat!");
+                        sendJsonMessage("exit", null, null);
+                        stopListening();
+                        closeEverything(socket, serverReader, serverWriter);
+                        running = false;
+                        return ;
+                    }
+                    sendJsonMessage(line, null, null);
+                    serverMessage = receiveJsonMessage().getMessage();
                     System.out.println(serverMessage);
                 }
             }
@@ -141,13 +156,19 @@ public class Client {
             e.printStackTrace();
             closeEverything(socket, serverReader, serverWriter);
         }
+        catch(Exception e)
+        {
+            System.err.println("Error in client: " + e.getMessage());
+            e.printStackTrace();
+            closeEverything(socket, serverReader, serverWriter);
+        }
     }
 
     public void signUpOrSignIn(String serverMessage){
 
         try{
             String line;
-            while (!(line = serverReader.readLine()).equals("END_OF_OPTIONS")) {
+            while (!(line = receiveJsonMessage().getMessage()).equals("END_OF_OPTIONS")) {
                 System.out.println(line);
             }
             System.out.print("> ");
@@ -157,31 +178,29 @@ public class Client {
                 System.out.print("> ");
                 option = reader.readLine();
             }
-            serverWriter.println(option);
+            sendJsonMessage(option, null, null);
             if (option.equals("3"))
             {
-                closeEverything(socket, serverReader, serverWriter);
                 running = false;
+                closeEverything(socket, serverReader, serverWriter);
                 System.out.println("You have left the chat app!");
                 System.exit(0);
             }
-            serverMessage = serverReader.readLine();
+            serverMessage = receiveJsonMessage().getMessage();
             System.out.print(serverMessage + "\n>");
             userName = reader.readLine();
-            serverWriter.println(userName);
+            sendJsonMessage(userName, null, null);
     
-            serverMessage = serverReader.readLine();
+            serverMessage = receiveJsonMessage().getMessage();
             System.out.print(serverMessage + "\n>");
             String password = reader.readLine();
-            serverWriter.println(password);
-            serverMessage = serverReader.readLine();
+            sendJsonMessage(password, null, null);
+            serverMessage = receiveJsonMessage().getMessage();
             System.out.println(serverMessage);
-            if (option.equalsIgnoreCase("2")) {
-                signUpOrSignIn(serverMessage);
-            }
-            if (option.equalsIgnoreCase("1")) {
+            if (option.equalsIgnoreCase("1") && !serverMessage.equals("User doesn't exist!")) 
                 chooseOrCreateRoom(serverMessage);
-            }
+            else
+                signUpOrSignIn(serverMessage);
         }
         catch(Exception e){
             System.err.println("Error in client: " + e.getMessage());
@@ -194,16 +213,34 @@ public class Client {
         // Read messages from server in a separate thread
         //the lambda expression in the listener() method is providing an implementation of Runnable on the fly.
         new Thread(() -> {
-            String serverMessage;
             try {
-                while (running && (serverMessage = serverReader.readLine()) != null) {
-                    System.out.println(serverMessage);
-                    // System.out.print(">");
+                while (listening) {
+                    ChatMessage chatMessage = receiveJsonMessage();
+                    // System.out.println(chatMessage.getMessage());
+                    if (chatMessage != null) {
+                        System.out.println(chatMessage.getMessage());
+                    }
                 }
             } catch (IOException e) {
                 e.printStackTrace();
-            }
+            } catch (Exception e) {
+                if (listening) {
+                    System.err.println("Error in listener thread: " + e.getMessage());
+                    e.printStackTrace();
+                }
+        }
         }).start();
+    }
+
+    public void sendJsonMessage(String message, Long fromId, Long roomId) throws Exception {
+        ChatMessage chatMessage = new ChatMessage(message, fromId, roomId);
+        String jsonMessage = JsonUtil.toJson(chatMessage);
+        serverWriter.println(jsonMessage);
+    }
+
+    public ChatMessage receiveJsonMessage() throws Exception {
+        String jsonMessage = serverReader.readLine();
+        return JsonUtil.fromJson(jsonMessage, ChatMessage.class);
     }
 
     public void closeEverything(Socket socket, BufferedReader serverReader, PrintWriter serverWriter) {
