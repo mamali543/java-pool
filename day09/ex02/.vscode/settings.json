@@ -1,0 +1,8 @@
+{
+    "java.configuration.updateBuildConfiguration": "interactive",
+    "cSpell.words": [
+        "ader",
+        "Jdbc"
+    ],
+    "java.compile.nullAnalysis.mode": "automatic"
+}

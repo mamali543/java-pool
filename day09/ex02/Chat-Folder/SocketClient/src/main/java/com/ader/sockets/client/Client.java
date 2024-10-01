@@ -1,15 +1,12 @@
 package com.ader.sockets.client;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.Socket;
-import java.util.List;
-
-import org.springframework.stereotype.Component;
-
-import java.io.IOException; // Add this import
-
 import java.io.PrintWriter;
+import java.net.Socket;
+
+import org.springframework.stereotype.Component; // Add this import
 
 @Component
 public class Client {
@@ -48,11 +45,8 @@ public class Client {
         try {
             String serverMessage = serverReader.readLine();
             System.out.println("From Server: " + serverMessage);
-            System.out.println("Choose an option: ");
+            // System.out.println("Choose an option: ");
             signUpOrSignIn(serverMessage);
-            // chooseOrCreateRoom(serverMessage);
-            // serverWriter.println(userName);
-            // // System.out.print(">");
             listener();
             while (running) {
                 String userMessage = reader.readLine();
@@ -64,11 +58,14 @@ public class Client {
                     closeEverything(socket, serverReader, serverWriter);
                     running = false;
                 }
-                else
+                else if (userMessage.equalsIgnoreCase("leave"))
                 {
-                    System.out.println("clientMessage: "+userMessage);
-                    serverWriter.println(userName + ": " + userMessage);
+                    serverWriter.println("leave");
+                    serverWriter.flush(); // Ensure the message is sent
+                    chooseOrCreateRoom(serverMessage);
                 }
+                else
+                    serverWriter.println(userName + ": " + userMessage);
             }
 
         } catch (Exception e) {
@@ -80,21 +77,23 @@ public class Client {
 
     public void chooseOrCreateRoom(String serverMessage)
     {
+        // serverWriter.println("room options");
+        // serverWriter.println("room options");
         String line;
         try{
             while (!(line = serverReader.readLine()).equals("END_OF_OPTIONS")) {
                 System.out.println(line);
             }
-            System.out.println("Enter your option: ");
-            String options = reader.readLine();
-            while (!(options.equals("1") || options.equals("2") || options.equals("3"))) {
+            System.out.print(">>> ");
+            String option = reader.readLine();
+            while (!(option.equals("1") || option.equals("2") || option.equals("3"))) {
                 System.out.println("Invalid option, please choose 1, 2 or 3");
                 System.out.print("> ");
-                options = reader.readLine();
+                option = reader.readLine();
             }
-            if (options.equals("1"))
+            serverWriter.println(option);
+            if (option.equals("1"))
             {
-                serverWriter.println(options);
                 serverMessage = serverReader.readLine();
                 System.out.println(serverMessage);
                 line = reader.readLine();
@@ -105,9 +104,8 @@ public class Client {
                     chooseOrCreateRoom(serverMessage);
                 }
             }
-            else if (options.equals("2"))
+            else if (option.equals("2"))
             {
-                serverWriter.println(options);
                 line = serverReader.readLine();
                 if (line.equals("No chatrooms found, create one!"))
                 {
@@ -121,6 +119,7 @@ public class Client {
                         System.out.println(line);
                         line = serverReader.readLine();
                     }
+                    System.out.print(">>> ");
                     // choose chatroom
                     line = reader.readLine();
                     serverWriter.println(line);
@@ -128,12 +127,13 @@ public class Client {
                     System.out.println(serverMessage);
                 }
             }
-            else if (options.equals("3"))
+            else
             {
-                System.out.println("again!  ");
+                System.out.println("You have left the chat app!");
+                running = false;
+                closeEverything(socket, serverReader, serverWriter);
+                System.exit(0);
             }
-            // System.out.println("again!  ");
-            // chooseOrCreateRoom(serverMessage);
         }
         catch(IOException e)
         {
@@ -158,7 +158,13 @@ public class Client {
                 option = reader.readLine();
             }
             serverWriter.println(option);
-
+            if (option.equals("3"))
+            {
+                closeEverything(socket, serverReader, serverWriter);
+                running = false;
+                System.out.println("You have left the chat app!");
+                System.exit(0);
+            }
             serverMessage = serverReader.readLine();
             System.out.print(serverMessage + "\n>");
             userName = reader.readLine();

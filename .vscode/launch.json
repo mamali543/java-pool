@@ -1,0 +1,31 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Debug Server",
+            "request": "launch",
+            "mainClass": "com.ader.sockets.app.App",
+            "projectName": "com.ader.sockets-SocketServer",
+            "args": "--port=8081",
+            "vmArgs": "",
+            "cwd": "/Users/m0saan/Desktop/java-pool/day09/ex02/Chat-Folder/SocketServer"
+        },
+        {
+            "type": "java",
+            "name": "Debug Client",
+            "request": "launch",
+            "mainClass": "com.ader.sockets.app.App",
+            "projectName": "com.ader.sockets-SocketClient",
+            "args": "--port=8081",
+            "vmArgs": "",
+            "cwd": "/Users/m0saan/Desktop/java-pool/day09/ex02/Chat-Folder/SocketClient"
+        }
+    ],
+    "compounds": [
+        {
+            "name": "Debug Server and Client",
+            "configurations": ["Debug Server", "Debug Client"]
+        }
+    ]
+}

@@ -1,21 +1,15 @@
 package com.ader.sockets.server;
 
 
+import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
-import com.ader.sockets.models.User;
-import com.ader.sockets.service.UserService;
-import com.ader.sockets.service.UserServiceImpl;
-import com.ader.sockets.models.UserHandler;
-import java.util.ArrayList;
-import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.io.*;
+
+import org.springframework.stereotype.Component;
+
+import com.ader.sockets.models.UserHandler;
 
 /**
  * Server
@@ -55,7 +49,6 @@ public class Server {
                 System.out.println("New Client connected");
                 UserHandler userHandler = new UserHandler(socket);
                 threadPool.submit(userHandler);
-                // userHandlers.add(userHandler);
             }
         } catch (Exception e) {
             System.err.println("Error in server: " + e.getMessage());

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 
 import com.ader.sockets.models.Message;
 import com.ader.sockets.repositories.MessageRepository;
+import java.util.List;
 
 @Component("messageService")
 public class MessageServiceImpl implements MessageService {
@@ -21,5 +22,11 @@ public class MessageServiceImpl implements MessageService {
     @Override
     public void save(Message msg) {
         messageRepository.save(msg);
+    }
+
+    @Override
+    public List<Message> getLast30Messages(Long roomId) {
+        System.out.println("roomId to get last 30 messages: "+roomId);
+        return messageRepository.getLast30Messages(roomId);
     }
 }

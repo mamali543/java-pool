@@ -24,6 +24,7 @@ import java.sql.PreparedStatement; // Import for PreparedStatement
 import java.sql.Statement; // Import for Statement
 import java.sql.ResultSet; // Import for ResultSet
 import java.sql.SQLException; // Import for SQLException
+import java.util.List;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 
@@ -78,6 +79,21 @@ public class MessageRepositoryJdbcImpl implements MessageRepository {
         }, keyHolder);
 
         // return keyHolder.getKey().longValue();
+    }
+
+    @Override
+    public List<Message> getLast30Messages(Long roomId) {
+        System.out.println("roomId to get last 30 messages: "+roomId);
+        String sqlQuery = "SELECT * FROM ex08.message WHERE roomId = ? ORDER BY dateTime ASC LIMIT 30";
+        return jdbcTemplate.query(sqlQuery, new Object[]{roomId}, (rs, rowNum) -> {
+            return new Message(
+                rs.getLong("messageId"),
+                rs.getLong("senderId"),
+                rs.getLong("roomId"),
+                rs.getString("messageText"),
+                rs.getTimestamp("dateTime").toLocalDateTime()
+            );
+        });
     }
 
     @Override
